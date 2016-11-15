@@ -1,0 +1,16 @@
+[
+{
+  "modid": "gj",
+  "name": "Get A Job",
+  "description": "Get A Job. Get a job in magical or non-magical career.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Palaster"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
