@@ -1,0 +1,6 @@
+{
+  "parent": "gj:item/gjstandard",
+  "textures": {
+	"layer0": "gj:items/thirdHand"
+  }
+}

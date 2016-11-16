@@ -6,7 +6,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import palaster.gj.core.handlers.StaticEventHandler;
+import palaster.gj.core.handlers.EventHandler;
 import palaster.gj.core.proxy.CommonProxy;
 import palaster.gj.libs.LibMod;
 
@@ -27,6 +27,6 @@ public class GetAJob {
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent e) { proxy.postInit(); }
-    
-    static { MinecraftForge.EVENT_BUS.register(StaticEventHandler.class); }
+
+    static { MinecraftForge.EVENT_BUS.register(EventHandler.class); }
 }
