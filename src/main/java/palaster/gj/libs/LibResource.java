@@ -8,7 +8,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class LibResource {
 	
 	private static final String GUI = "textures/gui/";
-	private static final String MODELS = "textures/models/";
+	//private static final String MODELS = "textures/models/";
 	
 	public static final ResourceLocation THIRD_HAND = new ResourceLocation(LibMod.MODID, GUI + "thirdHand.png");
 }

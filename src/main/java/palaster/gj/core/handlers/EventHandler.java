@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -15,9 +16,12 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import palaster.gj.api.capabilities.entities.IRPG;
-import palaster.gj.api.capabilities.entities.RPGCapability.RPGCapabilityProvider;
+import palaster.gj.api.capabilities.IRPG;
+import palaster.gj.api.capabilities.RPGCapability.RPGCapabilityProvider;
+import palaster.gj.api.capabilities.WorldCapability.WorldCapabilityProvider;
 import palaster.gj.items.GJItems;
+import palaster.gj.items.ItemJobPamphlet;
+import palaster.gj.items.ItemPinkSlip;
 import palaster.gj.items.ItemThirdHand;
 import palaster.gj.libs.LibMod;
 
@@ -31,6 +35,12 @@ public class EventHandler {
 	}
 	
 	@SubscribeEvent
+	public void attachWorldCapability(AttachCapabilitiesEvent<World> e) {
+		if(e.getObject() != null && !e.getObject().hasCapability(WorldCapabilityProvider.WORLD_CAP, null))
+			e.addCapability(new ResourceLocation(LibMod.MODID, "IWorld"), new WorldCapabilityProvider());
+	}
+	
+	@SubscribeEvent
 	public void onClonePlayer(PlayerEvent.Clone e) {
 		if(!e.getEntityPlayer().worldObj.isRemote) {
 			final IRPG rpgOG = RPGCapabilityProvider.get(e.getOriginal());
@@ -39,12 +49,14 @@ public class EventHandler {
 				rpgNew.loadNBT(e.getEntityPlayer(), rpgOG.saveNBT());
 		}
 	}
-	
+
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> e) {
-		e.getRegistry().register(new ItemThirdHand());
+		e.getRegistry().registerAll(new ItemThirdHand(),
+				new ItemJobPamphlet(),
+				new ItemPinkSlip());
 	}
-	
+
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public static void registerModels(ModelRegistryEvent e) throws Exception {

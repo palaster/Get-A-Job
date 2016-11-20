@@ -1,4 +1,4 @@
-package palaster.gj.api.capabilities.entities;
+package palaster.gj.api.capabilities;
 
 import java.lang.ref.SoftReference;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package palaster.gj.api.capabilities.entities;
+package palaster.gj.api.capabilities;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
