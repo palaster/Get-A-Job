@@ -23,16 +23,16 @@ public class ItemPinkSlip extends ItemModSpecial {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World itemStackIn, EntityPlayer worldIn, EnumHand playerIn) {
-		if(!itemStackIn.isRemote) {
-			final IRPG rpg = RPGCapabilityProvider.get(worldIn);
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+		if(!worldIn.isRemote) {
+			final IRPG rpg = RPGCapabilityProvider.get(playerIn);
 			if(rpg != null)
 				if(rpg.getJob() != null) {
-					rpg.setJob(worldIn, null);
-					PlayerHelper.sendChatMessageToPlayer(worldIn, net.minecraft.util.text.translation.I18n.translateToLocal("gj.job.fired"));
+					rpg.setJob(playerIn, null);
+					PlayerHelper.sendChatMessageToPlayer(playerIn, net.minecraft.util.text.translation.I18n.translateToLocal("gj.job.fired"));
 					return ActionResult.newResult(EnumActionResult.SUCCESS, ItemStack.field_190927_a);
 				}
 		}
-		return super.onItemRightClick(itemStackIn, worldIn, playerIn);
+		return super.onItemRightClick(worldIn, playerIn, hand);
 	}
 }

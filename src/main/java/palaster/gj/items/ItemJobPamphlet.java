@@ -42,22 +42,21 @@ public class ItemJobPamphlet extends ItemModSpecial {
 	}
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World itemStackIn, EntityPlayer worldIn, EnumHand playerIn) {
-		if(!itemStackIn.isRemote) {
-			if(!worldIn.getHeldItem(playerIn).func_190926_b())
-				if(!NBTHelper.getStringFromItemStack(worldIn.getHeldItem(playerIn), TAG_STRING_JOB_CLASS).isEmpty()) {
-					IRPG rpg = RPGCapabilityProvider.get(worldIn);
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+		if(!worldIn.isRemote) {
+			if(!playerIn.getHeldItem(hand).func_190926_b())
+				if(!NBTHelper.getStringFromItemStack(playerIn.getHeldItem(hand), TAG_STRING_JOB_CLASS).isEmpty()) {
+					IRPG rpg = RPGCapabilityProvider.get(playerIn);
 					if(rpg != null && rpg.getJob() == null) {
 						try {
-							rpg.setJob(worldIn, (RPGJobBase) Class.forName(NBTHelper.getStringFromItemStack(worldIn.getHeldItem(playerIn), TAG_STRING_JOB_CLASS)).newInstance());
+							rpg.setJob(playerIn, (RPGJobBase) Class.forName(NBTHelper.getStringFromItemStack(playerIn.getHeldItem(hand), TAG_STRING_JOB_CLASS)).newInstance());
 						} catch(Exception e) {
 							e.printStackTrace();
 						}
-						worldIn.setHeldItem(playerIn, null);
-						return ActionResult.newResult(EnumActionResult.SUCCESS, worldIn.getHeldItem(playerIn));
+						return ActionResult.newResult(EnumActionResult.SUCCESS, ItemStack.field_190927_a);
 					}
 				}
 		}
-		return super.onItemRightClick(itemStackIn, worldIn, playerIn);
+		return super.onItemRightClick(worldIn, playerIn, hand);
 	}
 }

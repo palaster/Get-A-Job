@@ -60,12 +60,12 @@ public class ItemThirdHand extends ItemModSpecial {
 	}
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World itemStackIn, EntityPlayer worldIn, EnumHand playerIn) {
-		if(!itemStackIn.isRemote && worldIn.isSneaking())
-			if(!worldIn.getHeldItem(playerIn).func_190926_b()) {
-				worldIn.openGui(GetAJob.instance, 0, itemStackIn, worldIn.getPosition().getX(), worldIn.getPosition().getY(), worldIn.getPosition().getZ());
-				return ActionResult.newResult(EnumActionResult.SUCCESS, worldIn.getHeldItem(playerIn));
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+		if(!worldIn.isRemote && playerIn.isSneaking())
+			if(!playerIn.getHeldItem(hand).func_190926_b()) {
+				playerIn.openGui(GetAJob.instance, 0, worldIn, 0, 0, hand == EnumHand.MAIN_HAND ? 0 : 1);
+				return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 			}
-		return super.onItemRightClick(itemStackIn, worldIn, playerIn);
+		return super.onItemRightClick(worldIn, playerIn, hand);
 	}
 }

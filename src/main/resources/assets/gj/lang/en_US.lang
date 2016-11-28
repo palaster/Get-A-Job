@@ -1,3 +1,20 @@
 itemGroup.gj=Get A Job
 
+tile.workshopSeal.name=Workshop Seal
+
+item.rpgIntro.name=An Introduction Guide To RPGs
+item.jobPamphlet.name=Job Pamphlet
+item.pinkSlip.name=Pink Slip
 item.thirdHand.name=Third Hand
+
+gj.expCost=XP Cost
+
+gj.job.base=Job
+gj.job.noCareer=Get A Job You Bum!
+gj.job.fired=You're fired!
+gj.job.constitution=Constitution
+gj.job.strength=Strength
+gj.job.defense=Defense
+gj.job.dexterity=Dexterity
+gj.job.intelligence=Intelligence
+gj.job.magick=Magick
