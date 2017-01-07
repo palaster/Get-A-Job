@@ -11,14 +11,23 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class RPGJobBase implements IRPGJob {
+	
+	@Override
+	public boolean canLeave() { return true; }
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void drawExtraInformation(GuiContainer guiContainer, @Nullable EntityPlayer player, FontRenderer fontRendererObj, int mouseX, int mouseY) { fontRendererObj.drawString(I18n.format("gj.career.additionalInfo") + ":", 6, 90, 4210752); }
+	
+	@Override
+	public void leaveJob(EntityPlayer player) {}
+	
+	@Override
+	public String toString() { return getCareerName(); }
 
 	@Override
 	public NBTTagCompound serializeNBT() { return new NBTTagCompound(); }
 
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void drawExtraInformation(GuiContainer guiContainer, @Nullable EntityPlayer player, FontRenderer fontRendererObj, int mouseX, int mouseY) { fontRendererObj.drawString(I18n.format("gj.career.additionalInfo") + ":", 6, 90, 4210752); }
 }

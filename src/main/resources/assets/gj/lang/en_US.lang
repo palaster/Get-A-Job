@@ -5,7 +5,6 @@ tile.workshopSeal.name=Workshop Seal
 item.rpgIntro.name=An Introduction Guide To RPGs
 item.jobPamphlet.name=Job Pamphlet
 item.pinkSlip.name=Pink Slip
-item.thirdHand.name=Third Hand
 
 gj.expCost=XP Cost
 
@@ -18,3 +17,9 @@ gj.job.defense=Defense
 gj.job.dexterity=Dexterity
 gj.job.intelligence=Intelligence
 gj.job.magick=Magick
+
+gj.job.bloodSorcerer=Blood Sorcerer
+gj.job.botanist=Botanist
+gj.job.cleric=Cleric
+gj.job.god=Cod
+gj.job.workshopWitch=Workshop Witch

@@ -13,7 +13,7 @@ import palaster.libpal.network.AbstractMessage;
 
 public class UpdateRPGMessage extends AbstractMessage.AbstractClientMessage<UpdateRPGMessage> {
 
-private NBTTagCompound tag;
+	private NBTTagCompound tag;
 	
 	public UpdateRPGMessage() {}
 

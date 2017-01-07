@@ -27,10 +27,10 @@ public class ItemPinkSlip extends ItemModSpecial {
 		if(!worldIn.isRemote) {
 			final IRPG rpg = RPGCapabilityProvider.get(playerIn);
 			if(rpg != null)
-				if(rpg.getJob() != null) {
+				if(rpg.getJob() != null && rpg.getJob().canLeave()) {
 					rpg.setJob(playerIn, null);
 					PlayerHelper.sendChatMessageToPlayer(playerIn, net.minecraft.util.text.translation.I18n.translateToLocal("gj.job.fired"));
-					return ActionResult.newResult(EnumActionResult.SUCCESS, ItemStack.field_190927_a);
+					return ActionResult.newResult(EnumActionResult.SUCCESS, ItemStack.EMPTY);
 				}
 		}
 		return super.onItemRightClick(worldIn, playerIn, hand);

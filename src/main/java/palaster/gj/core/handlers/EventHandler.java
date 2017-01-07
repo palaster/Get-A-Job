@@ -3,54 +3,34 @@ package palaster.gj.core.handlers;
 import java.lang.reflect.Field;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.gj.api.capabilities.IRPG;
 import palaster.gj.api.capabilities.RPGCapability.RPGCapabilityProvider;
-import palaster.gj.api.capabilities.WorldCapability.WorldCapabilityProvider;
-import palaster.gj.blocks.BlockWorkshopSeal;
 import palaster.gj.blocks.GJBlocks;
-import palaster.gj.blocks.tile.TileEntityWorkshopSeal;
 import palaster.gj.items.GJItems;
-import palaster.gj.items.ItemJobPamphlet;
-import palaster.gj.items.ItemPinkSlip;
-import palaster.gj.items.ItemRPGIntro;
-import palaster.gj.items.ItemThirdHand;
 import palaster.gj.libs.LibMod;
 
+@Mod.EventBusSubscriber(modid = LibMod.MODID)
 public class EventHandler {
 
 	@SubscribeEvent
 	public void attachEntityCapability(AttachCapabilitiesEvent<Entity> e) {
-		if(e.getObject() instanceof EntityPlayer)
-			if(e.getObject() != null && !e.getObject().hasCapability(RPGCapabilityProvider.RPG_CAP, null))
-				e.addCapability(new ResourceLocation(LibMod.MODID, "IRPG"), new RPGCapabilityProvider((EntityPlayer) e.getObject()));
-	}
-
-	@SubscribeEvent
-	public void attachWorldCapability(AttachCapabilitiesEvent<World> e) {
-		if(e.getObject() != null && !e.getObject().hasCapability(WorldCapabilityProvider.WORLD_CAP, null))
-			e.addCapability(new ResourceLocation(LibMod.MODID, "IWorld"), new WorldCapabilityProvider());
+		if(e.getObject() instanceof EntityPlayer && e.getObject() != null && !e.getObject().hasCapability(RPGCapabilityProvider.RPG_CAP, null))
+			e.addCapability(new ResourceLocation(LibMod.MODID, "IRPG"), new RPGCapabilityProvider((EntityPlayer) e.getObject()));
 	}
 
 	@SubscribeEvent
 	public void onClonePlayer(PlayerEvent.Clone e) {
-		if(!e.getEntityPlayer().worldObj.isRemote) {
+		if(!e.getEntityPlayer().world.isRemote) {
 			final IRPG rpgOG = RPGCapabilityProvider.get(e.getOriginal());
 			final IRPG rpgNew = RPGCapabilityProvider.get(e.getEntityPlayer());
 			if(rpgOG != null && rpgNew != null)
@@ -59,10 +39,7 @@ public class EventHandler {
 	}
 	
 	@SubscribeEvent
-	public static void registerBlocks(RegistryEvent.Register<Block> e) {
-		e.getRegistry().registerAll(new BlockWorkshopSeal(Material.ROCK));
-		GameRegistry.registerTileEntity(TileEntityWorkshopSeal.class, "workshopSeal");
-	}
+	public static void registerBlocks(RegistryEvent.Register<Block> e) {}
 
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> e) throws Exception {
@@ -70,18 +47,9 @@ public class EventHandler {
 			Block block = (Block) f.get(null);
 			e.getRegistry().register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
 		}
-		e.getRegistry().registerAll(new ItemRPGIntro(),
-				new ItemThirdHand(),
-				new ItemJobPamphlet(),
-				new ItemPinkSlip());
-	}
-
-	@SubscribeEvent
-	@SideOnly(Side.CLIENT)
-	public static void registerModels(ModelRegistryEvent e) throws Exception {
-		for(Field f : GJItems.class.getDeclaredFields()) {
-			Item item = (Item) f.get(null);
-			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
-		}
+		e.getRegistry().registerAll(GJItems.rpgIntro,
+				GJItems.jobPamphlet,
+				GJItems.pinkSlip,
+				GJItems.clericStaff);
 	}
 }

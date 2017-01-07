@@ -11,11 +11,13 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public interface IRPGJob extends INBTSerializable<NBTTagCompound> {
-
-	void leaveJob(@Nullable EntityPlayer player);
 	
-	String getCareerName();
+	boolean canLeave();
 	
 	@SideOnly(Side.CLIENT) // TODO: Add starting x and y for drawing.
 	void drawExtraInformation(GuiContainer guiContainer, @Nullable EntityPlayer player, FontRenderer fontRendererObj, int mouseX, int mouseY);
+
+	String getCareerName();
+
+	void leaveJob(@Nullable EntityPlayer player);
 }

@@ -7,8 +7,8 @@ import palaster.gj.libs.LibMod;
 @ObjectHolder(LibMod.MODID)
 public class GJItems {
 
-	public static final Item rpgIntro = null,
-			jobPamphlet = null,
-			pinkSlip = null,
-			thirdHand = null;
+	public static final Item rpgIntro = new ItemRPGIntro(),
+			jobPamphlet = new ItemJobPamphlet(),
+			pinkSlip = new ItemPinkSlip(),
+			clericStaff = new ItemClericStaff();
 }

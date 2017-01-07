@@ -33,9 +33,9 @@ public class ItemJobPamphlet extends ItemModSpecial {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-		if(stack.hasTagCompound() && !NBTHelper.getStringFromItemStack(stack, TAG_STRING_JOB_CLASS).isEmpty())
+		if(!NBTHelper.getStringFromItemStack(stack, TAG_STRING_JOB_CLASS).isEmpty())
 			try {
-				tooltip.add(I18n.format("bb.career.base") + ": " + I18n.format(((RPGJobBase) Class.forName(NBTHelper.getStringFromItemStack(stack, TAG_STRING_JOB_CLASS)).newInstance()).toString()));
+				tooltip.add(I18n.format("gj.job.base") + ": " + I18n.format(((RPGJobBase) Class.forName(NBTHelper.getStringFromItemStack(stack, TAG_STRING_JOB_CLASS)).newInstance()).toString()));
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -43,8 +43,8 @@ public class ItemJobPamphlet extends ItemModSpecial {
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
-		if(!worldIn.isRemote) {
-			if(!playerIn.getHeldItem(hand).func_190926_b())
+		if(!worldIn.isRemote)
+			if(!playerIn.getHeldItem(hand).isEmpty())
 				if(!NBTHelper.getStringFromItemStack(playerIn.getHeldItem(hand), TAG_STRING_JOB_CLASS).isEmpty()) {
 					IRPG rpg = RPGCapabilityProvider.get(playerIn);
 					if(rpg != null && rpg.getJob() == null) {
@@ -53,10 +53,9 @@ public class ItemJobPamphlet extends ItemModSpecial {
 						} catch(Exception e) {
 							e.printStackTrace();
 						}
-						return ActionResult.newResult(EnumActionResult.SUCCESS, ItemStack.field_190927_a);
+						return ActionResult.newResult(EnumActionResult.SUCCESS, ItemStack.EMPTY);
 					}
 				}
-		}
 		return super.onItemRightClick(worldIn, playerIn, hand);
 	}
 }

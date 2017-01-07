@@ -15,6 +15,8 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import palaster.gj.api.rpg.RPGJobBase;
+import palaster.gj.core.proxy.CommonProxy;
+import palaster.libpal.core.helpers.PlayerHelper;
 
 public class RPGCapability {
 
@@ -155,9 +157,13 @@ public static class RPGCapabilityDefault implements IRPG {
 		
 		@Override
 		public void setJob(EntityPlayer player, RPGJobBase job) {
-			if(player != null && this.job != null)
-				this.job.leaveJob(player);
-			this.job = job;
+			if(job.canLeave()) {
+				if(player != null && this.job != null)
+					this.job.leaveJob(player);
+				this.job = job;
+				CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
+			} else
+				PlayerHelper.sendChatMessageToPlayer(player, "You can't leave these responsibilities.");
 		}
 		
 		@Override
