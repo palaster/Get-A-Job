@@ -1,4 +1,4 @@
-package palaster.gj.api.rpg;
+package palaster.gj.entities.jobs;
 
 import javax.annotation.Nullable;
 
@@ -20,4 +20,18 @@ public interface IRPGJob extends INBTSerializable<NBTTagCompound> {
 	String getCareerName();
 
 	void leaveJob(@Nullable EntityPlayer player);
+	
+	boolean replaceMagick();
+	
+	boolean overrideConstitution();
+	boolean overrideStrength();
+	boolean overrideDefense();
+	boolean overrideDexterity();
+	boolean overrideIntelligence();
+	
+	int getOverrideConstitution();
+	int getOverrideStrength();
+	int getOverrideDefense();
+	int getOverrideDexterity();
+	int getOverrideIntelligence();
 }

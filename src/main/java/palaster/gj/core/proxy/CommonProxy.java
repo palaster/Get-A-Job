@@ -20,8 +20,8 @@ import palaster.gj.client.gui.GuiRPGIntro;
 import palaster.gj.core.handlers.EventHandler;
 import palaster.gj.inventories.ContainerRPGIntro;
 import palaster.gj.items.GJItems;
-import palaster.gj.misc.Recipes;
 import palaster.gj.network.client.UpdateRPGMessage;
+import palaster.gj.recipes.Recipes;
 import palaster.libpal.network.PacketHandler;
 
 public class CommonProxy implements IGuiHandler {

@@ -14,8 +14,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-import palaster.gj.api.rpg.RPGJobBase;
 import palaster.gj.core.proxy.CommonProxy;
+import palaster.gj.entities.jobs.RPGJobBase;
 import palaster.libpal.core.helpers.PlayerHelper;
 
 public class RPGCapability {
@@ -53,6 +53,7 @@ public static class RPGCapabilityDefault implements IRPG {
 				constitution = 0;
 			else
 				constitution = amt;
+			constitution = job != null ? job.overrideConstitution() ? job.getOverrideConstitution() : constitution : constitution;
 			if(constitution <= 0) {
     			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
     			if(iAttributeInstance.getModifier(RPGCapabilityDefault.HEALTH_ID) != null)
@@ -73,6 +74,7 @@ public static class RPGCapabilityDefault implements IRPG {
 				strength = 0;
 			else
 				strength = amt;
+			strength = job != null ? job.overrideStrength() ? job.getOverrideStrength() : strength : strength;
 			if(strength <= 0) {
     			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
                 if(iAttributeInstance.getModifier(RPGCapabilityDefault.STRENGTH_ID) != null)
@@ -112,6 +114,7 @@ public static class RPGCapabilityDefault implements IRPG {
 				defense = 0;
 			else
 				defense = amt;
+			defense = job != null ? job.overrideDefense() ? job.getOverrideDefense() : defense : defense;
 		}
 		
 		@Override
@@ -122,6 +125,7 @@ public static class RPGCapabilityDefault implements IRPG {
 				dexterity = 0;
 			else
 				dexterity = amt;
+			dexterity = job != null ? job.overrideDexterity() ? job.getOverrideDexterity() : dexterity : dexterity;
 			if(dexterity <= 0) {
     			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED);
     			if(iAttributeInstance.getModifier(RPGCapabilityDefault.DEXTERITY_ID) != null)
@@ -142,7 +146,7 @@ public static class RPGCapabilityDefault implements IRPG {
 				intelligence = 0;
 			else
 				intelligence = amt;
-			
+			intelligence = job != null ? job.overrideIntelligence() ? job.getOverrideIntelligence() : intelligence : intelligence;
 		}
 		
 		@Override
@@ -167,25 +171,25 @@ public static class RPGCapabilityDefault implements IRPG {
 		}
 		
 		@Override
-		public int getConstitution() { return constitution; }
+		public int getConstitution() { return job != null ? job.overrideConstitution() ? job.getOverrideConstitution() : constitution : constitution; }
 		
 		@Override
-		public int getStrength() { return strength; }
+		public int getStrength() { return job != null ? job.overrideStrength() ? job.getOverrideStrength() : strength : strength; }
 		
 		@Override
-		public int getDefense() { return defense; }
+		public int getDefense() { return job != null ? job.overrideDefense() ? job.getOverrideDefense() : defense : defense; }
 		
 		@Override
-		public int getDexterity() { return dexterity; }
+		public int getDexterity() { return job != null ? job.overrideDexterity() ? job.getOverrideDexterity() : dexterity : dexterity; }
 		
 		@Override
-		public int getIntelligence() { return intelligence; }
+		public int getIntelligence() { return job != null ? job.overrideIntelligence() ? job.getOverrideIntelligence() : intelligence : intelligence; }
 
 		@Override
-		public int getMagick() { return magick; }
+		public int getMagick() { return job != null ? job.replaceMagick() ? 0 : magick  : magick; }
 
 		@Override
-		public int getMaxMagick() { return getIntelligence() * 1000; }
+		public int getMaxMagick() { return job != null ? job.replaceMagick() ? 0 : getIntelligence() * 1000  : getIntelligence() * 1000; }
 
 		@Override
 		public RPGJobBase getJob() { return job; }
@@ -217,9 +221,11 @@ public static class RPGCapabilityDefault implements IRPG {
 			if(!nbt.getString(TAG_STRING_CLASS).isEmpty()) {
 				try {
 					Object obj = Class.forName(nbt.getString(TAG_STRING_CLASS)).newInstance();
-					if(obj != null && obj instanceof RPGJobBase)
+					if(obj != null && obj instanceof RPGJobBase) {
 						if(nbt.hasKey(TAG_JOB) && nbt.getCompoundTag(TAG_JOB) != null)
 							((RPGJobBase) obj).deserializeNBT(nbt.getCompoundTag(TAG_JOB));
+						setJob(player, (RPGJobBase) obj);
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

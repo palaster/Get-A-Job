@@ -1,4 +1,4 @@
-package palaster.gj.misc;
+package palaster.gj.recipes;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
