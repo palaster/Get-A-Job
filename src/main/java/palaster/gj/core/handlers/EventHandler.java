@@ -50,6 +50,7 @@ public class EventHandler {
 		e.getRegistry().registerAll(GJItems.rpgIntro,
 				GJItems.jobPamphlet,
 				GJItems.pinkSlip,
-				GJItems.clericStaff);
+				GJItems.clericStaff,
+				GJItems.hand);
 	}
 }

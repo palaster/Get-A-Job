@@ -8,10 +8,12 @@ import net.minecraft.nbt.NBTTagCompound;
 public class JobBloodSorcerer extends RPGJobBase {
 
 	public static final String TAG_INT_BLOOD_CURRENT = "gj:BloodCurrent",
-			TAG_INT_BLOOD_MAX = "gj:BloodMax";
+			TAG_INT_BLOOD_MAX = "gj:BloodMax",
+			TAG_INT_BLOOD_REGEN = "gj:BloodRegen";
 
 	private int bloodCurrent = 0,
-	bloodMax = 0;
+	bloodMax = 0,
+	bloodRegen = 0;
 	
 	public JobBloodSorcerer() { this(0, 2000); }
 	
@@ -39,9 +41,12 @@ public class JobBloodSorcerer extends RPGJobBase {
 	}
 	
 	public void setBloodMax(int amt) { bloodMax = amt > 0 ? amt : 0; }
+	
+	public void setBloodRegen(int amt) { bloodRegen = amt > 0 ? amt : 0; }
 
 	public int getBloodCurrent() { return bloodCurrent; }
 	public int getBloodMax() { return bloodMax; }
+	public int getBloodRegen() { return bloodRegen; }
 
 	@Override
 	public String getCareerName() { return "gj.job.bloodSorcerer"; }
@@ -58,6 +63,7 @@ public class JobBloodSorcerer extends RPGJobBase {
 		NBTTagCompound nbt = super.serializeNBT();
 		nbt.setInteger(TAG_INT_BLOOD_CURRENT, bloodCurrent);
 		nbt.setInteger(TAG_INT_BLOOD_MAX, bloodMax);
+		nbt.setInteger(TAG_INT_BLOOD_REGEN, bloodRegen);
 		return nbt;
 	}
 	
@@ -66,5 +72,6 @@ public class JobBloodSorcerer extends RPGJobBase {
 		super.deserializeNBT(nbt);
 		bloodCurrent = nbt.getInteger(TAG_INT_BLOOD_CURRENT);
 		bloodMax = nbt.getInteger(TAG_INT_BLOOD_MAX);
+		bloodRegen = nbt.getInteger(TAG_INT_BLOOD_REGEN);
 	}
 }
