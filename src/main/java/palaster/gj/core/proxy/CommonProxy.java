@@ -1,5 +1,7 @@
 package palaster.gj.core.proxy;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -44,7 +46,7 @@ public class CommonProxy implements IGuiHandler {
 
     public void postInit() { Recipes.init(); }
 
-    public static void syncPlayerRPGCapabilitiesToClient(EntityPlayer player) {
+    public static void syncPlayerRPGCapabilitiesToClient(@Nullable EntityPlayer player) {
     	if(player != null && !player.world.isRemote)
     		if(RPGCapabilityProvider.get(player) != null)
     			PacketHandler.sendTo(new UpdateRPGMessage(RPGCapabilityProvider.get(player).saveNBT()), (EntityPlayerMP) player);

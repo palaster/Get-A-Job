@@ -1,16 +1,16 @@
 itemGroup.gj=Get A Job
 
-tile.workshopSeal.name=Workshop Seal
-
 item.rpgIntro.name=An Introduction Guide To RPGs
 item.jobPamphlet.name=Job Pamphlet
 item.pinkSlip.name=Pink Slip
+item.hand.name=Hand
 
 gj.expCost=XP Cost
 
 gj.job.base=Job
 gj.job.noCareer=Get A Job You Bum!
 gj.job.fired=You're fired!
+gj.job.additionalInfo=Additional Information
 gj.job.constitution=Constitution
 gj.job.strength=Strength
 gj.job.defense=Defense
@@ -22,5 +22,5 @@ gj.job.bloodSorcerer=Blood Sorcerer
 gj.job.bloodSorcerer.blood=Blood
 gj.job.botanist=Botanist
 gj.job.cleric=Cleric
-gj.job.god=Cod
+gj.job.god=God
 gj.job.workshopWitch=Workshop Witch

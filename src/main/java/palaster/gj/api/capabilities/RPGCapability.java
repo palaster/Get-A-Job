@@ -161,13 +161,16 @@ public static class RPGCapabilityDefault implements IRPG {
 		
 		@Override
 		public void setJob(EntityPlayer player, RPGJobBase job) {
-			if(job.canLeave()) {
-				if(player != null && this.job != null)
-					this.job.leaveJob(player);
-				this.job = job;
-				CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
+			if(this.job != null) {
+				if(this.job.canLeave()) {
+					if(player != null)
+						this.job.leaveJob(player);
+					this.job = job;
+					CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
+				} else
+					PlayerHelper.sendChatMessageToPlayer(player, "You can't leave these responsibilities.");
 			} else
-				PlayerHelper.sendChatMessageToPlayer(player, "You can't leave these responsibilities.");
+				this.job = job;
 		}
 		
 		@Override

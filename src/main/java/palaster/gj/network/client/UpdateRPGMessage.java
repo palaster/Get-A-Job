@@ -13,7 +13,7 @@ import palaster.libpal.network.AbstractMessage;
 
 public class UpdateRPGMessage extends AbstractMessage.AbstractClientMessage<UpdateRPGMessage> {
 
-	private NBTTagCompound tag;
+	private NBTTagCompound tag = null;
 	
 	public UpdateRPGMessage() {}
 
@@ -27,8 +27,10 @@ public class UpdateRPGMessage extends AbstractMessage.AbstractClientMessage<Upda
 
 	@Override
 	protected void process(EntityPlayer player, Side side) {
-		final IRPG rpg = RPGCapabilityProvider.get(player);
-		if(rpg != null)
-			rpg.loadNBT(player, tag);
+		if(player != null && tag != null) {
+			final IRPG rpg = RPGCapabilityProvider.get(player);
+			if(rpg != null)
+				rpg.loadNBT(player, tag);
+		}
 	}
 }

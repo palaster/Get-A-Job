@@ -1,10 +1,8 @@
 package palaster.gj.entities.jobs;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,10 +13,17 @@ public abstract class RPGJobBase implements IRPGJob {
 
 	@Override
 	public boolean canLeave() { return true; }
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void drawExtraInformation(GuiContainer guiContainer, @Nullable EntityPlayer player, FontRenderer fontRendererObj, int mouseX, int mouseY) { fontRendererObj.drawString(I18n.format("gj.career.additionalInfo") + ":", 6, 90, 4210752); }
+	public void drawExtraInformationBase(EntityPlayer player, FontRenderer fontRendererObj, int suggestedX, int suggestedY, int mouseX, int mouseY) {
+		fontRendererObj.drawString(I18n.format("gj.job.additionalInfo") + ":", suggestedX, suggestedY - 10, 4210752);
+		drawExtraInformation(player, fontRendererObj, suggestedX, suggestedY, mouseX, mouseY);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void drawExtraInformation(EntityPlayer player, FontRenderer fontRendererObj, int suggestedX, int suggestedY, int mouseX, int mouseY) {}
 
 	@Override
 	public void leaveJob(EntityPlayer player) {}

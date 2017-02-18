@@ -59,7 +59,7 @@ public class GuiRPGIntro extends GuiContainer {
                 else
                 	fontRendererObj.drawString(I18n.format("gj.expCost") + ": " + RPGCapabilityDefault.getExperienceCostForNextLevel(player.get()) + "", 6, 78, 0x009900);
                 if(rpg.getJob() != null)
-                	rpg.getJob().drawExtraInformation(this, player.get(), fontRendererObj, mouseX, mouseY);
+                	rpg.getJob().drawExtraInformationBase(player.get(), fontRendererObj, 6, 100, mouseX, mouseY);
     		}
     	}
 	}
