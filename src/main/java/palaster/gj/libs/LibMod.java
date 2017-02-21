@@ -7,7 +7,7 @@ public class LibMod {
 	    VERSION = "@VERSION@",
 	    DEPENDENCIES = "required-after:libpal",
 	    GUI_FACTORY = "",
-	    UPDATE_JSON = "",
+	    UPDATE_JSON = "https://raw.githubusercontent.com/palaster/Get-A-Job/HEAD/version/update.json",
 	    CLIENT = "palaster.gj.core.proxy.ClientProxy",
 	    SERVER = "palaster.gj.core.proxy.CommonProxy";
 }
