@@ -1,6 +1,7 @@
-package palaster.gj.entities.jobs;
+package palaster.gj.jobs;
 
 import net.minecraft.entity.player.EntityPlayer;
+import palaster.gj.api.jobs.RPGJobBase;
 
 public class JobGod extends RPGJobBase {
 

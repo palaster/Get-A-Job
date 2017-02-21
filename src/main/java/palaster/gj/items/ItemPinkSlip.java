@@ -8,7 +8,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import palaster.gj.api.capabilities.IRPG;
 import palaster.gj.api.capabilities.RPGCapability.RPGCapabilityProvider;
-import palaster.gj.core.proxy.CommonProxy;
 import palaster.gj.libs.LibMod;
 import palaster.libpal.core.helpers.PlayerHelper;
 import palaster.libpal.items.ItemModSpecial;
@@ -17,7 +16,6 @@ public class ItemPinkSlip extends ItemModSpecial {
 
 	public ItemPinkSlip() {
 		super();
-		setCreativeTab(CommonProxy.tabGJ);
 		setRegistryName(LibMod.MODID, "pinkSlip");
 		setUnlocalizedName("pinkSlip");
 	}

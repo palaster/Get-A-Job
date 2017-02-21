@@ -19,7 +19,6 @@ public class ItemRPGIntro extends ItemModSpecial implements IReceiveButton {
 
 	public ItemRPGIntro() {
 		super();
-		setCreativeTab(CommonProxy.tabGJ);
 		setRegistryName(LibMod.MODID, "rpgIntro");
 		setUnlocalizedName("rpgIntro");
 	}

@@ -2,7 +2,7 @@ package palaster.gj.api.capabilities;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import palaster.gj.entities.jobs.RPGJobBase;
+import palaster.gj.api.jobs.RPGJobBase;
 
 public interface IRPG {
 	

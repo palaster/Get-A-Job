@@ -5,6 +5,8 @@ item.jobPamphlet.name=Job Pamphlet
 item.pinkSlip.name=Pink Slip
 item.hand.name=Hand
 
+item.gjMaterial_congealedBlood.name=Congealed Blood
+
 gj.expCost=XP Cost
 
 gj.job.base=Job

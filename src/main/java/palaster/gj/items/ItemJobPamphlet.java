@@ -13,8 +13,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.gj.api.capabilities.IRPG;
 import palaster.gj.api.capabilities.RPGCapability.RPGCapabilityProvider;
-import palaster.gj.core.proxy.CommonProxy;
-import palaster.gj.entities.jobs.RPGJobBase;
+import palaster.gj.api.jobs.RPGJobBase;
 import palaster.gj.libs.LibMod;
 import palaster.libpal.core.helpers.NBTHelper;
 import palaster.libpal.items.ItemModSpecial;
@@ -25,7 +24,6 @@ public class ItemJobPamphlet extends ItemModSpecial {
 
 	public ItemJobPamphlet() {
 		super();
-		setCreativeTab(CommonProxy.tabGJ);
 		setRegistryName(LibMod.MODID, "jobPamphlet");
 		setUnlocalizedName("jobPamphlet");
 	}

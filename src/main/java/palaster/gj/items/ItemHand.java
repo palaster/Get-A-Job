@@ -8,8 +8,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickItem
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import palaster.gj.api.capabilities.IRPG;
 import palaster.gj.api.capabilities.RPGCapability.RPGCapabilityProvider;
-import palaster.gj.core.proxy.CommonProxy;
-import palaster.gj.entities.jobs.JobBloodSorcerer;
+import palaster.gj.jobs.JobBloodSorcerer;
 import palaster.gj.libs.LibMod;
 import palaster.libpal.items.ItemModSpecial;
 
@@ -17,7 +16,6 @@ public class ItemHand extends ItemModSpecial {
 
 	public ItemHand() {
 		super();
-		setCreativeTab(CommonProxy.tabGJ);
 		setRegistryName(LibMod.MODID, "hand");
 		setUnlocalizedName("hand");
 		MinecraftForge.EVENT_BUS.register(this);

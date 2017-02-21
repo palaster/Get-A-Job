@@ -1,4 +1,4 @@
-package palaster.gj.entities.jobs;
+package palaster.gj.api.jobs;
 
 import javax.annotation.Nullable;
 

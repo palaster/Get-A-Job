@@ -22,8 +22,10 @@ import palaster.gj.client.gui.GuiRPGIntro;
 import palaster.gj.core.handlers.EventHandler;
 import palaster.gj.inventories.ContainerRPGIntro;
 import palaster.gj.items.GJItems;
+import palaster.gj.libs.LibMod;
 import palaster.gj.network.client.UpdateRPGMessage;
 import palaster.gj.recipes.Recipes;
+import palaster.libpal.core.helpers.LibPalHelper;
 import palaster.libpal.network.PacketHandler;
 
 public class CommonProxy implements IGuiHandler {
@@ -35,6 +37,7 @@ public class CommonProxy implements IGuiHandler {
 	};
 
     public void preInit() {
+    	LibPalHelper.setCreativeTab(LibMod.MODID, tabGJ);
     	PacketHandler.registerMessage(UpdateRPGMessage.class);
     	CapabilityManager.INSTANCE.register(IRPG.class, new RPGCapabilityStorage(), new RPGCapabilityFactory());
     }

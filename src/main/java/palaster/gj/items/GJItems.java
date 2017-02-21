@@ -10,6 +10,7 @@ public class GJItems {
 	public static final Item rpgIntro = new ItemRPGIntro(),
 			jobPamphlet = new ItemJobPamphlet(),
 			pinkSlip = new ItemPinkSlip(),
+			gjMaterial = new ItemGJMaterial(),
 			clericStaff = new ItemClericStaff(),
 			hand = new ItemHand();
 }

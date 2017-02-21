@@ -14,8 +14,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import palaster.gj.api.jobs.RPGJobBase;
 import palaster.gj.core.proxy.CommonProxy;
-import palaster.gj.entities.jobs.RPGJobBase;
 import palaster.libpal.core.helpers.PlayerHelper;
 
 public class RPGCapability {
