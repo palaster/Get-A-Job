@@ -23,27 +23,27 @@ public class RPGCapability {
 public static class RPGCapabilityDefault implements IRPG {
 		
 		public static final String TAG_STRING_CLASS = "RPGJobClass",
-				TAG_JOB = "RPGJob",
-				TAG_INT_CONSTITUTION = "ConstitutionInteger",
-				TAG_INT_STRENGTH = "StrengthInteger",
-				TAG_INT_DEFENSE = "DefenseInteger",
-				TAG_INT_DEXTERITY = "DexterityInteger",
-				TAG_INT_INTELLIGENCE = "IntelligenceInteger",
-				TAG_INT_MAGICK = "MagickInteger";
+			TAG_JOB = "RPGJob",
+			TAG_INT_CONSTITUTION = "ConstitutionInteger",
+			TAG_INT_STRENGTH = "StrengthInteger",
+			TAG_INT_DEFENSE = "DefenseInteger",
+			TAG_INT_DEXTERITY = "DexterityInteger",
+			TAG_INT_INTELLIGENCE = "IntelligenceInteger",
+			TAG_INT_MAGICK = "MagickInteger";
 		public static final int MAX_LEVEL = 99;
 		
 		public static final UUID HEALTH_ID = UUID.fromString("c6531f9f-b737-4cb6-aea1-fd01c25606be"),
-				STRENGTH_ID = UUID.fromString("55d5fd28-76bd-4fa6-b5ec-b0961bad7a09"),
-				DEXTERITY_ID = UUID.fromString("d0ff0df9-9f9c-491d-9d9c-5997b5d5ba22");
+			STRENGTH_ID = UUID.fromString("55d5fd28-76bd-4fa6-b5ec-b0961bad7a09"),
+			DEXTERITY_ID = UUID.fromString("d0ff0df9-9f9c-491d-9d9c-5997b5d5ba22");
 		
 		private RPGJobBase job = null;
 		
 		private int constitution = 0,
-		strength = 0,
-		defense = 0,
-		dexterity = 0,
-		intelligence = 0,
-		magick = 0;
+			strength = 0,
+			defense = 0,
+			dexterity = 0,
+			intelligence = 0,
+			magick = 0;
 		
 		@Override
 		public void setConstitution(EntityPlayer player, int amt) {
@@ -56,13 +56,13 @@ public static class RPGCapabilityDefault implements IRPG {
 			constitution = job != null ? job.overrideConstitution() ? job.getOverrideConstitution() : constitution : constitution;
 			if(constitution <= 0) {
     			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
-    			if(iAttributeInstance.getModifier(RPGCapabilityDefault.HEALTH_ID) != null)
-    				iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.HEALTH_ID));
+    			if(iAttributeInstance.getModifier(HEALTH_ID) != null)
+    				iAttributeInstance.removeModifier(iAttributeInstance.getModifier(HEALTH_ID));
     		} else {
     			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
-    			if(iAttributeInstance.getModifier(RPGCapabilityDefault.HEALTH_ID) != null)
-    				iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.HEALTH_ID));
-                iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.HEALTH_ID, "gj.rpg.constitution", constitution * .4, 0));
+    			if(iAttributeInstance.getModifier(HEALTH_ID) != null)
+    				iAttributeInstance.removeModifier(iAttributeInstance.getModifier(HEALTH_ID));
+                iAttributeInstance.applyModifier(new AttributeModifier(HEALTH_ID, "gj.rpg.constitution", constitution * .4, 0));
     		}
 		}
 		
@@ -77,32 +77,32 @@ public static class RPGCapabilityDefault implements IRPG {
 			strength = job != null ? job.overrideStrength() ? job.getOverrideStrength() : strength : strength;
 			if(strength <= 0) {
     			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
-                if(iAttributeInstance.getModifier(RPGCapabilityDefault.STRENGTH_ID) != null)
-                	iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.STRENGTH_ID));
+                if(iAttributeInstance.getModifier(STRENGTH_ID) != null)
+                	iAttributeInstance.removeModifier(iAttributeInstance.getModifier(STRENGTH_ID));
     		} else {
     			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
-    			if(iAttributeInstance.getModifier(RPGCapabilityDefault.STRENGTH_ID) != null)
-                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.STRENGTH_ID));
+    			if(iAttributeInstance.getModifier(STRENGTH_ID) != null)
+                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(STRENGTH_ID));
                 if(strength >= 90)
-                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "gj.rpg.strength", 70, 0));
+                	iAttributeInstance.applyModifier(new AttributeModifier(STRENGTH_ID, "gj.rpg.strength", 70, 0));
                 else if(strength >= 80)
-                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "gj.rpg.strength", 65, 0));
+                	iAttributeInstance.applyModifier(new AttributeModifier(STRENGTH_ID, "gj.rpg.strength", 65, 0));
                 else if(strength >= 70)
-                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "gj.rpg.strength", 60, 0));
+                	iAttributeInstance.applyModifier(new AttributeModifier(STRENGTH_ID, "gj.rpg.strength", 60, 0));
                 else if(strength >= 60)
-                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "gj.rpg.strength", 55, 0));
+                	iAttributeInstance.applyModifier(new AttributeModifier(STRENGTH_ID, "gj.rpg.strength", 55, 0));
                 else if(strength >= 50)
-                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "gj.rpg.strength", 50, 0));
+                	iAttributeInstance.applyModifier(new AttributeModifier(STRENGTH_ID, "gj.rpg.strength", 50, 0));
                 else if(strength >= 40)
-                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "gj.rpg.strength", 45, 0));
+                	iAttributeInstance.applyModifier(new AttributeModifier(STRENGTH_ID, "gj.rpg.strength", 45, 0));
                 else if(strength >= 30)
-                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "gj.rpg.strength", 40, 0));
+                	iAttributeInstance.applyModifier(new AttributeModifier(STRENGTH_ID, "gj.rpg.strength", 40, 0));
                 else if(strength >= 20)
-                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "gj.rpg.strength", 35, 0));
+                	iAttributeInstance.applyModifier(new AttributeModifier(STRENGTH_ID, "gj.rpg.strength", 35, 0));
                 else if(strength >= 10)
-                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "gj.rpg.strength", 30, 0));
+                	iAttributeInstance.applyModifier(new AttributeModifier(STRENGTH_ID, "gj.rpg.strength", 30, 0));
                 else if(strength > 0)
-                	iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.STRENGTH_ID, "gj.rpg.strength", 25, 0));
+                	iAttributeInstance.applyModifier(new AttributeModifier(STRENGTH_ID, "gj.rpg.strength", 25, 0));
     		}
 		}
 		
@@ -128,13 +128,13 @@ public static class RPGCapabilityDefault implements IRPG {
 			dexterity = job != null ? job.overrideDexterity() ? job.getOverrideDexterity() : dexterity : dexterity;
 			if(dexterity <= 0) {
     			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED);
-    			if(iAttributeInstance.getModifier(RPGCapabilityDefault.DEXTERITY_ID) != null)
-                	iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.DEXTERITY_ID));
+    			if(iAttributeInstance.getModifier(DEXTERITY_ID) != null)
+                	iAttributeInstance.removeModifier(iAttributeInstance.getModifier(DEXTERITY_ID));
     		} else {
     			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED);
-    			if(iAttributeInstance.getModifier(RPGCapabilityDefault.DEXTERITY_ID) != null)
-                	iAttributeInstance.removeModifier(iAttributeInstance.getModifier(RPGCapabilityDefault.DEXTERITY_ID));
-                iAttributeInstance.applyModifier(new AttributeModifier(RPGCapabilityDefault.DEXTERITY_ID, "gj.rpg.dexterity", dexterity * .008, 0));
+    			if(iAttributeInstance.getModifier(DEXTERITY_ID) != null)
+                	iAttributeInstance.removeModifier(iAttributeInstance.getModifier(DEXTERITY_ID));
+                iAttributeInstance.applyModifier(new AttributeModifier(DEXTERITY_ID, "gj.rpg.dexterity", dexterity * .008, 0));
     		}
 		}
 		
@@ -166,11 +166,15 @@ public static class RPGCapabilityDefault implements IRPG {
 					if(player != null)
 						this.job.leaveJob(player);
 					this.job = job;
+					this.job.updatePlayerAttributes(player);
 					CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
 				} else
 					PlayerHelper.sendChatMessageToPlayer(player, "You can't leave these responsibilities.");
-			} else
+			} else {
 				this.job = job;
+				if(this.job != null)
+					this.job.updatePlayerAttributes(player);
+			}
 		}
 		
 		@Override

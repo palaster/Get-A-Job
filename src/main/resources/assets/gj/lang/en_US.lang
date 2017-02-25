@@ -3,7 +3,9 @@ itemGroup.gj=Get A Job
 item.rpgIntro.name=An Introduction Guide To RPGs
 item.jobPamphlet.name=Job Pamphlet
 item.pinkSlip.name=Pink Slip
+item.clericStaff.name=Cleric Staff
 item.hand.name=Hand
+item.bloodBook.name=Blood Book
 
 item.gjMaterial_congealedBlood.name=Congealed Blood
 

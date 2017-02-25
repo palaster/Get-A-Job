@@ -15,6 +15,9 @@ public abstract class RPGJobBase implements IRPGJob {
 	public boolean canLeave() { return true; }
 	
 	@Override
+	public void leaveJob(EntityPlayer player) {}
+	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void drawExtraInformationBase(EntityPlayer player, FontRenderer fontRendererObj, int suggestedX, int suggestedY, int mouseX, int mouseY) {
 		fontRendererObj.drawString(I18n.format("gj.job.additionalInfo") + ":", suggestedX, suggestedY - 10, 4210752);
@@ -26,7 +29,7 @@ public abstract class RPGJobBase implements IRPGJob {
 	public void drawExtraInformation(EntityPlayer player, FontRenderer fontRendererObj, int suggestedX, int suggestedY, int mouseX, int mouseY) {}
 
 	@Override
-	public void leaveJob(EntityPlayer player) {}
+	public void updatePlayerAttributes(EntityPlayer player) {}
 
 	@Override
 	public boolean replaceMagick() { return false; }
@@ -54,7 +57,10 @@ public abstract class RPGJobBase implements IRPGJob {
 	public int getOverrideIntelligence() { return 0; }
 
 	@Override
-	public String toString() { return getCareerName(); }
+	public boolean doUpdate() { return false; }
+
+	@Override
+	public void update(EntityPlayer player) {}
 
 	@Override
 	@Nonnull
@@ -62,4 +68,7 @@ public abstract class RPGJobBase implements IRPGJob {
 
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {}
+	
+	@Override
+	public String toString() { return getCareerName(); }
 }

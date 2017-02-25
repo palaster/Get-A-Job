@@ -13,14 +13,27 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import palaster.gj.api.capabilities.IRPG;
 import palaster.gj.api.capabilities.RPGCapability.RPGCapabilityProvider;
 import palaster.gj.blocks.GJBlocks;
 import palaster.gj.items.GJItems;
 import palaster.gj.libs.LibMod;
+import palaster.libpal.api.ICustomItemBlock;
 
 @Mod.EventBusSubscriber(modid = LibMod.MODID)
 public class EventHandler {
+
+	@SubscribeEvent
+	public void onPlayerTick(PlayerTickEvent e) {
+		if(e.player != null && !e.player.world.isRemote) {
+			IRPG rpg = RPGCapabilityProvider.get(e.player);
+			if(rpg != null&& rpg.getJob() != null && rpg.getJob().doUpdate())
+				rpg.getJob().update(e.player);
+		}
+	}
+
+	// End of events for features
 
 	@SubscribeEvent
 	public void attachEntityCapability(AttachCapabilitiesEvent<Entity> e) {
@@ -39,19 +52,27 @@ public class EventHandler {
 	}
 	
 	@SubscribeEvent
-	public static void registerBlocks(RegistryEvent.Register<Block> e) {}
+	public static void registerBlocks(RegistryEvent.Register<Block> e) {
+		e.getRegistry().registerAll(GJBlocks.altar);
+	}
 
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> e) throws Exception {
 		for(Field f : GJBlocks.class.getDeclaredFields()) {
 			Block block = (Block) f.get(null);
-			e.getRegistry().register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
+			if(block instanceof ICustomItemBlock) {
+				ItemBlock custom = (ItemBlock) ((ICustomItemBlock) block).getCustomItemBlock().getConstructor(Block.class).newInstance(block);
+				e.getRegistry().register(custom.setRegistryName(block.getRegistryName()));
+			} else
+				e.getRegistry().register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
 		}
 		e.getRegistry().registerAll(GJItems.rpgIntro,
 				GJItems.jobPamphlet,
 				GJItems.pinkSlip,
 				GJItems.gjMaterial,
 				GJItems.clericStaff,
-				GJItems.hand);
+				GJItems.bloodBook,
+				GJItems.hand,
+				GJItems.test);
 	}
 }

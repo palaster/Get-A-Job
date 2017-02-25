@@ -10,8 +10,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public interface IRPGJob extends INBTSerializable<NBTTagCompound> {
-	
+
+	String getCareerName();
+
 	boolean canLeave();
+
+	void leaveJob(@Nullable EntityPlayer player);
 
 	@SideOnly(Side.CLIENT)
 	void drawExtraInformationBase(@Nullable EntityPlayer player, FontRenderer fontRendererObj, int suggestedX, int suggestedY, int mouseX, int mouseY);
@@ -29,21 +33,23 @@ public interface IRPGJob extends INBTSerializable<NBTTagCompound> {
 	@SideOnly(Side.CLIENT)
 	void drawExtraInformation(@Nullable EntityPlayer player, FontRenderer fontRendererObj, int suggestedX, int suggestedY, int mouseX, int mouseY);
 
-	String getCareerName();
+	void updatePlayerAttributes(EntityPlayer player);
 
-	void leaveJob(@Nullable EntityPlayer player);
-	
 	boolean replaceMagick();
-	
+
 	boolean overrideConstitution();
 	boolean overrideStrength();
 	boolean overrideDefense();
 	boolean overrideDexterity();
 	boolean overrideIntelligence();
-	
+
 	int getOverrideConstitution();
 	int getOverrideStrength();
 	int getOverrideDefense();
 	int getOverrideDexterity();
 	int getOverrideIntelligence();
+	
+	boolean doUpdate();
+	
+	void update(EntityPlayer player);
 }

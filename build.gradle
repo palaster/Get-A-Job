@@ -12,7 +12,7 @@ ext.config = parseConfig(configFile)
 
 version = "${config.version}"
 group= "palaster.gj"
-archivesBaseName = "GetAJob"
+archivesBaseName = "gj"
 
 sourceCompatibility = targetCompatibility = "1.8"
 compileJava {
@@ -26,7 +26,9 @@ minecraft {
 	replace '@VERSION@', project.version
 }
 
-dependencies {}
+dependencies {
+	// compile files("Path to a version of LibPal")
+}
 
 processResources {
     inputs.property "version", project.version

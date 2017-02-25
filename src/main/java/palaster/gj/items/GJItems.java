@@ -12,5 +12,7 @@ public class GJItems {
 			pinkSlip = new ItemPinkSlip(),
 			gjMaterial = new ItemGJMaterial(),
 			clericStaff = new ItemClericStaff(),
-			hand = new ItemHand();
+			bloodBook = new ItemBloodBook(),
+			hand = new ItemHand(),
+			test = new ItemTest();
 }

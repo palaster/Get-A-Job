@@ -2,6 +2,7 @@ package palaster.gj.jobs;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.IStringSerializable;
 import palaster.gj.api.jobs.RPGJobBase;
 
 public class JobCleric extends RPGJobBase {
@@ -37,8 +38,25 @@ public class JobCleric extends RPGJobBase {
 			domain = EnumDomain.valueOf(nbt.getString(TAG_STRING_DOMAIN));
 	}
 	
-	public static enum EnumDomain {
-		CREATION,
-		COMMUNITY
+	public static enum EnumDomain implements IStringSerializable {
+		NONE(0, "none"),
+		CREATION(1, "creation"),
+		COMMUNITY(2, "community");
+
+		private int id;
+		private String name;
+		
+		private EnumDomain(int id, String name) {
+			this.id = id;
+			this.name = name;
+		}
+		
+		public int getID() { return id; }
+
+		@Override
+		public String getName() { return name; }
+		
+		@Override
+		public String toString() { return getName(); }
 	}
 }

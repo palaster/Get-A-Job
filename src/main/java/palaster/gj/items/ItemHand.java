@@ -30,7 +30,7 @@ public class ItemHand extends ItemModSpecial {
 						IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
 						if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobBloodSorcerer) {
 							e.getEntityPlayer().attackEntityFrom(DamageSource.MAGIC, 1F);
-							((JobBloodSorcerer) rpg.getJob()).addBlood(10);
+							((JobBloodSorcerer) rpg.getJob()).addBlood(e.getEntityPlayer(), 10);
 						}
 					}
 	}

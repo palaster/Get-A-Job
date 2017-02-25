@@ -1,8 +1,13 @@
 package palaster.gj.jobs;
 
+import java.util.UUID;
+
 import javax.annotation.Nonnull;
 
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import palaster.gj.api.jobs.RPGJobBase;
@@ -13,10 +18,13 @@ public class JobBloodSorcerer extends RPGJobBase {
 	public static final String TAG_INT_BLOOD_CURRENT = "gj:BloodCurrent",
 			TAG_INT_BLOOD_MAX = "gj:BloodMax",
 			TAG_INT_BLOOD_REGEN = "gj:BloodRegen";
+			
+	public static final UUID HEALTH_ID = UUID.fromString("4de67577-1e12-4dad-8ab4-3ee5d2cf3cc2");
 
 	private int bloodCurrent = 0,
 			bloodMax = 0,
-			bloodRegen = 0;
+			bloodRegen = 0,
+			timer = 0;
 
 	public JobBloodSorcerer() { this(0, 2000); }
 
@@ -25,7 +33,7 @@ public class JobBloodSorcerer extends RPGJobBase {
 		this.bloodMax = bloodMax;
 	}
 
-	public void addBlood(int amt) { bloodCurrent = bloodCurrent + amt >= bloodMax ? bloodMax : bloodCurrent + amt <= 0 ? 0 : bloodCurrent + amt; }
+	public void addBlood(EntityPlayer player, int amt) { setBloodCurrent(player, getBloodCurrent() + amt); }
 	
 	public void setBloodCurrent(EntityPlayer player, int amt) {
 		bloodCurrent = amt >= bloodMax ? bloodCurrent : amt <= 0 ? 0 : amt;
@@ -39,21 +47,56 @@ public class JobBloodSorcerer extends RPGJobBase {
 
 	public void setBloodRegen(EntityPlayer player, int amt) {
 		bloodRegen = amt > 0 ? amt : 0;
+		updatePlayerAttributes(player);
 		CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
 	}
 
 	public int getBloodCurrent() { return bloodCurrent; }
 	public int getBloodMax() { return bloodMax; }
 	public int getBloodRegen() { return bloodRegen; }
+	
+	@Override
+	public String getCareerName() { return "gj.job.bloodSorcerer"; }
+	
+	@Override
+	public void leaveJob(EntityPlayer player) {
+		IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
+		if(iAttributeInstance.getModifier(HEALTH_ID) != null)
+			iAttributeInstance.removeModifier(iAttributeInstance.getModifier(HEALTH_ID));
+	}
 
 	@Override
 	public void drawExtraInformation(EntityPlayer player, FontRenderer fontRendererObj, int suggestedX, int suggestedY, int mouseX, int mouseY) { fontRendererObj.drawString(net.minecraft.util.text.translation.I18n.translateToLocal("gj.job.bloodSorcerer.blood") + ": " + bloodCurrent + "/ " + bloodMax, suggestedX, suggestedY + 10, 4210752); }
 
 	@Override
-	public String getCareerName() { return "gj.job.bloodSorcerer"; }
+	public void updatePlayerAttributes(EntityPlayer player) {
+		if(bloodRegen <= 0) {
+			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
+			if(iAttributeInstance.getModifier(HEALTH_ID) != null)
+				iAttributeInstance.removeModifier(iAttributeInstance.getModifier(HEALTH_ID));
+		} else {
+			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
+			if(iAttributeInstance.getModifier(HEALTH_ID) != null)
+				iAttributeInstance.removeModifier(iAttributeInstance.getModifier(HEALTH_ID));
+            iAttributeInstance.applyModifier(new AttributeModifier(HEALTH_ID, "gj.job.bloodSorcerer.regen", bloodRegen * -1, 0));
+		}
+	}
 
 	@Override
 	public boolean replaceMagick() { return true; }
+	
+	@Override
+	public boolean doUpdate() { return true; }
+	
+	@Override
+	public void update(EntityPlayer player) {
+		if(timer >= 20) {
+			if(bloodRegen > 0)
+				addBlood(player, bloodRegen);
+			timer = 0;
+		} else
+			timer++;
+	}
 
 	@Override
 	@Nonnull
