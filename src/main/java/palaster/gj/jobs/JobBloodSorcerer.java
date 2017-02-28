@@ -84,13 +84,13 @@ public class JobBloodSorcerer extends RPGJobBase {
 
 	@Override
 	public boolean replaceMagick() { return true; }
-	
+
 	@Override
 	public boolean doUpdate() { return true; }
-	
+
 	@Override
 	public void update(EntityPlayer player) {
-		if(timer >= 20) {
+		if(timer >= 100) {
 			if(bloodRegen > 0)
 				addBlood(player, bloodRegen);
 			timer = 0;

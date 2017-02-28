@@ -19,7 +19,7 @@ import palaster.gj.api.capabilities.RPGCapability.RPGCapabilityProvider;
 import palaster.gj.blocks.GJBlocks;
 import palaster.gj.items.GJItems;
 import palaster.gj.libs.LibMod;
-import palaster.libpal.api.ICustomItemBlock;
+import palaster.libpal.api.ISpecialItemBlock;
 
 @Mod.EventBusSubscriber(modid = LibMod.MODID)
 public class EventHandler {
@@ -60,8 +60,8 @@ public class EventHandler {
 	public static void registerItems(RegistryEvent.Register<Item> e) throws Exception {
 		for(Field f : GJBlocks.class.getDeclaredFields()) {
 			Block block = (Block) f.get(null);
-			if(block instanceof ICustomItemBlock) {
-				ItemBlock custom = (ItemBlock) ((ICustomItemBlock) block).getCustomItemBlock().getConstructor(Block.class).newInstance(block);
+			if(block instanceof ISpecialItemBlock) {
+				ItemBlock custom = (ItemBlock) ((ISpecialItemBlock) block).getSpecialItemBlock().getConstructor(Block.class).newInstance(block);
 				e.getRegistry().register(custom.setRegistryName(block.getRegistryName()));
 			} else
 				e.getRegistry().register(new ItemBlock(block).setRegistryName(block.getRegistryName()));

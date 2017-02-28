@@ -39,19 +39,15 @@ public class JobCleric extends RPGJobBase {
 	}
 	
 	public static enum EnumDomain implements IStringSerializable {
-		NONE(0, "none"),
-		CREATION(1, "creation"),
-		COMMUNITY(2, "community");
+		NONE("none"),
+		CREATION("creation"),
+		COMMUNITY("community");
 
-		private int id;
 		private String name;
 		
-		private EnumDomain(int id, String name) {
-			this.id = id;
+		private EnumDomain(String name) {
 			this.name = name;
 		}
-		
-		public int getID() { return id; }
 
 		@Override
 		public String getName() { return name; }

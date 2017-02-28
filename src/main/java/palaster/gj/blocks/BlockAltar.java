@@ -19,10 +19,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.gj.jobs.JobCleric.EnumDomain;
 import palaster.gj.libs.LibMod;
-import palaster.libpal.api.ICustomItemBlock;
+import palaster.libpal.api.ISpecialItemBlock;
+import palaster.libpal.api.ISubType;
 import palaster.libpal.blocks.BlockMod;
 
-public class BlockAltar extends BlockMod implements ICustomItemBlock {
+public class BlockAltar extends BlockMod implements ISpecialItemBlock {
 
 	public static final PropertyEnum<EnumDomain> DOMAIN_TYPE = PropertyEnum.create("domain_type", EnumDomain.class);
 
@@ -40,27 +41,10 @@ public class BlockAltar extends BlockMod implements ICustomItemBlock {
 	protected BlockStateContainer createBlockState() { return new BlockStateContainer(this, new IProperty[] { DOMAIN_TYPE }); }
 	
 	@Override
-	public IBlockState getStateFromMeta(int meta) {
-		EnumDomain domain = null;
-		switch(meta) {
-			case 0: {
-				domain = EnumDomain.NONE;
-				break;
-			}
-			case 1: {
-				domain = EnumDomain.CREATION;
-				break;
-			}
-			case 2: {
-				domain = EnumDomain.COMMUNITY;
-				break;
-			}
-		}
-		return getDefaultState().withProperty(DOMAIN_TYPE, domain);
-	}
+	public IBlockState getStateFromMeta(int meta) { return getDefaultState().withProperty(DOMAIN_TYPE, EnumDomain.class.getEnumConstants()[meta]); }
 
 	@Override
-	public int getMetaFromState(IBlockState state) { return state.getValue(DOMAIN_TYPE).getID(); }
+	public int getMetaFromState(IBlockState state) { return state.getValue(DOMAIN_TYPE).ordinal(); }
 
 	@Override
 	public int damageDropped(IBlockState state) { return getMetaFromState(state); }
@@ -68,16 +52,14 @@ public class BlockAltar extends BlockMod implements ICustomItemBlock {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
-		for(int i = 0; i < 3; i++)
+		for(int i = 0; i < EnumDomain.class.getEnumConstants().length; i++)
 			list.add(new ItemStack(itemIn, 1, i));
 	}
 
 	@Override
-	public Class<? extends ItemBlock> getCustomItemBlock() {
-		return AltarItemBlock.class;
-	}
-
-	public static class AltarItemBlock extends ItemBlock {
+	public Class<? extends ItemBlock> getSpecialItemBlock() { return AltarItemBlock.class; }
+	
+	public static class AltarItemBlock extends ItemBlock implements ISubType {
 
 		public AltarItemBlock(Block block) {
 			super(block);
@@ -87,25 +69,19 @@ public class BlockAltar extends BlockMod implements ICustomItemBlock {
 		
 		@Override
 		public int getMetadata(int damage) { return damage; }
-		
+
 		@Override
-		public String getUnlocalizedName(ItemStack stack) {
-			EnumDomain domain = null;
-			switch(stack.getItemDamage()) {
-				case 0: {
-					domain = EnumDomain.NONE;
-					break;
-				}
-				case 1: {
-					domain = EnumDomain.CREATION;
-					break;
-				}
-				case 2: {
-					domain = EnumDomain.COMMUNITY;
-					break;
-				}
-			}
-			return super.getUnlocalizedName(stack) + "." + domain.getName();
+	    public String getUnlocalizedName(ItemStack stack) { return super.getUnlocalizedName() + "." + EnumDomain.class.getEnumConstants()[stack.getItemDamage()].getName(); }
+
+		@Override
+		public int getAmountOfSubTypes() { return EnumDomain.class.getEnumConstants().length; }
+
+		@Override
+		public String[] getTypes() {
+			String[] types = new String[EnumDomain.class.getEnumConstants().length];
+			for(int i = 0; i < types.length; i++)
+				types[i] = EnumDomain.class.getEnumConstants()[i].getName() + "_" + block.getRegistryName().getResourcePath();
+			return types;
 		}
 	}
 }

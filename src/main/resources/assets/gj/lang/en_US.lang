@@ -1,5 +1,9 @@
 itemGroup.gj=Get A Job
 
+tile.altar.none.name=Altar
+tile.altar.creation.name=Creation Altar
+tile.altar.community.name=Community Altar
+
 item.rpgIntro.name=An Introduction Guide To RPGs
 item.jobPamphlet.name=Job Pamphlet
 item.pinkSlip.name=Pink Slip
@@ -8,6 +12,8 @@ item.hand.name=Hand
 item.bloodBook.name=Blood Book
 
 item.gjMaterial_congealedBlood.name=Congealed Blood
+
+item.test.name=Test
 
 gj.expCost=XP Cost
 
