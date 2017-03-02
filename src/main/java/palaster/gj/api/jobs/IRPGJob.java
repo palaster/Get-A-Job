@@ -36,7 +36,7 @@ public interface IRPGJob extends INBTSerializable<NBTTagCompound> {
 	 * @param mouseY Y value of the location of the mouse.
 	 */
 	@SideOnly(Side.CLIENT)
-	void drawExtraInformation(@Nullable EntityPlayer player, FontRenderer fontRendererObj, int suggestedX, int suggestedY, int mouseX, int mouseY);
+	default void drawExtraInformation(@Nullable EntityPlayer player, FontRenderer fontRendererObj, int suggestedX, int suggestedY, int mouseX, int mouseY) {}
 
 	default void updatePlayerAttributes(EntityPlayer player) {}
 

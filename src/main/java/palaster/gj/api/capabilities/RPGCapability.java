@@ -166,7 +166,8 @@ public static class RPGCapabilityDefault implements IRPG {
 					if(player != null)
 						this.job.leaveJob(player);
 					this.job = job;
-					this.job.updatePlayerAttributes(player);
+					if(this.job != null)
+						this.job.updatePlayerAttributes(player);
 					CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
 				} else
 					PlayerHelper.sendChatMessageToPlayer(player, "You can't leave these responsibilities.");

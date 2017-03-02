@@ -7,6 +7,7 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import palaster.gj.items.GJItems;
 import palaster.gj.items.ItemJobPamphlet;
 import palaster.gj.jobs.JobBloodSorcerer;
+import palaster.gj.jobs.JobCleric;
 import palaster.libpal.core.helpers.NBTHelper;
 
 public class Recipes {
@@ -25,8 +26,9 @@ public class Recipes {
 
 		GameRegistry.addShapedRecipe(new ItemStack(GJItems.gjMaterial, 1, 0), " x ", "xyx", " x ", 'x', Items.ROTTEN_FLESH, 'y', Items.SLIME_BALL);
 		GameRegistry.addShapelessRecipe(new ItemStack(GJItems.hand), new ItemStack(GJItems.gjMaterial, 1, 0), Items.BONE, Items.ROTTEN_FLESH);
+		GameRegistry.addShapedRecipe(new ItemStack(GJItems.clericStaff), "  x", " y ", "y  ", 'x', Items.ENDER_PEARL, 'y', Items.STICK);
 
 		GameRegistry.addShapelessRecipe(NBTHelper.setStringToItemStack(new ItemStack(GJItems.jobPamphlet), ItemJobPamphlet.TAG_STRING_JOB_CLASS, new JobBloodSorcerer().getClass().getName()), GJItems.jobPamphlet, new ItemStack(GJItems.gjMaterial, 1, 0), Items.ROTTEN_FLESH);
-		// TODO: Re-add GameRegistry.addShapelessRecipe(NBTHelper.setStringToItemStack(new ItemStack(GJItems.jobPamphlet), ItemJobPamphlet.TAG_STRING_JOB_CLASS, new JobCleric().getClass().getName()), GJItems.jobPamphlet);		
+		GameRegistry.addShapelessRecipe(NBTHelper.setStringToItemStack(new ItemStack(GJItems.jobPamphlet), ItemJobPamphlet.TAG_STRING_JOB_CLASS, new JobCleric().getClass().getName()), GJItems.jobPamphlet, GJItems.clericStaff, Items.BOOK);		
 	}
 }

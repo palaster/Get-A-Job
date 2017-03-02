@@ -11,12 +11,17 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import palaster.gj.api.capabilities.IRPG;
+import palaster.gj.api.capabilities.RPGCapability.RPGCapabilityProvider;
+import palaster.gj.jobs.JobCleric;
 import palaster.gj.jobs.JobCleric.EnumDomain;
 import palaster.gj.libs.LibMod;
 import palaster.libpal.api.ISpecialItemBlock;
@@ -32,6 +37,16 @@ public class BlockAltar extends BlockMod implements ISpecialItemBlock {
 		setDefaultState(blockState.getBaseState().withProperty(DOMAIN_TYPE, EnumDomain.NONE));
 		setRegistryName(LibMod.MODID, "altar");
 		setUnlocalizedName("altar");
+	}
+	
+	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if(!worldIn.isRemote) {
+			IRPG rpg = RPGCapabilityProvider.get(playerIn);
+			if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobCleric)
+				((JobCleric) rpg.getJob()).setAltar(pos);
+		}
+		return true;
 	}
 	
 	@Override

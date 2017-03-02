@@ -2,9 +2,14 @@ package palaster.gj.jobs;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.gj.api.jobs.RPGJobBase;
 
 public class JobCleric extends RPGJobBase {
@@ -31,6 +36,13 @@ public class JobCleric extends RPGJobBase {
 
 	@Override
 	public String getJobName() { return "gj.job.cleric"; }
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void drawExtraInformation(EntityPlayer player, FontRenderer fontRendererObj, int suggestedX, int suggestedY, int mouseX, int mouseY) {
+		if(altar != null)
+			fontRendererObj.drawString(I18n.format("gj.job.cleric.domain") + ":" + altar.toString(), suggestedX, suggestedY, 4210752);
+	}
 
 	@Override
 	public boolean replaceMagick() { return true; }
@@ -40,6 +52,8 @@ public class JobCleric extends RPGJobBase {
 		NBTTagCompound nbt = new NBTTagCompound();
 		if(domain != null)
 			nbt.setString(TAG_STRING_DOMAIN, domain.toString());
+		if(altar != null)
+			nbt.setLong(TAG_LONG_BLOCKPOS, altar.toLong());
 		return nbt;
 	}
 
@@ -47,6 +61,8 @@ public class JobCleric extends RPGJobBase {
 	public void deserializeNBT(NBTTagCompound nbt) {
 		if(nbt.hasKey(TAG_STRING_DOMAIN))
 			domain = EnumDomain.valueOf(nbt.getString(TAG_STRING_DOMAIN));
+		if(nbt.hasKey(TAG_LONG_BLOCKPOS))
+			altar = BlockPos.fromLong(nbt.getLong(TAG_LONG_BLOCKPOS));
 	}
 
 	public static enum EnumDomain implements IStringSerializable {
