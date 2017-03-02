@@ -1,8 +1,10 @@
 package palaster.gj.api.jobs;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -11,14 +13,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public interface IRPGJob extends INBTSerializable<NBTTagCompound> {
 
-	String getCareerName();
+	String getJobName();
 
-	boolean canLeave();
+	default boolean canLeave() { return true; }
 
-	void leaveJob(@Nullable EntityPlayer player);
+	default void leaveJob(@Nullable EntityPlayer player) {}
 
 	@SideOnly(Side.CLIENT)
-	void drawExtraInformationBase(@Nullable EntityPlayer player, FontRenderer fontRendererObj, int suggestedX, int suggestedY, int mouseX, int mouseY);
+	default void drawExtraInformationBase(@Nullable EntityPlayer player, FontRenderer fontRendererObj, int suggestedX, int suggestedY, int mouseX, int mouseY) {
+		fontRendererObj.drawString(I18n.format("gj.job.additionalInfo") + ":", suggestedX, suggestedY - 10, 4210752);
+		drawExtraInformation(player, fontRendererObj, suggestedX, suggestedY, mouseX, mouseY);
+	}
 
 	/**
 	 * Allows drawing in extra space in the RPG Intro.
@@ -33,23 +38,30 @@ public interface IRPGJob extends INBTSerializable<NBTTagCompound> {
 	@SideOnly(Side.CLIENT)
 	void drawExtraInformation(@Nullable EntityPlayer player, FontRenderer fontRendererObj, int suggestedX, int suggestedY, int mouseX, int mouseY);
 
-	void updatePlayerAttributes(EntityPlayer player);
+	default void updatePlayerAttributes(EntityPlayer player) {}
 
-	boolean replaceMagick();
+	default boolean replaceMagick() { return false; }
 
-	boolean overrideConstitution();
-	boolean overrideStrength();
-	boolean overrideDefense();
-	boolean overrideDexterity();
-	boolean overrideIntelligence();
+	default boolean overrideConstitution() { return false; }
+	default boolean overrideStrength() { return false; }
+	default boolean overrideDefense() { return false; }
+	default boolean overrideDexterity() { return false; }
+	default boolean overrideIntelligence() { return false; }
 
-	int getOverrideConstitution();
-	int getOverrideStrength();
-	int getOverrideDefense();
-	int getOverrideDexterity();
-	int getOverrideIntelligence();
+	default int getOverrideConstitution() { return 0; }
+	default int getOverrideStrength() { return 0; }
+	default int getOverrideDefense() { return 0; }
+	default int getOverrideDexterity() { return 0; }
+	default int getOverrideIntelligence() { return 0; }
 	
-	boolean doUpdate();
+	default boolean doUpdate() { return false; }
 	
-	void update(EntityPlayer player);
+	default void update(EntityPlayer player) {}
+	
+	@Override
+	@Nonnull
+	default public NBTTagCompound serializeNBT() { return new NBTTagCompound(); }
+
+	@Override
+	default public void deserializeNBT(NBTTagCompound nbt) {}
 }

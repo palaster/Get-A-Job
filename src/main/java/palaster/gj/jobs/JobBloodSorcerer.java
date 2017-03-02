@@ -56,7 +56,7 @@ public class JobBloodSorcerer extends RPGJobBase {
 	public int getBloodRegen() { return bloodRegen; }
 	
 	@Override
-	public String getCareerName() { return "gj.job.bloodSorcerer"; }
+	public String getJobName() { return "gj.job.bloodSorcerer"; }
 	
 	@Override
 	public void leaveJob(EntityPlayer player) {

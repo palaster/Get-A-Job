@@ -25,7 +25,7 @@ public class JobGod extends RPGJobBase {
 	}
 
 	@Override
-	public String getCareerName() { return "gj.job.god"; }
+	public String getJobName() { return "gj.job.god"; }
 
 	@Override
 	public boolean canLeave() { return false; }
