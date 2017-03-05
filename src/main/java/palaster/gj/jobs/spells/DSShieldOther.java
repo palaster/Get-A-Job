@@ -8,7 +8,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumHand;
 import palaster.gj.jobs.JobCleric.EnumDomain;
 
-public class DomainSpellShieldOther implements IDomainSpell {
+public class DSShieldOther implements IDomainSpell {
 
 	@Override
 	public EnumDomain getDomain() { return EnumDomain.COMMUNITY; }

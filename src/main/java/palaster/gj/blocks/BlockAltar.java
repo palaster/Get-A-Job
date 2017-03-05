@@ -89,9 +89,6 @@ public class BlockAltar extends BlockMod implements ISpecialItemBlock {
 	    public String getUnlocalizedName(ItemStack stack) { return super.getUnlocalizedName() + "." + EnumDomain.class.getEnumConstants()[stack.getItemDamage()].getName(); }
 
 		@Override
-		public int getAmountOfSubTypes() { return EnumDomain.class.getEnumConstants().length; }
-
-		@Override
 		public String[] getTypes() {
 			String[] types = new String[EnumDomain.class.getEnumConstants().length];
 			for(int i = 0; i < types.length; i++)

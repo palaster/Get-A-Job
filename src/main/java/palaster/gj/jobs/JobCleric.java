@@ -68,7 +68,8 @@ public class JobCleric extends RPGJobBase {
 	public static enum EnumDomain implements IStringSerializable {
 		NONE("none"),
 		CREATION("creation"),
-		COMMUNITY("community");
+		COMMUNITY("community"),
+		LIFE("life");
 
 		private String name;
 

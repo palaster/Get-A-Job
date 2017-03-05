@@ -3,6 +3,7 @@ itemGroup.gj=Get A Job
 tile.altar.none.name=Altar
 tile.altar.creation.name=Creation Altar
 tile.altar.community.name=Community Altar
+tile.altar.life.name=Life Altar
 
 item.rpgIntro.name=An Introduction Guide To RPGs
 item.jobPamphlet.name=Job Pamphlet

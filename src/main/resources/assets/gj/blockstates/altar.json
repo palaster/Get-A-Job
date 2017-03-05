@@ -3,6 +3,7 @@
 	"variants": {
 		"domain_type=none" : { "models": "none_altar" },
 		"domain_type=creation" : { "models": "creation_altar" },
-		"domain_type=community" : { "models": "community_altar" }
+		"domain_type=community" : { "models": "community_altar" },
+		"domain_type=life" : { "models": "life_altar" }
 	}
 }

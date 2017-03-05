@@ -32,8 +32,5 @@ public class ItemGJMaterial extends ItemModSpecial implements ISubType {
 	public String getUnlocalizedName(ItemStack stack) { return super.getUnlocalizedName(stack) + "_" + SUB_TYPES[stack.getItemDamage()]; }
 
 	@Override
-	public int getAmountOfSubTypes() { return SUB_TYPES.length; }
-
-	@Override
 	public String[] getTypes() { return SUB_TYPES; }
 }
