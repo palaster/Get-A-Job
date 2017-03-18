@@ -44,7 +44,7 @@ public class GuiRPGIntro extends GuiContainer {
     		final IRPG rpg = RPGCapabilityProvider.get(player.get());
     		if(rpg != null) {
     			if(rpg.getJob() != null)
-    				fontRendererObj.drawString(I18n.format("gj.job.base") + ": " + I18n.format(rpg.getJob().toString()), 6, 6, 4210752);
+    				fontRendererObj.drawString(I18n.format("gj.job.base") + ": " + I18n.format(rpg.getJob().getJobName()), 6, 6, 4210752);
     			else
     				fontRendererObj.drawString(I18n.format("gj.job.base") + ": " + I18n.format("gj.job.noCareer"), 6, 6, 4210752);
                 fontRendererObj.drawString(I18n.format("gj.job.constitution") + ": " + rpg.getConstitution(), 6, 26, 4210752);

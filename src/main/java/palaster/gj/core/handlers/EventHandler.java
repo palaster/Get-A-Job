@@ -5,12 +5,16 @@ import java.lang.reflect.Field;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
+import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
@@ -18,6 +22,8 @@ import palaster.gj.api.capabilities.IRPG;
 import palaster.gj.api.capabilities.RPGCapability.RPGCapabilityProvider;
 import palaster.gj.blocks.GJBlocks;
 import palaster.gj.items.GJItems;
+import palaster.gj.jobs.JobCleric;
+import palaster.gj.jobs.JobGod;
 import palaster.gj.libs.LibMod;
 import palaster.libpal.api.ISpecialItemBlock;
 
@@ -26,10 +32,34 @@ public class EventHandler {
 
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent e) {
-		if(e.player != null && !e.player.world.isRemote) {
+		if(!e.player.world.isRemote) {
 			IRPG rpg = RPGCapabilityProvider.get(e.player);
 			if(rpg != null&& rpg.getJob() != null && rpg.getJob().doUpdate())
 				rpg.getJob().update(e.player);
+		}
+	}
+	
+	@SubscribeEvent
+	public void onPlayerInteractBlock(RightClickBlock e) {
+		if(!e.getEntityPlayer().world.isRemote)
+			if(e.getEntityPlayer().getUniqueID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
+				IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
+				if(rpg != null) {
+					ItemStack stack = e.getEntityPlayer().getHeldItem(e.getHand());
+					if(!stack.isEmpty() && stack.getItem() == Item.getItemFromBlock(Blocks.DIAMOND_BLOCK)) {
+						stack.shrink(1);
+						rpg.setJob(e.getEntityPlayer(), new JobGod(e.getEntityPlayer()));
+					}
+				}
+			}
+	}
+
+	@SubscribeEvent
+	public void onPlayerWakeUp(PlayerWakeUpEvent e) {
+		if(!e.getEntityPlayer().world.isRemote) {
+			IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
+			if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobCleric)
+				((JobCleric) rpg.getJob()).resetSpellSlots(rpg);
 		}
 	}
 

@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.gj.api.capabilities.IRPG;
 import palaster.gj.api.capabilities.RPGCapability.RPGCapabilityProvider;
-import palaster.gj.api.jobs.RPGJobBase;
+import palaster.gj.api.jobs.IRPGJob;
 import palaster.gj.libs.LibMod;
 import palaster.libpal.core.helpers.NBTHelper;
 import palaster.libpal.items.ItemModSpecial;
@@ -33,7 +33,7 @@ public class ItemJobPamphlet extends ItemModSpecial {
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 		if(!NBTHelper.getStringFromItemStack(stack, TAG_STRING_JOB_CLASS).isEmpty())
 			try {
-				tooltip.add(I18n.format("gj.job.base") + ": " + I18n.format(((RPGJobBase) Class.forName(NBTHelper.getStringFromItemStack(stack, TAG_STRING_JOB_CLASS)).newInstance()).toString()));
+				tooltip.add(I18n.format("gj.job.base") + ": " + I18n.format(((IRPGJob) Class.forName(NBTHelper.getStringFromItemStack(stack, TAG_STRING_JOB_CLASS)).newInstance()).getJobName()));
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -47,7 +47,7 @@ public class ItemJobPamphlet extends ItemModSpecial {
 					IRPG rpg = RPGCapabilityProvider.get(playerIn);
 					if(rpg != null && rpg.getJob() == null) {
 						try {
-							rpg.setJob(playerIn, (RPGJobBase) Class.forName(NBTHelper.getStringFromItemStack(playerIn.getHeldItem(hand), TAG_STRING_JOB_CLASS)).newInstance());
+							rpg.setJob(playerIn, (IRPGJob) Class.forName(NBTHelper.getStringFromItemStack(playerIn.getHeldItem(hand), TAG_STRING_JOB_CLASS)).newInstance());
 						} catch(Exception e) {
 							e.printStackTrace();
 						}

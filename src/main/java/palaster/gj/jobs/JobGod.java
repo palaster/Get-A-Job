@@ -1,9 +1,9 @@
 package palaster.gj.jobs;
 
 import net.minecraft.entity.player.EntityPlayer;
-import palaster.gj.api.jobs.RPGJobBase;
+import palaster.gj.api.jobs.IRPGJob;
 
-public class JobGod extends RPGJobBase {
+public class JobGod implements IRPGJob {
 
 	public JobGod(EntityPlayer player) {
 		if(!player.isSpectator() && !player.capabilities.isCreativeMode)

@@ -2,18 +2,16 @@ package palaster.gj.jobs;
 
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import palaster.gj.api.jobs.RPGJobBase;
+import palaster.gj.api.jobs.IRPGJob;
 import palaster.gj.core.proxy.CommonProxy;
 
-public class JobBloodSorcerer extends RPGJobBase {
+public class JobBloodSorcerer implements IRPGJob {
 
 	public static final String TAG_INT_BLOOD_CURRENT = "gj:BloodCurrent",
 			TAG_INT_BLOOD_MAX = "gj:BloodMax",
@@ -99,18 +97,18 @@ public class JobBloodSorcerer extends RPGJobBase {
 	}
 
 	@Override
-	@Nonnull
 	public NBTTagCompound serializeNBT() {
-		NBTTagCompound nbt = super.serializeNBT();
+		NBTTagCompound nbt = IRPGJob.super.serializeNBT();
 		nbt.setInteger(TAG_INT_BLOOD_CURRENT, bloodCurrent);
 		nbt.setInteger(TAG_INT_BLOOD_MAX, bloodMax);
 		nbt.setInteger(TAG_INT_BLOOD_REGEN, bloodRegen);
 		return nbt;
 	}
 
+
 	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
-		super.deserializeNBT(nbt);
+		IRPGJob.super.deserializeNBT(nbt);
 		bloodCurrent = nbt.getInteger(TAG_INT_BLOOD_CURRENT);
 		bloodMax = nbt.getInteger(TAG_INT_BLOOD_MAX);
 		bloodRegen = nbt.getInteger(TAG_INT_BLOOD_REGEN);

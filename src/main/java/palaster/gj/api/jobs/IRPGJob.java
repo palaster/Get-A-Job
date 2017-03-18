@@ -60,8 +60,8 @@ public interface IRPGJob extends INBTSerializable<NBTTagCompound> {
 	
 	@Override
 	@Nonnull
-	default public NBTTagCompound serializeNBT() { return new NBTTagCompound(); }
+	default NBTTagCompound serializeNBT() { return new NBTTagCompound(); }
 
 	@Override
-	default public void deserializeNBT(NBTTagCompound nbt) {}
+	default void deserializeNBT(NBTTagCompound nbt) {}
 }

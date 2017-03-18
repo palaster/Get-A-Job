@@ -14,8 +14,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-import palaster.gj.api.jobs.RPGJobBase;
+import palaster.gj.api.jobs.IRPGJob;
 import palaster.gj.core.proxy.CommonProxy;
+import palaster.gj.jobs.JobGod;
 import palaster.libpal.core.helpers.PlayerHelper;
 
 public class RPGCapability {
@@ -36,7 +37,7 @@ public static class RPGCapabilityDefault implements IRPG {
 			STRENGTH_ID = UUID.fromString("55d5fd28-76bd-4fa6-b5ec-b0961bad7a09"),
 			DEXTERITY_ID = UUID.fromString("d0ff0df9-9f9c-491d-9d9c-5997b5d5ba22");
 		
-		private RPGJobBase job = null;
+		private IRPGJob job = null;
 		
 		private int constitution = 0,
 			strength = 0,
@@ -160,7 +161,7 @@ public static class RPGCapabilityDefault implements IRPG {
 		}
 		
 		@Override
-		public void setJob(EntityPlayer player, RPGJobBase job) {
+		public void setJob(EntityPlayer player, IRPGJob job) {
 			if(this.job != null) {
 				if(this.job.canLeave()) {
 					if(player != null)
@@ -200,7 +201,7 @@ public static class RPGCapabilityDefault implements IRPG {
 		public int getMaxMagick() { return job != null ? job.replaceMagick() ? 0 : getIntelligence() * 1000  : getIntelligence() * 1000; }
 
 		@Override
-		public RPGJobBase getJob() { return job; }
+		public IRPGJob getJob() { return job; }
 
 		@Override
 		public NBTTagCompound saveNBT() {
@@ -228,11 +229,11 @@ public static class RPGCapabilityDefault implements IRPG {
 			setMagick(nbt.getInteger(TAG_INT_MAGICK));
 			if(!nbt.getString(TAG_STRING_CLASS).isEmpty()) {
 				try {
-					Object obj = Class.forName(nbt.getString(TAG_STRING_CLASS)).newInstance();
-					if(obj != null && obj instanceof RPGJobBase) {
+					Object obj = nbt.getString(TAG_STRING_CLASS).equals(JobGod.class.getName()) ? Class.forName(nbt.getString(TAG_STRING_CLASS)).getConstructor(EntityPlayer.class).newInstance(player) : Class.forName(nbt.getString(TAG_STRING_CLASS)).newInstance();
+					if(obj != null && obj instanceof IRPGJob) {
 						if(nbt.hasKey(TAG_JOB) && nbt.getCompoundTag(TAG_JOB) != null)
-							((RPGJobBase) obj).deserializeNBT(nbt.getCompoundTag(TAG_JOB));
-						setJob(player, (RPGJobBase) obj);
+							((IRPGJob) obj).deserializeNBT(nbt.getCompoundTag(TAG_JOB));
+						setJob(player, (IRPGJob) obj);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
