@@ -72,7 +72,7 @@ public class BlockAltar extends BlockMod implements ISpecialItemBlock {
 	}
 
 	@Override
-	public Class<? extends ItemBlock> getSpecialItemBlock() { return AltarItemBlock.class; }
+	public ItemBlock getSpecialItemBlock(Block block) { return new AltarItemBlock(block); }
 	
 	public static class AltarItemBlock extends ItemBlock implements ISubType {
 

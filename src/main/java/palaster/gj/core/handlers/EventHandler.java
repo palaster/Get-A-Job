@@ -3,6 +3,7 @@ package palaster.gj.core.handlers;
 import java.lang.reflect.Field;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockBeacon;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -41,15 +42,16 @@ public class EventHandler {
 	
 	@SubscribeEvent
 	public void onPlayerInteractBlock(RightClickBlock e) {
-		if(!e.getEntityPlayer().world.isRemote)
+		if(!e.getWorld().isRemote)
 			if(e.getEntityPlayer().getUniqueID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
 				IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
 				if(rpg != null) {
 					ItemStack stack = e.getEntityPlayer().getHeldItem(e.getHand());
-					if(!stack.isEmpty() && stack.getItem() == Item.getItemFromBlock(Blocks.DIAMOND_BLOCK)) {
-						stack.shrink(1);
-						rpg.setJob(e.getEntityPlayer(), new JobGod(e.getEntityPlayer()));
-					}
+					if(!stack.isEmpty() && stack.getItem() == Item.getItemFromBlock(Blocks.DIAMOND_BLOCK))
+						if(e.getWorld().getBlockState(e.getPos()) != null && e.getWorld().getBlockState(e.getPos()).getBlock() instanceof BlockBeacon) {
+							stack.shrink(1);
+							rpg.setJob(e.getEntityPlayer(), new JobGod(e.getEntityPlayer()));
+						}
 				}
 			}
 	}
@@ -91,7 +93,7 @@ public class EventHandler {
 		for(Field f : GJBlocks.class.getDeclaredFields()) {
 			Block block = (Block) f.get(null);
 			if(block instanceof ISpecialItemBlock) {
-				ItemBlock custom = (ItemBlock) ((ISpecialItemBlock) block).getSpecialItemBlock().getConstructor(Block.class).newInstance(block);
+				ItemBlock custom = ((ISpecialItemBlock) block).getSpecialItemBlock(block);
 				e.getRegistry().register(custom.setRegistryName(block.getRegistryName()));
 			} else
 				e.getRegistry().register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
