@@ -1,8 +1,8 @@
-package palaster.gj.api.capabilities.entities;
+package palaster.gj.api.capabilities;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import palaster.gj.api.rpg.RPGJobBase;
+import palaster.gj.api.jobs.IRPGJob;
 
 public interface IRPG {
 	
@@ -18,7 +18,7 @@ public interface IRPG {
 	
 	void setMagick(int amt);
 	
-	void setJob(EntityPlayer player, RPGJobBase job);
+	void setJob(EntityPlayer player, IRPGJob job);
 	
 	int getConstitution();
 	
@@ -34,7 +34,7 @@ public interface IRPG {
 	
 	int getMaxMagick();
 	
-	RPGJobBase getJob();
+	IRPGJob getJob();
 	
 	NBTTagCompound saveNBT();
 

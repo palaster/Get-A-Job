@@ -7,5 +7,12 @@ import palaster.gj.libs.LibMod;
 @ObjectHolder(LibMod.MODID)
 public class GJItems {
 
-	public static final Item thirdHand = null;
+	public static final Item rpgIntro = new ItemRPGIntro(),
+			jobPamphlet = new ItemJobPamphlet(),
+			pinkSlip = new ItemPinkSlip(),
+			gjMaterial = new ItemGJMaterial(),
+			clericStaff = new ItemClericStaff(),
+			bloodBook = new ItemBloodBook(),
+			hand = new ItemHand(),
+			test = new ItemTest();
 }

@@ -1,0 +1,39 @@
+itemGroup.gj=Get A Job
+
+tile.altar.none.name=Altar
+tile.altar.creation.name=Creation Altar
+tile.altar.community.name=Community Altar
+tile.altar.life.name=Life Altar
+
+item.rpgIntro.name=An Introduction Guide To RPGs
+item.jobPamphlet.name=Job Pamphlet
+item.pinkSlip.name=Pink Slip
+item.clericStaff.name=Cleric Staff
+item.hand.name=Hand
+item.bloodBook.name=Blood Book
+
+item.gjMaterial_congealedBlood.name=Congealed Blood
+
+item.test.name=Test
+
+gj.expCost=XP Cost
+
+gj.job.base=Job
+gj.job.spellSlots=Spell Slots
+gj.job.noCareer=Get A Job You Bum!
+gj.job.fired=You're fired!
+gj.job.additionalInfo=Additional Information
+gj.job.constitution=Constitution
+gj.job.strength=Strength
+gj.job.defense=Defense
+gj.job.dexterity=Dexterity
+gj.job.intelligence=Intelligence
+gj.job.magick=Magick
+
+gj.job.bloodSorcerer=Blood Sorcerer
+gj.job.bloodSorcerer.blood=Blood
+gj.job.botanist=Botanist
+gj.job.cleric=Cleric
+gj.job.cleric.domain=Domain
+gj.job.god=God
+gj.job.workshopWitch=Workshop Witch

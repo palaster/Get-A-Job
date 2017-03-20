@@ -1,0 +1,6 @@
+{
+  "parent": "libpal:item/lpstandard",
+  "textures": {
+	"layer0": "gj:items/jobPamphlet"
+  }
+}

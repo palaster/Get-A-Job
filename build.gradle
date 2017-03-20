@@ -3,9 +3,7 @@ buildscript {
         jcenter()
         maven { url = "http://files.minecraftforge.net/maven" }
     }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
-    }
+    dependencies { classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT' }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
@@ -14,7 +12,7 @@ ext.config = parseConfig(configFile)
 
 version = "${config.version}"
 group= "palaster.gj"
-archivesBaseName = "GetAJob"
+archivesBaseName = "gj"
 
 sourceCompatibility = targetCompatibility = "1.8"
 compileJava {
@@ -24,11 +22,13 @@ compileJava {
 minecraft {
     version = "${config.mc_version}-${config.forge_version}"
     runDir = "run"
-    mappings = "snapshot_20160518"
+    mappings = "snapshot_20161220"
 	replace '@VERSION@', project.version
 }
 
-dependencies {}
+dependencies {
+	// compile files("Path to a version of LibPal")
+}
 
 processResources {
     inputs.property "version", project.version
