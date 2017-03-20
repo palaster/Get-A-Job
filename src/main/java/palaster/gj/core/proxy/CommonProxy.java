@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -33,7 +33,7 @@ public class CommonProxy implements IGuiHandler {
 	public static CreativeTabs tabGJ = new CreativeTabs("gj") {
 		@Override
 		@SideOnly(Side.CLIENT)
-		public ItemStack getTabIconItem() { return new ItemStack(GJItems.rpgIntro); }
+		public Item getTabIconItem() { return GJItems.rpgIntro; }
 	};
 
     public void preInit() {

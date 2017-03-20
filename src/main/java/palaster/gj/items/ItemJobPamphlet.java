@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -40,9 +41,9 @@ public class ItemJobPamphlet extends ItemModSpecial {
 	}
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(ItemStack stackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		if(!worldIn.isRemote)
-			if(!playerIn.getHeldItem(hand).isEmpty())
+			if(playerIn.getHeldItem(hand) != null)
 				if(!NBTHelper.getStringFromItemStack(playerIn.getHeldItem(hand), TAG_STRING_JOB_CLASS).isEmpty()) {
 					IRPG rpg = RPGCapabilityProvider.get(playerIn);
 					if(rpg != null && rpg.getJob() == null) {
@@ -51,9 +52,9 @@ public class ItemJobPamphlet extends ItemModSpecial {
 						} catch(Exception e) {
 							e.printStackTrace();
 						}
-						return ActionResult.newResult(EnumActionResult.SUCCESS, ItemStack.EMPTY);
+						return ActionResult.newResult(EnumActionResult.SUCCESS, new ItemStack(Blocks.AIR));
 					}
 				}
-		return super.onItemRightClick(worldIn, playerIn, hand);
+		return super.onItemRightClick(stackIn, worldIn, playerIn, hand);
 	}
 }

@@ -26,9 +26,9 @@ public class ItemBloodBook extends ItemModSpecial {
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {}
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+	public ActionResult<ItemStack> onItemRightClick(ItemStack stackIn, World worldIn, EntityPlayer playerIn, EnumHand handIn) {
 		if(!worldIn.isRemote)
 			return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
-		return super.onItemRightClick(worldIn, playerIn, handIn);
+		return super.onItemRightClick(stackIn, worldIn, playerIn, handIn);
 	}
 }

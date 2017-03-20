@@ -28,7 +28,7 @@ import palaster.gj.jobs.JobGod;
 import palaster.gj.libs.LibMod;
 import palaster.libpal.api.ISpecialItemBlock;
 
-@Mod.EventBusSubscriber(modid = LibMod.MODID)
+@Mod.EventBusSubscriber
 public class EventHandler {
 
 	@SubscribeEvent
@@ -47,9 +47,9 @@ public class EventHandler {
 				IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
 				if(rpg != null) {
 					ItemStack stack = e.getEntityPlayer().getHeldItem(e.getHand());
-					if(!stack.isEmpty() && stack.getItem() == Item.getItemFromBlock(Blocks.DIAMOND_BLOCK))
+					if(stack != null && stack.getItem() == Item.getItemFromBlock(Blocks.DIAMOND_BLOCK))
 						if(e.getWorld().getBlockState(e.getPos()) != null && e.getWorld().getBlockState(e.getPos()).getBlock() instanceof BlockBeacon) {
-							stack.shrink(1);
+							stack.stackSize--;
 							rpg.setJob(e.getEntityPlayer(), new JobGod(e.getEntityPlayer()));
 						}
 				}

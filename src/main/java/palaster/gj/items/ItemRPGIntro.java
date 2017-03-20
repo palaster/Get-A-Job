@@ -24,8 +24,8 @@ public class ItemRPGIntro extends ItemModSpecial implements IReceiveButton {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
-		if(!worldIn.isRemote && !playerIn.getHeldItem(hand).isEmpty()) {
+	public ActionResult<ItemStack> onItemRightClick(ItemStack stackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+		if(!worldIn.isRemote && playerIn.getHeldItem(hand) != null) {
 			final IRPG rpg = RPGCapabilityProvider.get(playerIn);
 			if(rpg != null) {
 				CommonProxy.syncPlayerRPGCapabilitiesToClient(playerIn);
@@ -33,7 +33,7 @@ public class ItemRPGIntro extends ItemModSpecial implements IReceiveButton {
 				return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 			}
 		}
-		return super.onItemRightClick(worldIn, playerIn, hand);
+		return super.onItemRightClick(stackIn, worldIn, playerIn, hand);
 	}
 	
 	@Override

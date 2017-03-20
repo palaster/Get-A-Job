@@ -1,9 +1,10 @@
 package palaster.gj.items;
 
+import java.util.List;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.gj.libs.LibMod;
@@ -23,7 +24,7 @@ public class ItemGJMaterial extends ItemModSpecial implements ISubType {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
+	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
 		for(int i = 0; i < SUB_TYPES.length; i++)
 			subItems.add(new ItemStack(itemIn, 1, i));
 	}

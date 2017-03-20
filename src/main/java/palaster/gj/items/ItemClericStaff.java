@@ -27,7 +27,7 @@ public class ItemClericStaff extends ItemModSpecial {
 	}
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+	public ActionResult<ItemStack> onItemRightClick(ItemStack stackIn, World worldIn, EntityPlayer playerIn, EnumHand handIn) {
 		if(!worldIn.isRemote) {
 			IRPG rpg = RPGCapabilityProvider.get(playerIn);
 			if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobCleric)
@@ -45,11 +45,11 @@ public class ItemClericStaff extends ItemModSpecial {
 									}
 					}
 		}
-		return super.onItemRightClick(worldIn, playerIn, handIn);
+		return super.onItemRightClick(stackIn, worldIn, playerIn, handIn);
 	}
 	
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(!worldIn.isRemote) {
 			IRPG rpg = RPGCapabilityProvider.get(player);
 			if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobCleric)
@@ -68,7 +68,7 @@ public class ItemClericStaff extends ItemModSpecial {
 										
 					}
 		}
-		return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+		return super.onItemUse(stack, player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
 	}
 	
 	@Override
