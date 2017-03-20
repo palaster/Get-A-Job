@@ -1,5 +1,5 @@
 {
-  "parent": "libpal:item/lpstandard",
+  "parent": "item/handheld",
   "textures": {
 	"layer0": "gj:items/clericStaff"
   }
