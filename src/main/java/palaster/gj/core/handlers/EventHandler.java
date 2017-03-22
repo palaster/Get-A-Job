@@ -10,9 +10,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
@@ -62,6 +64,20 @@ public class EventHandler {
 			IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
 			if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobCleric)
 				((JobCleric) rpg.getJob()).resetSpellSlots(rpg);
+		}
+	}
+	
+	@SubscribeEvent
+	public void onLivingHurt(LivingHurtEvent e) {
+		if(!e.getEntityLiving().world.isRemote && e.getEntityLiving() instanceof EntityPlayer) {
+			IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getEntityLiving());
+			if(rpg != null) {
+				if(e.getSource() != DamageSource.OUT_OF_WORLD)
+					e.setAmount(e.getAmount() - (rpg.getDefense() / 10));
+				if(e.getSource() == DamageSource.OUT_OF_WORLD)
+					if(rpg.getJob() != null && rpg.getJob() instanceof JobGod)
+						e.setCanceled(true);
+			}
 		}
 	}
 

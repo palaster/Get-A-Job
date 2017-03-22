@@ -84,26 +84,7 @@ public static class RPGCapabilityDefault implements IRPG {
     			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
     			if(iAttributeInstance.getModifier(STRENGTH_ID) != null)
                     iAttributeInstance.removeModifier(iAttributeInstance.getModifier(STRENGTH_ID));
-                if(strength >= 90)
-                	iAttributeInstance.applyModifier(new AttributeModifier(STRENGTH_ID, "gj.rpg.strength", 70, 0));
-                else if(strength >= 80)
-                	iAttributeInstance.applyModifier(new AttributeModifier(STRENGTH_ID, "gj.rpg.strength", 65, 0));
-                else if(strength >= 70)
-                	iAttributeInstance.applyModifier(new AttributeModifier(STRENGTH_ID, "gj.rpg.strength", 60, 0));
-                else if(strength >= 60)
-                	iAttributeInstance.applyModifier(new AttributeModifier(STRENGTH_ID, "gj.rpg.strength", 55, 0));
-                else if(strength >= 50)
-                	iAttributeInstance.applyModifier(new AttributeModifier(STRENGTH_ID, "gj.rpg.strength", 50, 0));
-                else if(strength >= 40)
-                	iAttributeInstance.applyModifier(new AttributeModifier(STRENGTH_ID, "gj.rpg.strength", 45, 0));
-                else if(strength >= 30)
-                	iAttributeInstance.applyModifier(new AttributeModifier(STRENGTH_ID, "gj.rpg.strength", 40, 0));
-                else if(strength >= 20)
-                	iAttributeInstance.applyModifier(new AttributeModifier(STRENGTH_ID, "gj.rpg.strength", 35, 0));
-                else if(strength >= 10)
-                	iAttributeInstance.applyModifier(new AttributeModifier(STRENGTH_ID, "gj.rpg.strength", 30, 0));
-                else if(strength > 0)
-                	iAttributeInstance.applyModifier(new AttributeModifier(STRENGTH_ID, "gj.rpg.strength", 25, 0));
+    			iAttributeInstance.applyModifier(new AttributeModifier(STRENGTH_ID, "gj.rpg.strength", strength / 2, 0));
     		}
 		}
 		
