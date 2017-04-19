@@ -11,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -44,18 +45,18 @@ public class EventHandler {
 	
 	@SubscribeEvent
 	public void onPlayerInteractBlock(RightClickBlock e) {
-		if(!e.getWorld().isRemote)
-			if(e.getEntityPlayer().getUniqueID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
-				IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
-				if(rpg != null) {
-					ItemStack stack = e.getEntityPlayer().getHeldItem(e.getHand());
-					if(stack != null && stack.getItem() == Item.getItemFromBlock(Blocks.DIAMOND_BLOCK))
-						if(e.getWorld().getBlockState(e.getPos()) != null && e.getWorld().getBlockState(e.getPos()).getBlock() instanceof BlockBeacon) {
+		if(!e.getWorld().isRemote) {
+			ItemStack stack = e.getEntityPlayer().getHeldItem(e.getHand());
+			if(stack != null && stack.getItem() == Item.getItemFromBlock(Blocks.DIAMOND_BLOCK))
+				if(e.getWorld().getBlockState(e.getPos()) != null && e.getWorld().getBlockState(e.getPos()).getBlock() instanceof BlockBeacon)
+					if(e.getEntityPlayer().getUniqueID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
+						IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
+						if(rpg != null) {
 							stack.stackSize--;
 							rpg.setJob(e.getEntityPlayer(), new JobGod(e.getEntityPlayer()));
 						}
-				}
-			}
+					}
+		}
 	}
 
 	@SubscribeEvent
@@ -69,15 +70,22 @@ public class EventHandler {
 	
 	@SubscribeEvent
 	public void onLivingHurt(LivingHurtEvent e) {
-		if(!e.getEntityLiving().world.isRemote && e.getEntityLiving() instanceof EntityPlayer) {
-			IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getEntityLiving());
-			if(rpg != null) {
-				if(e.getSource() != DamageSource.OUT_OF_WORLD)
-					e.setAmount(e.getAmount() - (rpg.getDefense() / 10));
-				if(e.getSource() == DamageSource.OUT_OF_WORLD)
+		if(!e.getEntityLiving().world.isRemote) {
+			if(e.getEntityLiving() instanceof EntityPlayer) {
+				IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getEntityLiving());
+				if(rpg != null) {
+					if(e.getSource() != DamageSource.OUT_OF_WORLD)
+						e.setAmount(e.getAmount() * ((float) rpg.getDefense() / 100));
 					if(rpg.getJob() != null && rpg.getJob() instanceof JobGod)
-						e.setCanceled(true);
+							e.setCanceled(true);
+				}
 			}
+			if(e.getSource().getEntity() instanceof EntityPlayer)
+				if(e.getSource() instanceof EntityDamageSource) {
+					IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getSource().getEntity());
+					if(rpg != null)
+						e.setAmount(e.getAmount() + ((float) rpg.getStrength() / 2));
+				}
 		}
 	}
 

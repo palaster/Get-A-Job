@@ -8,7 +8,7 @@ public interface IRPG {
 	
 	void setConstitution(EntityPlayer player, int amt);
 	
-	void setStrength(EntityPlayer player, int amt);
+	void setStrength(int amt);
 	
 	void setDefense(int amt);
 	

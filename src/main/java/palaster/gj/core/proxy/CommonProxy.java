@@ -28,16 +28,14 @@ import palaster.gj.recipes.Recipes;
 import palaster.libpal.core.helpers.LibPalHelper;
 import palaster.libpal.network.PacketHandler;
 
-public class CommonProxy implements IGuiHandler {
-	
-	public static CreativeTabs tabGJ = new CreativeTabs("gj") {
-		@Override
-		@SideOnly(Side.CLIENT)
-		public Item getTabIconItem() { return GJItems.rpgIntro; }
-	};
+public class CommonProxy implements IGuiHandler {	 
 
     public void preInit() {
-    	LibPalHelper.setCreativeTab(LibMod.MODID, tabGJ);
+    	LibPalHelper.setCreativeTab(LibMod.MODID, new CreativeTabs("gj") {
+    		@Override
+    		@SideOnly(Side.CLIENT)
+    		public Item getTabIconItem() { return GJItems.rpgIntro; }
+    	});
     	PacketHandler.registerMessage(UpdateRPGMessage.class);
     	CapabilityManager.INSTANCE.register(IRPG.class, new RPGCapabilityStorage(), new RPGCapabilityFactory());
     }

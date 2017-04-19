@@ -34,7 +34,6 @@ public static class RPGCapabilityDefault implements IRPG {
 		public static final int MAX_LEVEL = 99;
 		
 		public static final UUID HEALTH_ID = UUID.fromString("c6531f9f-b737-4cb6-aea1-fd01c25606be"),
-			STRENGTH_ID = UUID.fromString("55d5fd28-76bd-4fa6-b5ec-b0961bad7a09"),
 			DEXTERITY_ID = UUID.fromString("d0ff0df9-9f9c-491d-9d9c-5997b5d5ba22");
 		
 		private IRPGJob job = null;
@@ -68,7 +67,7 @@ public static class RPGCapabilityDefault implements IRPG {
 		}
 		
 		@Override
-		public void setStrength(EntityPlayer player, int amt) {
+		public void setStrength(int amt) {
 			if(amt > MAX_LEVEL)
 				strength = MAX_LEVEL;
 			else if(amt <= 0)
@@ -76,16 +75,6 @@ public static class RPGCapabilityDefault implements IRPG {
 			else
 				strength = amt;
 			strength = job != null ? job.overrideStrength() ? job.getOverrideStrength() : strength : strength;
-			if(strength <= 0) {
-    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
-                if(iAttributeInstance.getModifier(STRENGTH_ID) != null)
-                	iAttributeInstance.removeModifier(iAttributeInstance.getModifier(STRENGTH_ID));
-    		} else {
-    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
-    			if(iAttributeInstance.getModifier(STRENGTH_ID) != null)
-                    iAttributeInstance.removeModifier(iAttributeInstance.getModifier(STRENGTH_ID));
-    			iAttributeInstance.applyModifier(new AttributeModifier(STRENGTH_ID, "gj.rpg.strength", strength / 2, 0));
-    		}
 		}
 		
 		@Override
@@ -203,7 +192,7 @@ public static class RPGCapabilityDefault implements IRPG {
 		@Override
 		public void loadNBT(EntityPlayer player, NBTTagCompound nbt) {
 			setConstitution(player, nbt.getInteger(TAG_INT_CONSTITUTION));
-			setStrength(player, nbt.getInteger(TAG_INT_STRENGTH));
+			setStrength(nbt.getInteger(TAG_INT_STRENGTH));
 			setDefense(nbt.getInteger(TAG_INT_DEFENSE));
 			setDexterity(player, nbt.getInteger(TAG_INT_DEXTERITY));
 			setIntelligence(nbt.getInteger(TAG_INT_INTELLIGENCE));

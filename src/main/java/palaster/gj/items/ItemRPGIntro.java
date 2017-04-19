@@ -58,7 +58,7 @@ public class ItemRPGIntro extends ItemModSpecial implements IReceiveButton {
 							player.removeExperienceLevel(player.experienceLevel);
 						else if(RPGCapabilityDefault.getExperienceCostForNextLevel(player) > 0)
 							player.removeExperienceLevel(RPGCapabilityDefault.getExperienceCostForNextLevel(player));
-						rpg.setStrength(player, rpg.getStrength() + 1);
+						rpg.setStrength(rpg.getStrength() + 1);
 						CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
 					}
 					break;
