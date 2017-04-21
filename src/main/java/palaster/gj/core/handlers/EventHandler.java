@@ -34,12 +34,21 @@ import palaster.libpal.api.ISpecialItemBlock;
 @Mod.EventBusSubscriber(modid = LibMod.MODID)
 public class EventHandler {
 
+	int timer = 0;
+
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent e) {
 		if(!e.player.world.isRemote) {
 			IRPG rpg = RPGCapabilityProvider.get(e.player);
-			if(rpg != null&& rpg.getJob() != null && rpg.getJob().doUpdate())
-				rpg.getJob().update(e.player);
+			if(rpg != null) {
+				if(timer >= 60) {
+					rpg.setMagick(rpg.getMagick() + 1);
+					timer = 0;
+				} else
+					timer++;
+				if(rpg.getJob() != null && rpg.getJob().doUpdate())
+					rpg.getJob().update(e.player);
+			}
 		}
 	}
 	
@@ -74,8 +83,8 @@ public class EventHandler {
 			if(e.getEntityLiving() instanceof EntityPlayer) {
 				IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getEntityLiving());
 				if(rpg != null) {
-					if(e.getSource() != DamageSource.OUT_OF_WORLD)
-						e.setAmount(e.getAmount() * ((float) rpg.getDefense() / 10));
+					if(e.getSource() != DamageSource.IN_WALL || e.getSource() != DamageSource.CRAMMING || e.getSource() != DamageSource.DROWN || e.getSource() != DamageSource.STARVE || e.getSource() != DamageSource.FLY_INTO_WALL || e.getSource() != DamageSource.OUT_OF_WORLD)
+						e.setAmount(e.getAmount() * ((100f - rpg.getDefense()) / 100));
 					if(rpg.getJob() != null && rpg.getJob() instanceof JobGod)
 						e.setCanceled(true);
 				}
