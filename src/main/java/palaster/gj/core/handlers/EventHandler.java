@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockBeacon;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -92,8 +93,12 @@ public class EventHandler {
 			if(e.getSource().getEntity() instanceof EntityPlayer)
 				if(e.getSource() instanceof EntityDamageSource) {
 					IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getSource().getEntity());
-					if(rpg != null)
-						e.setAmount(e.getAmount() + ((float) rpg.getStrength() / 2));
+					if(rpg != null) {
+						if(e.getSource().getSourceOfDamage() instanceof EntityArrow)
+							e.setAmount(e.getAmount() + ((float) rpg.getDexterity() / 2));
+						else
+							e.setAmount(e.getAmount() + ((float) rpg.getStrength() / 2));
+					}
 				}
 		}
 	}
