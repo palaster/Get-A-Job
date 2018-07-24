@@ -24,7 +24,6 @@ import palaster.gj.inventories.ContainerRPGIntro;
 import palaster.gj.items.GJItems;
 import palaster.gj.libs.LibMod;
 import palaster.gj.network.client.UpdateRPGMessage;
-import palaster.gj.recipes.Recipes;
 import palaster.libpal.core.helpers.LibPalHelper;
 import palaster.libpal.network.PacketHandler;
 
@@ -34,7 +33,7 @@ public class CommonProxy implements IGuiHandler {
     	LibPalHelper.setCreativeTab(LibMod.MODID, new CreativeTabs("gj") {
     		@Override
     		@SideOnly(Side.CLIENT)
-    		public ItemStack getTabIconItem() { return new ItemStack(GJItems.rpgIntro); }
+    		public ItemStack getTabIconItem() { return new ItemStack(GJItems.RPG_INTRO); }
     	});
     	PacketHandler.registerMessage(UpdateRPGMessage.class);
     	CapabilityManager.INSTANCE.register(IRPG.class, new RPGCapabilityStorage(), new RPGCapabilityFactory());
@@ -44,8 +43,8 @@ public class CommonProxy implements IGuiHandler {
     	MinecraftForge.EVENT_BUS.register(new EventHandler());
     	NetworkRegistry.INSTANCE.registerGuiHandler(GetAJob.instance, this);
     }
-
-    public void postInit() { Recipes.init(); }
+    
+    public void postInit() {}
 
     public static void syncPlayerRPGCapabilitiesToClient(@Nullable EntityPlayer player) {
     	if(player != null && !player.world.isRemote)

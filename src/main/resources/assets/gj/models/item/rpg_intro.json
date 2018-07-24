@@ -1,6 +1,6 @@
 {
   "parent": "libpal:item/lpstandard",
   "textures": {
-	"layer0": "gj:items/bloodBook"
+	"layer0": "gj:items/rpg_intro"
   }
 }

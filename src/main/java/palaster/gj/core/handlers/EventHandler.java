@@ -136,13 +136,13 @@ public class EventHandler {
 			} else
 				e.getRegistry().register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
 		}
-		e.getRegistry().registerAll(GJItems.rpgIntro,
-				GJItems.jobPamphlet,
-				GJItems.pinkSlip,
-				GJItems.gjMaterial,
-				GJItems.clericStaff,
-				GJItems.bloodBook,
-				GJItems.hand,
-				GJItems.test);
+		e.getRegistry().registerAll(GJItems.RPG_INTRO,
+				GJItems.JOB_PAMPHLET,
+				GJItems.PINK_SLIP,
+				GJItems.GJ_MATERIAL,
+				GJItems.CLERIC_STAFF,
+				GJItems.BLOOD_BOOK,
+				GJItems.HAND,
+				GJItems.TEST);
 	}
 }

@@ -5,14 +5,14 @@ tile.altar.creation.name=Creation Altar
 tile.altar.community.name=Community Altar
 tile.altar.life.name=Life Altar
 
-item.rpgIntro.name=An Introduction Guide To RPGs
-item.jobPamphlet.name=Job Pamphlet
-item.pinkSlip.name=Pink Slip
-item.clericStaff.name=Cleric Staff
+item.rpg_intro.name=An Introduction Guide To RPGs
+item.job_pamphlet.name=Job Pamphlet
+item.pink_slip.name=Pink Slip
+item.cleric_staff.name=Cleric Staff
 item.hand.name=Hand
-item.bloodBook.name=Blood Book
+item.blood_book.name=Blood Book
 
-item.gjMaterial_congealedBlood.name=Congealed Blood
+item.gj_material.congealed_blood.name=Congealed Blood
 
 item.test.name=Test
 

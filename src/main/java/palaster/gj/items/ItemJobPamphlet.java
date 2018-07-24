@@ -2,7 +2,10 @@ package palaster.gj.items;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -24,13 +27,13 @@ public class ItemJobPamphlet extends ItemModSpecial {
 
 	public ItemJobPamphlet() {
 		super();
-		setRegistryName(LibMod.MODID, "jobPamphlet");
-		setUnlocalizedName("jobPamphlet");
+		setRegistryName(LibMod.MODID, "job_pamphlet");
+		setUnlocalizedName("job_pamphlet");
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag advanced) {
 		if(!NBTHelper.getStringFromItemStack(stack, TAG_STRING_JOB_CLASS).isEmpty())
 			try {
 				tooltip.add(I18n.format("gj.job.base") + ": " + I18n.format(((IRPGJob) Class.forName(NBTHelper.getStringFromItemStack(stack, TAG_STRING_JOB_CLASS)).newInstance()).getJobName()));
@@ -38,7 +41,7 @@ public class ItemJobPamphlet extends ItemModSpecial {
 				e.printStackTrace();
 			}
 	}
-	
+
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		if(!worldIn.isRemote)

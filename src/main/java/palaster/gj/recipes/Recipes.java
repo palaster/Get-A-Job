@@ -1,25 +1,9 @@
 package palaster.gj.recipes;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
-import palaster.gj.blocks.GJBlocks;
-import palaster.gj.items.GJItems;
-import palaster.gj.items.ItemJobPamphlet;
-import palaster.gj.jobs.JobBloodSorcerer;
-import palaster.gj.jobs.JobCleric;
-import palaster.libpal.core.helpers.NBTHelper;
-
 public class Recipes {
 
-	public static void init() {
-		registerCraftingRecipes();
-		registerSmeltingRecipes();
-	}
-
 	private static void registerCraftingRecipes() {
+	/*
 		GameRegistry.addShapedRecipe(new ItemStack(GJBlocks.altar, 1, 0), "xyx", "yxy", "xyx", 'x', Blocks.STONE, 'y', Items.GOLD_INGOT);
 		GameRegistry.addShapelessRecipe(new ItemStack(GJBlocks.altar, 1, 1), new ItemStack(GJBlocks.altar), new ItemStack(Blocks.CRAFTING_TABLE));
 		GameRegistry.addShapelessRecipe(new ItemStack(GJBlocks.altar, 1, 2), new ItemStack(GJBlocks.altar), new ItemStack(Items.SIGN));
@@ -34,8 +18,7 @@ public class Recipes {
 		GameRegistry.addShapedRecipe(new ItemStack(GJItems.clericStaff), "  x", " y ", "y  ", 'x', Items.ENDER_PEARL, 'y', Items.STICK);
 
 		GameRegistry.addShapelessRecipe(NBTHelper.setStringToItemStack(new ItemStack(GJItems.jobPamphlet), ItemJobPamphlet.TAG_STRING_JOB_CLASS, new JobBloodSorcerer().getClass().getName()), GJItems.jobPamphlet, new ItemStack(GJItems.gjMaterial, 1, 0), Items.ROTTEN_FLESH);
-		GameRegistry.addShapelessRecipe(NBTHelper.setStringToItemStack(new ItemStack(GJItems.jobPamphlet), ItemJobPamphlet.TAG_STRING_JOB_CLASS, new JobCleric().getClass().getName()), GJItems.jobPamphlet, GJItems.clericStaff, Items.BOOK);		
+		GameRegistry.addShapelessRecipe(NBTHelper.setStringToItemStack(new ItemStack(GJItems.jobPamphlet), ItemJobPamphlet.TAG_STRING_JOB_CLASS, new JobCleric().getClass().getName()), GJItems.jobPamphlet, GJItems.clericStaff, Items.BOOK);
+	*/
 	}
-
-	private static void registerSmeltingRecipes() {}
 }

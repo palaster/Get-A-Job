@@ -1,0 +1,11 @@
+{
+  "result": {
+    "item": "gj:pink_slip"
+  },
+  "ingredients": [
+    {
+	 "item": "#DYEPINK"
+	}
+  ],
+  "type": "forge:ore_shapeless"
+}

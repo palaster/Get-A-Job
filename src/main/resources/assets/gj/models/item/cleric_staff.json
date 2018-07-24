@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-	"layer0": "gj:items/clericStaff"
+	"layer0": "gj:items/cleric_staff"
   }
 }

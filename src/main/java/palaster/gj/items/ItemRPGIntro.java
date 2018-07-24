@@ -19,8 +19,8 @@ public class ItemRPGIntro extends ItemModSpecial implements IReceiveButton {
 
 	public ItemRPGIntro() {
 		super();
-		setRegistryName(LibMod.MODID, "rpgIntro");
-		setUnlocalizedName("rpgIntro");
+		setRegistryName(LibMod.MODID, "rpg_intro");
+		setUnlocalizedName("rpg_intro");
 	}
 
 	@Override
@@ -44,9 +44,9 @@ public class ItemRPGIntro extends ItemModSpecial implements IReceiveButton {
 				case 0: {
 					if(player.experienceLevel >= RPGCapabilityDefault.getExperienceCostForNextLevel(player) && rpg.getConstitution() < RPGCapabilityDefault.MAX_LEVEL) {
 						if(player.experienceLevel - RPGCapabilityDefault.getExperienceCostForNextLevel(player) <= 0)
-							player.removeExperienceLevel(player.experienceLevel);
+							player.addExperienceLevel(-player.experienceLevel);
 						else if(RPGCapabilityDefault.getExperienceCostForNextLevel(player) > 0)
-							player.removeExperienceLevel(RPGCapabilityDefault.getExperienceCostForNextLevel(player));
+							player.addExperienceLevel(-RPGCapabilityDefault.getExperienceCostForNextLevel(player));
 						rpg.setConstitution(player, rpg.getConstitution() + 1);
 						CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
 					}
@@ -55,9 +55,9 @@ public class ItemRPGIntro extends ItemModSpecial implements IReceiveButton {
 				case 1: {
 					if(player.experienceLevel >= RPGCapabilityDefault.getExperienceCostForNextLevel(player) && rpg.getStrength() < RPGCapabilityDefault.MAX_LEVEL) {
 						if(player.experienceLevel - RPGCapabilityDefault.getExperienceCostForNextLevel(player) <= 0)
-							player.removeExperienceLevel(player.experienceLevel);
+							player.addExperienceLevel(-player.experienceLevel);
 						else if(RPGCapabilityDefault.getExperienceCostForNextLevel(player) > 0)
-							player.removeExperienceLevel(RPGCapabilityDefault.getExperienceCostForNextLevel(player));
+							player.addExperienceLevel(-RPGCapabilityDefault.getExperienceCostForNextLevel(player));
 						rpg.setStrength(rpg.getStrength() + 1);
 						CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
 					}
@@ -66,9 +66,9 @@ public class ItemRPGIntro extends ItemModSpecial implements IReceiveButton {
 				case 2: {
 					if(player.experienceLevel >= RPGCapabilityDefault.getExperienceCostForNextLevel(player) && rpg.getDefense() < RPGCapabilityDefault.MAX_LEVEL) {
 						if(player.experienceLevel - RPGCapabilityDefault.getExperienceCostForNextLevel(player) <= 0)
-							player.removeExperienceLevel(player.experienceLevel);
+							player.addExperienceLevel(-player.experienceLevel);
 						else if(RPGCapabilityDefault.getExperienceCostForNextLevel(player) > 0)
-							player.removeExperienceLevel(RPGCapabilityDefault.getExperienceCostForNextLevel(player));
+							player.addExperienceLevel(-RPGCapabilityDefault.getExperienceCostForNextLevel(player));
 						rpg.setDefense(rpg.getDefense() + 1);
 						CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
 					}
@@ -77,9 +77,9 @@ public class ItemRPGIntro extends ItemModSpecial implements IReceiveButton {
 				case 3: {
 					if(player.experienceLevel >= RPGCapabilityDefault.getExperienceCostForNextLevel(player) && rpg.getDexterity() < RPGCapabilityDefault.MAX_LEVEL) {
 						if(player.experienceLevel - RPGCapabilityDefault.getExperienceCostForNextLevel(player) <= 0)
-							player.removeExperienceLevel(player.experienceLevel);
+							player.addExperienceLevel(-player.experienceLevel);
 						else if(RPGCapabilityDefault.getExperienceCostForNextLevel(player) > 0)
-							player.removeExperienceLevel(RPGCapabilityDefault.getExperienceCostForNextLevel(player));
+							player.addExperienceLevel(-RPGCapabilityDefault.getExperienceCostForNextLevel(player));
 						rpg.setDexterity(player, rpg.getDexterity() + 1);
 						CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
 					}
@@ -88,9 +88,9 @@ public class ItemRPGIntro extends ItemModSpecial implements IReceiveButton {
 				case 4: {
 					if(player.experienceLevel >= RPGCapabilityDefault.getExperienceCostForNextLevel(player) && rpg.getIntelligence() < RPGCapabilityDefault.MAX_LEVEL) {
 						if(player.experienceLevel - RPGCapabilityDefault.getExperienceCostForNextLevel(player) <= 0)
-							player.removeExperienceLevel(player.experienceLevel);
+							player.addExperienceLevel(-player.experienceLevel);
 						else if(RPGCapabilityDefault.getExperienceCostForNextLevel(player) > 0)
-							player.removeExperienceLevel(RPGCapabilityDefault.getExperienceCostForNextLevel(player));
+							player.addExperienceLevel(-RPGCapabilityDefault.getExperienceCostForNextLevel(player));
 						rpg.setIntelligence(rpg.getIntelligence() + 1);
 						CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
 					}

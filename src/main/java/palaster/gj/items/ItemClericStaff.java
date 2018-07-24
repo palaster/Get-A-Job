@@ -22,8 +22,8 @@ public class ItemClericStaff extends ItemModSpecial {
 
 	public ItemClericStaff() {
 		super();
-		setRegistryName(LibMod.MODID, "clericStaff");
-		setUnlocalizedName("clericStaff");
+		setRegistryName(LibMod.MODID, "cleric_staff");
+		setUnlocalizedName("cleric_staff");
 	}
 	
 	@Override

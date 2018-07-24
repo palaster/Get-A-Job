@@ -26,7 +26,7 @@ public class ItemHand extends ItemModSpecial {
 		if(!e.getEntityPlayer().world.isRemote)
 			if(e.getHand() == EnumHand.MAIN_HAND)
 				if(!e.getEntityPlayer().getHeldItem(e.getHand()).isEmpty() && e.getEntityPlayer().getHeldItem(e.getHand()).getItem() instanceof ItemSword)
-					if(!e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND).isEmpty() && e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND).getItem() == GJItems.hand) {
+					if(!e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND).isEmpty() && e.getEntityPlayer().getHeldItem(EnumHand.OFF_HAND).getItem() == this) {
 						IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
 						if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobBloodSorcerer) {
 							e.getEntityPlayer().attackEntityFrom(DamageSource.MAGIC, 1F);

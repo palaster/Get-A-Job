@@ -66,9 +66,9 @@ public class BlockAltar extends BlockMod implements ISpecialItemBlock {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
+	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
 		for(int i = 0; i < EnumDomain.class.getEnumConstants().length; i++)
-			list.add(new ItemStack(itemIn, 1, i));
+			list.add(new ItemStack(this, 1, i));
 	}
 
 	@Override

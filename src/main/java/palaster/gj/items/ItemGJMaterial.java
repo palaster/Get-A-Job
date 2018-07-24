@@ -1,7 +1,6 @@
 package palaster.gj.items;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
@@ -12,24 +11,24 @@ import palaster.libpal.items.ItemModSpecial;
 
 public class ItemGJMaterial extends ItemModSpecial implements ISubType {
 
-	private static final String[] SUB_TYPES = {"congealedBlood"};
+	private static final String[] SUB_TYPES = {"congealed_blood"};
 
 	public ItemGJMaterial() {
 		super(0, 64);
 		setHasSubtypes(true);
-		setRegistryName(LibMod.MODID, "gjMaterial");
-		setUnlocalizedName("gjMaterial");
+		setRegistryName(LibMod.MODID, "gj_material");
+		setUnlocalizedName("gj_material");
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
 		for(int i = 0; i < SUB_TYPES.length; i++)
-			subItems.add(new ItemStack(itemIn, 1, i));
+			subItems.add(new ItemStack(this, 1, i));
 	}
 
 	@Override
-	public String getUnlocalizedName(ItemStack stack) { return super.getUnlocalizedName(stack) + "_" + SUB_TYPES[stack.getItemDamage()]; }
+	public String getUnlocalizedName(ItemStack stack) { return super.getUnlocalizedName(stack) + "." + SUB_TYPES[stack.getItemDamage()]; }
 
 	@Override
 	public String[] getTypes() { return SUB_TYPES; }

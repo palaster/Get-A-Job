@@ -16,8 +16,8 @@ public class ItemPinkSlip extends ItemModSpecial {
 
 	public ItemPinkSlip() {
 		super();
-		setRegistryName(LibMod.MODID, "pinkSlip");
-		setUnlocalizedName("pinkSlip");
+		setRegistryName(LibMod.MODID, "pink_slip");
+		setUnlocalizedName("pink_slip");
 	}
 
 	@Override
