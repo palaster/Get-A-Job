@@ -10,7 +10,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 ext.configFile = file('build.properties')
 ext.config = parseConfig(configFile)
 
-version = "${config.mc_version}-${config.version}"
+version = "${config.version}"
 group= "palaster.gj"
 archivesBaseName = "gj"
 
@@ -22,8 +22,8 @@ compileJava {
 minecraft {
     version = "${config.mc_version}-${config.forge_version}"
     runDir = "run"
-    mappings = "snapshot_20170617"
-	replace '@VERSION@', project.version
+    mappings = "snapshot_20171003"
+	replace '@VERSION@', config.version
 }
 
 dependencies {

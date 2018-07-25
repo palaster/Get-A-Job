@@ -90,11 +90,11 @@ public class EventHandler {
 						e.setCanceled(true);
 				}
 			}
-			if(e.getSource().getEntity() instanceof EntityPlayer)
+			if(e.getSource().getTrueSource() instanceof EntityPlayer)
 				if(e.getSource() instanceof EntityDamageSource) {
-					IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getSource().getEntity());
+					IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getSource().getTrueSource());
 					if(rpg != null) {
-						if(e.getSource().getSourceOfDamage() instanceof EntityArrow)
+						if(e.getSource().getImmediateSource() instanceof EntityArrow)
 							e.setAmount(e.getAmount() + ((float) rpg.getDexterity() / 2));
 						else
 							e.setAmount(e.getAmount() + ((float) rpg.getStrength() / 2));

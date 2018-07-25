@@ -30,11 +30,6 @@ import palaster.libpal.network.PacketHandler;
 public class CommonProxy implements IGuiHandler {
 
     public void preInit() {
-    	LibPalHelper.setCreativeTab(LibMod.MODID, new CreativeTabs("gj") {
-    		@Override
-    		@SideOnly(Side.CLIENT)
-    		public ItemStack getTabIconItem() { return new ItemStack(GJItems.RPG_INTRO); }
-    	});
     	PacketHandler.registerMessage(UpdateRPGMessage.class);
     	CapabilityManager.INSTANCE.register(IRPG.class, new RPGCapabilityStorage(), new RPGCapabilityFactory());
     }
@@ -44,7 +39,13 @@ public class CommonProxy implements IGuiHandler {
     	NetworkRegistry.INSTANCE.registerGuiHandler(GetAJob.instance, this);
     }
     
-    public void postInit() {}
+    public void postInit() {
+    	LibPalHelper.setCreativeTab(LibMod.MODID, new CreativeTabs("gj") {
+    		@Override
+    		@SideOnly(Side.CLIENT)
+    		public ItemStack getTabIconItem() { return new ItemStack(GJItems.RPG_INTRO); }
+    	});
+    }
 
     public static void syncPlayerRPGCapabilitiesToClient(@Nullable EntityPlayer player) {
     	if(player != null && !player.world.isRemote)

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+	  "item": "minecraft:writable_book"
+	},
+    {
+	  "item": "gj:pink_slip"
+	}
+  ],
+  "result": {
+    "nbt": {
+	  "JobPamphletJobClass": ""
+	},
+    "item": "gj:job_pamphlet"
+  }
+}

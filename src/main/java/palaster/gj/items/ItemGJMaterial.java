@@ -23,8 +23,9 @@ public class ItemGJMaterial extends ItemModSpecial implements ISubType {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
-		for(int i = 0; i < SUB_TYPES.length; i++)
-			subItems.add(new ItemStack(this, 1, i));
+		if(isInCreativeTab(tab))
+			for(int i = 0; i < SUB_TYPES.length; i++)
+				subItems.add(new ItemStack(this, 1, i));
 	}
 
 	@Override

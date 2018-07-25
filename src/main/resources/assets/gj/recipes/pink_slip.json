@@ -1,11 +1,17 @@
 {
-  "result": {
-    "item": "gj:pink_slip"
-  },
+  "type": "forge:ore_shapeless",
   "ingredients": [
+	{
+	 "item": "minecraft:paper"
+	},
     {
 	 "item": "#DYEPINK"
+	},
+	{
+	 "item": "minecraft:flint_and_steel"
 	}
   ],
-  "type": "forge:ore_shapeless"
+  "result": {
+    "item": "gj:pink_slip"
+  }
 }

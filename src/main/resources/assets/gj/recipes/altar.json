@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+	"xyx",
+	"yxy",
+	"xyx"
+  ],
+  "key": {
+	"x": {
+	  "data": 0,
+	  "item": "minecraft:stone"
+	},
+	"y": {
+	  "item": "minecraft:gold_ingot"
+	}
+  },
+  "result": {
+	"data": 0,
+	"item": "gj:altar"
+  }
+}

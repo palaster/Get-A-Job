@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+	  "data": 0,
+	  "item": "gj:altar"
+	},
+	{
+	  "data": 15,
+	  "item": "minecraft:dye"
+	}
+  ],
+  "result": {
+    "data": 3,
+	"item": "gj:altar"
+  }
+}
