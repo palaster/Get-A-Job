@@ -36,7 +36,14 @@ gj.job.bloodSorcerer.blood=Blood
 gj.job.bloodSorcerer.spell.0=Drain
 
 gj.job.botanist=Botanist
+
 gj.job.cleric=Cleric
 gj.job.cleric.domain=Domain
+
+gj.job.cleric.spell.creation.0=Creation
+gj.job.cleric.spell.community.0=Shield Other
+gj.job.cleric.spell.life.0=Growth
+
 gj.job.god=God
+
 gj.job.workshopWitch=Workshop Witch

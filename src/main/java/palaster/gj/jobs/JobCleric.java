@@ -2,6 +2,7 @@ package palaster.gj.jobs;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,6 +13,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.gj.api.capabilities.IRPG;
 import palaster.gj.api.jobs.IRPGJob;
+import palaster.gj.blocks.BlockAltar;
 
 public class JobCleric implements IRPGJob {
 
@@ -53,8 +55,13 @@ public class JobCleric implements IRPGJob {
 	@SideOnly(Side.CLIENT)
 	public void drawExtraInformation(EntityPlayer player, FontRenderer fontRendererObj, int suggestedX, int suggestedY, int mouseX, int mouseY) {
 		if(altar != null) {
-			fontRendererObj.drawString(I18n.format("gj.job.cleric.domain") + ": " + altar.getX() + ", " + altar.getY() + ", " + altar.getZ(), suggestedX, suggestedY, 4210752);
-			fontRendererObj.drawString(I18n.format("gj.job.spellSlots") + ": " + spellSlots, suggestedX, suggestedY + 10, 4210752);
+			fontRendererObj.drawString("Position: " + altar.getX() + ", " + altar.getY() + ", " + altar.getZ(), suggestedX, suggestedY, 4210752);
+			IBlockState bs = player.world.getBlockState(altar);
+			if (bs != null && bs.getBlock() instanceof BlockAltar && bs.getValue(BlockAltar.DOMAIN_TYPE) != null)
+				fontRendererObj.drawString(I18n.format("gj.job.cleric.domain") + ": " + bs.getValue(BlockAltar.DOMAIN_TYPE), suggestedX, suggestedY + 10, 4210752);
+			else
+				fontRendererObj.drawString(I18n.format("gj.job.cleric.domain") + ": ERROR", suggestedX, suggestedY + 10, 4210752);
+			fontRendererObj.drawString(I18n.format("gj.job.spellSlots") + ": " + spellSlots, suggestedX, suggestedY + 20, 4210752);
 		} else
 			fontRendererObj.drawString(I18n.format("gj.job.spellSlots") + ": " + spellSlots, suggestedX, suggestedY, 4210752);	
 	}

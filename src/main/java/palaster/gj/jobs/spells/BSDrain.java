@@ -15,11 +15,9 @@ public class BSDrain implements IBloodSpell {
 
     @Override
     public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
-        if(!playerIn.world.isRemote)
-        {
+        if(!playerIn.world.isRemote) {
             IRPG rpg = RPGCapability.RPGCapabilityProvider.get(playerIn);
-            if(rpg != null)
-            {
+            if(rpg != null) {
                 target.attackEntityFrom(DamageSource.MAGIC, rpg.getIntelligence());
                 playerIn.heal(rpg.getIntelligence() / 4);
                 return true;

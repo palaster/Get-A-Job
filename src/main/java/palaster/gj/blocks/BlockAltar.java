@@ -21,6 +21,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.gj.api.capabilities.IRPG;
 import palaster.gj.api.capabilities.RPGCapability.RPGCapabilityProvider;
+import palaster.gj.core.proxy.CommonProxy;
 import palaster.gj.jobs.JobCleric;
 import palaster.gj.jobs.JobCleric.EnumDomain;
 import palaster.gj.libs.LibMod;
@@ -45,6 +46,7 @@ public class BlockAltar extends BlockMod implements ISpecialItemBlock {
 			IRPG rpg = RPGCapabilityProvider.get(playerIn);
 			if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobCleric)
 				((JobCleric) rpg.getJob()).setAltar(pos);
+			CommonProxy.syncPlayerRPGCapabilitiesToClient(playerIn);
 		}
 		return true;
 	}

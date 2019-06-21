@@ -45,8 +45,7 @@ public class ItemBloodBook extends ItemModSpecial {
 	public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
 		if(!playerIn.world.isRemote) {
 			IRPG rpg = RPGCapability.RPGCapabilityProvider.get(playerIn);
-			if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobBloodSorcerer)
-			{
+			if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobBloodSorcerer) {
 				IBloodSpell IBS = BloodSpells.BLOOD_SPELLS.get(NBTHelper.getIntegerFromItemStack(stack, TAG_INT_SS));
 				boolean result = IBS.itemInteractionForEntity(stack, playerIn, target, hand);
 				if(result)
@@ -60,19 +59,15 @@ public class ItemBloodBook extends ItemModSpecial {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
 		if(!worldIn.isRemote) {
-			if(playerIn.isSneaking())
-			{
+			if(playerIn.isSneaking()) {
 				int currentSelection = NBTHelper.getIntegerFromItemStack(playerIn.getHeldItem(handIn), TAG_INT_SS);
 				if(currentSelection >= BloodSpells.BLOOD_SPELLS.size() - 1)
 					return ActionResult.newResult(EnumActionResult.SUCCESS, NBTHelper.setIntegerToItemStack(playerIn.getHeldItem(handIn), TAG_INT_SS, 0));
 				else
 					return ActionResult.newResult(EnumActionResult.SUCCESS, NBTHelper.setIntegerToItemStack(playerIn.getHeldItem(handIn), TAG_INT_SS, NBTHelper.getIntegerFromItemStack(playerIn.getHeldItem(handIn), TAG_INT_SS) + 1));
-			}
-			else
-			{
+			} else {
 				IRPG rpg = RPGCapability.RPGCapabilityProvider.get(playerIn);
-				if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobBloodSorcerer)
-				{
+				if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobBloodSorcerer) {
 					IBloodSpell IBS = BloodSpells.BLOOD_SPELLS.get(NBTHelper.getIntegerFromItemStack(playerIn.getHeldItem(handIn), TAG_INT_SS));
 					ActionResult<ItemStack> temp = IBS.onItemRightClick(worldIn, playerIn, handIn);
 					if(temp.getType() == EnumActionResult.SUCCESS)
@@ -88,8 +83,7 @@ public class ItemBloodBook extends ItemModSpecial {
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(!worldIn.isRemote) {
 			IRPG rpg = RPGCapability.RPGCapabilityProvider.get(player);
-			if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobBloodSorcerer)
-			{
+			if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobBloodSorcerer) {
 				IBloodSpell IBS = BloodSpells.BLOOD_SPELLS.get(NBTHelper.getIntegerFromItemStack(player.getHeldItem(hand), TAG_INT_SS));
 				EnumActionResult temp = IBS.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
 				if(temp == EnumActionResult.SUCCESS)
