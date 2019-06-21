@@ -11,9 +11,6 @@ import palaster.gj.jobs.JobCleric.EnumDomain;
 public class DSShieldOther implements IDomainSpell {
 
 	@Override
-	public EnumDomain getDomain() { return EnumDomain.COMMUNITY; }
-
-	@Override
 	public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
 		if(target.getActivePotionEffect(MobEffects.ABSORPTION) == null) {
 			target.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 1200, 0, true, false));

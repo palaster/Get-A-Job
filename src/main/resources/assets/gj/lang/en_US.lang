@@ -41,8 +41,11 @@ gj.job.cleric=Cleric
 gj.job.cleric.domain=Domain
 
 gj.job.cleric.spell.creation.0=Creation
+gj.job.cleric.spell.creation.1=Burn
 gj.job.cleric.spell.community.0=Shield Other
+gj.job.cleric.spell.community.1=Heal
 gj.job.cleric.spell.life.0=Growth
+gj.job.cleric.spell.life.1=Heal
 
 gj.job.god=God
 

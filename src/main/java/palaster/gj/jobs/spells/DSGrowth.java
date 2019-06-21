@@ -14,9 +14,6 @@ import net.minecraft.world.World;
 import palaster.gj.jobs.JobCleric.EnumDomain;
 
 public class DSGrowth implements IDomainSpell {
-
-	@Override
-	public EnumDomain getDomain() { return EnumDomain.LIFE; }
 	
 	@Override
 	public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {

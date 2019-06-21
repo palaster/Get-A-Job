@@ -14,9 +14,6 @@ import palaster.gj.jobs.JobCleric.EnumDomain;
 public class DSCreation implements IDomainSpell {
 
 	@Override
-	public EnumDomain getDomain() { return EnumDomain.CREATION; }
-	
-	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(worldIn.getBlockState(pos.add(0, 1, 0)) == null || worldIn.getBlockState(pos.add(0, 1, 0)).getBlock() == Blocks.AIR) {
 			worldIn.spawnEntity(new EntityItem(worldIn, pos.getX() + .5, pos.getY() + 1 + .25, pos.getZ() + .5, new ItemStack(Blocks.PLANKS, 16)));

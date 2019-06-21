@@ -12,10 +12,13 @@ public class DomainSpells {
 	
 	static {
 		CREATION_DOMAIN_SPELLS.add(new DSCreation());
+		CREATION_DOMAIN_SPELLS.add(new DSBurn());
 
 		COMMUNITY_DOMAIN_SPELLS.add(new DSShieldOther());
+		COMMUNITY_DOMAIN_SPELLS.add(new DSHeal());
 
 		LIFE_DOMAIN_SPELLS.add(new DSGrowth());
+		LIFE_DOMAIN_SPELLS.add(new DSHeal());
 	}
 
 	public static ArrayList<IDomainSpell> getDomainSpellsFromDomain(EnumDomain Domain) {

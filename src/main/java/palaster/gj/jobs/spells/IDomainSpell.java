@@ -13,8 +13,6 @@ import palaster.gj.jobs.JobCleric.EnumDomain;
 
 public interface IDomainSpell {
 
-	EnumDomain getDomain();
-
 	default boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) { return false; }
 
 	default ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) { return ActionResult.newResult(EnumActionResult.PASS, playerIn.getHeldItem(handIn)); }
