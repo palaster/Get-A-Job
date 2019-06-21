@@ -32,6 +32,9 @@ gj.job.magick=Magick
 
 gj.job.bloodSorcerer=Blood Sorcerer
 gj.job.bloodSorcerer.blood=Blood
+
+gj.job.bloodSorcerer.spell.0=Drain
+
 gj.job.botanist=Botanist
 gj.job.cleric=Cleric
 gj.job.cleric.domain=Domain

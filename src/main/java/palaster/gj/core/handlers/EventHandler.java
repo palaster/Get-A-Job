@@ -1,24 +1,20 @@
 package palaster.gj.core.handlers;
 
-import java.lang.reflect.Field;
-
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockBeacon;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickItem;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -31,6 +27,8 @@ import palaster.gj.jobs.JobCleric;
 import palaster.gj.jobs.JobGod;
 import palaster.gj.libs.LibMod;
 import palaster.libpal.api.ISpecialItemBlock;
+
+import java.lang.reflect.Field;
 
 @Mod.EventBusSubscriber(modid = LibMod.MODID)
 public class EventHandler {
@@ -52,22 +50,22 @@ public class EventHandler {
 			}
 		}
 	}
-	
+
 	@SubscribeEvent
-	public void onPlayerInteractBlock(RightClickBlock e) {
+	public void onPlayerInteract(RightClickItem e) {
 		if(!e.getWorld().isRemote) {
 			ItemStack stack = e.getEntityPlayer().getHeldItem(e.getHand());
-			if(!stack.isEmpty() && stack.getItem() == Item.getItemFromBlock(Blocks.DIAMOND_BLOCK))
-				if(e.getWorld().getBlockState(e.getPos()) != null && e.getWorld().getBlockState(e.getPos()).getBlock() instanceof BlockBeacon)
-					if(e.getEntityPlayer().getUniqueID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
-						IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
-						if(rpg != null) {
-							stack.shrink(1);
-							rpg.setJob(e.getEntityPlayer(), new JobGod(e.getEntityPlayer()));
-						}
+			if(!stack.isEmpty() && stack.getItem() == Items.DIAMOND)
+				if(e.getEntityPlayer().getUniqueID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
+					IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
+					if(rpg != null) {
+						stack.shrink(1);
+						rpg.setJob(e.getEntityPlayer(), new JobGod(e.getEntityPlayer()));
 					}
+				}
 		}
 	}
+
 
 	@SubscribeEvent
 	public void onPlayerWakeUp(PlayerWakeUpEvent e) {
@@ -84,7 +82,7 @@ public class EventHandler {
 			if(e.getEntityLiving() instanceof EntityPlayer) {
 				IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getEntityLiving());
 				if(rpg != null) {
-					if(e.getSource() != DamageSource.IN_WALL || e.getSource() != DamageSource.CRAMMING || e.getSource() != DamageSource.DROWN || e.getSource() != DamageSource.STARVE || e.getSource() != DamageSource.FLY_INTO_WALL || e.getSource() != DamageSource.OUT_OF_WORLD)
+					if(!e.getSource().isDamageAbsolute())
 						e.setAmount(e.getAmount() * ((100f - rpg.getDefense()) / 100));
 					if(rpg.getJob() != null && rpg.getJob() instanceof JobGod)
 						e.setCanceled(true);
