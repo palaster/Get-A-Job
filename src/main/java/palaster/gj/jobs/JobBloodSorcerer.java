@@ -64,7 +64,7 @@ public class JobBloodSorcerer implements IRPGJob {
 	}
 
 	@Override
-	public void drawExtraInformation(EntityPlayer player, FontRenderer fontRendererObj, int suggestedX, int suggestedY, int mouseX, int mouseY) { fontRendererObj.drawString(net.minecraft.util.text.translation.I18n.translateToLocal("gj.job.bloodSorcerer.blood") + ": " + bloodCurrent + "/ " + bloodMax, suggestedX, suggestedY + 10, 4210752); }
+	public void drawExtraInformation(EntityPlayer player, FontRenderer fontRendererObj, int suggestedX, int suggestedY, int mouseX, int mouseY) { fontRendererObj.drawString(net.minecraft.util.text.translation.I18n.translateToLocal("gj.job.bloodSorcerer.blood") + ": " + bloodCurrent + "/ " + bloodMax, suggestedX, suggestedY, 4210752); }
 
 	@Override
 	public void updatePlayerAttributes(EntityPlayer player) {

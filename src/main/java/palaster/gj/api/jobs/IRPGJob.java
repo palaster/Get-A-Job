@@ -21,8 +21,8 @@ public interface IRPGJob extends INBTSerializable<NBTTagCompound> {
 
 	@SideOnly(Side.CLIENT)
 	default void drawExtraInformationBase(@Nullable EntityPlayer player, FontRenderer fontRendererObj, int suggestedX, int suggestedY, int mouseX, int mouseY) {
-		fontRendererObj.drawString(I18n.format("gj.job.additionalInfo") + ":", suggestedX, suggestedY - 10, 4210752);
-		drawExtraInformation(player, fontRendererObj, suggestedX, suggestedY, mouseX, mouseY);
+		fontRendererObj.drawString(I18n.format("gj.job.additionalInfo") + ":", suggestedX, suggestedY, 4210752);
+		drawExtraInformation(player, fontRendererObj, suggestedX, suggestedY + 10, mouseX, mouseY);
 	}
 
 	/**

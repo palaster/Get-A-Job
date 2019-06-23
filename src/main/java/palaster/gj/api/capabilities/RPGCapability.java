@@ -22,7 +22,7 @@ import palaster.libpal.core.helpers.PlayerHelper;
 public class RPGCapability {
 
 public static class RPGCapabilityDefault implements IRPG {
-		
+
 		public static final String TAG_STRING_CLASS = "RPGJobClass",
 			TAG_JOB = "RPGJob",
 			TAG_INT_CONSTITUTION = "ConstitutionInteger",
@@ -32,10 +32,10 @@ public static class RPGCapabilityDefault implements IRPG {
 			TAG_INT_INTELLIGENCE = "IntelligenceInteger",
 			TAG_INT_MAGICK = "MagickInteger";
 		public static final int MAX_LEVEL = 99;
-		
+
 		public static final UUID HEALTH_ID = UUID.fromString("c6531f9f-b737-4cb6-aea1-fd01c25606be"),
 			DEXTERITY_ID = UUID.fromString("d0ff0df9-9f9c-491d-9d9c-5997b5d5ba22");
-		
+
 		private IRPGJob job = null;
 		
 		private int constitution = 0,
@@ -44,7 +44,7 @@ public static class RPGCapabilityDefault implements IRPG {
 			dexterity = 0,
 			intelligence = 0,
 			magick = 0;
-		
+
 		@Override
 		public void setConstitution(EntityPlayer player, int amt) {
 			if(amt > MAX_LEVEL)
@@ -65,7 +65,7 @@ public static class RPGCapabilityDefault implements IRPG {
                 iAttributeInstance.applyModifier(new AttributeModifier(HEALTH_ID, "gj.rpg.constitution", constitution * .4, 0));
     		}
 		}
-		
+
 		@Override
 		public void setStrength(int amt) {
 			if(amt > MAX_LEVEL)
@@ -108,7 +108,7 @@ public static class RPGCapabilityDefault implements IRPG {
                 iAttributeInstance.applyModifier(new AttributeModifier(DEXTERITY_ID, "gj.rpg.dexterity", dexterity * .008, 0));
     		}
 		}
-		
+
 		@Override
 		public void setIntelligence(int amt) {
 			if(amt > MAX_LEVEL)
@@ -119,7 +119,7 @@ public static class RPGCapabilityDefault implements IRPG {
 				intelligence = amt;
 			intelligence = job != null ? job.overrideIntelligence() ? job.getOverrideIntelligence() : intelligence : intelligence;
 		}
-		
+
 		@Override
 		public void setMagick(int amt) {
 			if(amt > getMaxMagick())
@@ -129,7 +129,7 @@ public static class RPGCapabilityDefault implements IRPG {
 			else
 				magick = amt;
 		}
-		
+
 		@Override
 		public void setJob(EntityPlayer player, IRPGJob job) {
 			if(this.job != null) {
@@ -148,21 +148,24 @@ public static class RPGCapabilityDefault implements IRPG {
 					this.job.updatePlayerAttributes(player);
 			}
 		}
-		
+
 		@Override
 		public int getConstitution() { return job != null ? job.overrideConstitution() ? job.getOverrideConstitution() : constitution : constitution; }
-		
+
 		@Override
 		public int getStrength() { return job != null ? job.overrideStrength() ? job.getOverrideStrength() : strength : strength; }
-		
+
 		@Override
 		public int getDefense() { return job != null ? job.overrideDefense() ? job.getOverrideDefense() : defense : defense; }
-		
+
 		@Override
 		public int getDexterity() { return job != null ? job.overrideDexterity() ? job.getOverrideDexterity() : dexterity : dexterity; }
-		
+
 		@Override
 		public int getIntelligence() { return job != null ? job.overrideIntelligence() ? job.getOverrideIntelligence() : intelligence : intelligence; }
+
+		@Override
+		public int getLevel() { return constitution + strength + defense + dexterity + intelligence; }
 
 		@Override
 		public int getMagick() { return job != null ? job.replaceMagick() ? 0 : magick  : magick; }
@@ -186,6 +189,10 @@ public static class RPGCapabilityDefault implements IRPG {
 				nbt.setString(TAG_STRING_CLASS, job.getClass().getName());
 				nbt.setTag(TAG_JOB, job.serializeNBT());
 			}
+			if(job == null || job.getClass() == null || job.getClass().getName().isEmpty()) {
+				nbt.removeTag(TAG_STRING_CLASS);
+				nbt.removeTag(TAG_JOB);
+			}
 			return nbt;
 		}
 
@@ -197,7 +204,7 @@ public static class RPGCapabilityDefault implements IRPG {
 			setDexterity(player, nbt.getInteger(TAG_INT_DEXTERITY));
 			setIntelligence(nbt.getInteger(TAG_INT_INTELLIGENCE));
 			setMagick(nbt.getInteger(TAG_INT_MAGICK));
-			if(!nbt.getString(TAG_STRING_CLASS).isEmpty()) {
+			if(nbt.hasKey(TAG_STRING_CLASS) && !nbt.getString(TAG_STRING_CLASS).isEmpty()) {
 				try {
 					Object obj = nbt.getString(TAG_STRING_CLASS).equals(JobGod.class.getName()) ? Class.forName(nbt.getString(TAG_STRING_CLASS)).getConstructor(EntityPlayer.class).newInstance(player) : Class.forName(nbt.getString(TAG_STRING_CLASS)).newInstance();
 					if(obj != null && obj instanceof IRPGJob) {

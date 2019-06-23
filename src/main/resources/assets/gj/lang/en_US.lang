@@ -28,6 +28,7 @@ gj.job.strength=Strength
 gj.job.defense=Defense
 gj.job.dexterity=Dexterity
 gj.job.intelligence=Intelligence
+gj.job.level=Level
 gj.job.magick=Magick
 
 gj.job.bloodSorcerer=Blood Sorcerer

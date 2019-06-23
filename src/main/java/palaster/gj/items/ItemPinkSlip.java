@@ -8,6 +8,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import palaster.gj.api.capabilities.IRPG;
 import palaster.gj.api.capabilities.RPGCapability.RPGCapabilityProvider;
+import palaster.gj.core.proxy.CommonProxy;
 import palaster.gj.libs.LibMod;
 import palaster.libpal.core.helpers.PlayerHelper;
 import palaster.libpal.items.ItemModSpecial;
@@ -28,6 +29,7 @@ public class ItemPinkSlip extends ItemModSpecial {
 				if(rpg.getJob() != null && rpg.getJob().canLeave()) {
 					rpg.setJob(playerIn, null);
 					PlayerHelper.sendChatMessageToPlayer(playerIn, net.minecraft.util.text.translation.I18n.translateToLocal("gj.job.fired"));
+					CommonProxy.syncPlayerRPGCapabilitiesToClient(playerIn);
 					return ActionResult.newResult(EnumActionResult.SUCCESS, ItemStack.EMPTY);
 				}
 		}

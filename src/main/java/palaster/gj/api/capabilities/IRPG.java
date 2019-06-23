@@ -29,6 +29,8 @@ public interface IRPG {
 	int getDexterity();
 	
 	int getIntelligence();
+
+	int getLevel();
 		
 	int getMagick();
 	
