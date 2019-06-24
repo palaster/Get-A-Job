@@ -139,7 +139,6 @@ public static class RPGCapabilityDefault implements IRPG {
 					this.job = job;
 					if(this.job != null)
 						this.job.updatePlayerAttributes(player);
-					CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
 				} else
 					PlayerHelper.sendChatMessageToPlayer(player, "You can't leave these responsibilities.");
 			} else {
@@ -216,6 +215,8 @@ public static class RPGCapabilityDefault implements IRPG {
 					e.printStackTrace();
 				}
 			}
+			else
+				setJob(player, null);
 		}
 
 	    public static int getExperienceCostForNextLevel(EntityPlayer player) {

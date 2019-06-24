@@ -16,15 +16,18 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickItem;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
+import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import palaster.gj.api.capabilities.IRPG;
+import palaster.gj.api.capabilities.RPGCapability;
 import palaster.gj.api.capabilities.RPGCapability.RPGCapabilityProvider;
 import palaster.gj.blocks.GJBlocks;
 import palaster.gj.items.GJItems;
 import palaster.gj.jobs.JobCleric;
 import palaster.gj.jobs.JobGod;
+import palaster.gj.jobs.abilities.Abilities;
 import palaster.gj.libs.LibMod;
 import palaster.libpal.api.ISpecialItemBlock;
 
@@ -46,7 +49,7 @@ public class EventHandler {
 				} else
 					timer++;
 				if(rpg.getJob() != null && rpg.getJob().doUpdate())
-					rpg.getJob().update(e.player);
+					rpg.getJob().update(rpg, e.player);
 			}
 		}
 	}
@@ -98,6 +101,18 @@ public class EventHandler {
 							e.setAmount(e.getAmount() + ((float) rpg.getStrength() / 2));
 					}
 				}
+		}
+	}
+
+	@SubscribeEvent
+	public void onHarvestDrops(HarvestDropsEvent e) {
+		if(e.getHarvester() != null) {
+			IRPG rpg = RPGCapabilityProvider.get(e.getHarvester());
+			if (rpg != null)
+				if (Abilities.BOUNTIFUL_HARVEST.isAvailable(rpg))
+					for(int i = 0; i < e.getDrops().size(); i++)
+						if(e.getDrops().get(i).getMaxStackSize() > e.getDrops().get(i).getCount() * 2)
+							e.getDrops().get(i).setCount(e.getDrops().get(i).getCount() * 2);
 		}
 	}
 

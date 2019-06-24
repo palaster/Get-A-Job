@@ -2,6 +2,7 @@ package palaster.gj.jobs;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import palaster.gj.api.capabilities.IRPG;
 import palaster.gj.api.jobs.IRPGJob;
 
 public class JobGod implements IRPGJob {
@@ -29,7 +30,7 @@ public class JobGod implements IRPGJob {
 	public boolean doUpdate() { return true; }
 
 	@Override
-	public void update(EntityPlayer player) {
+	public void update(IRPG rpg, EntityPlayer player) {
 		if(!player.isSpectator() && !player.capabilities.isCreativeMode)
 			if(!player.capabilities.allowFlying || !player.capabilities.disableDamage) {
 				player.capabilities.disableDamage = true;

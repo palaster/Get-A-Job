@@ -8,6 +8,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import palaster.gj.api.capabilities.IRPG;
 import palaster.gj.api.jobs.IRPGJob;
 import palaster.gj.core.proxy.CommonProxy;
 
@@ -87,7 +88,7 @@ public class JobBloodSorcerer implements IRPGJob {
 	public boolean doUpdate() { return true; }
 
 	@Override
-	public void update(EntityPlayer player) {
+	public void update(IRPG rpg, EntityPlayer player) {
 		if(timer >= 100) {
 			if(bloodRegen > 0)
 				addBlood(player, bloodRegen);

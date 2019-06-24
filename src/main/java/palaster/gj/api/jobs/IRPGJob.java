@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import palaster.gj.api.capabilities.IRPG;
 
 public interface IRPGJob extends INBTSerializable<NBTTagCompound> {
 
@@ -56,7 +57,7 @@ public interface IRPGJob extends INBTSerializable<NBTTagCompound> {
 	
 	default boolean doUpdate() { return false; }
 	
-	default void update(EntityPlayer player) {}
+	default void update(IRPG rpg, EntityPlayer player) {}
 	
 	@Override
 	@Nonnull
