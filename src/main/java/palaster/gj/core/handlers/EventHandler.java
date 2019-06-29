@@ -2,6 +2,7 @@ package palaster.gj.core.handlers;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
@@ -91,6 +92,14 @@ public class EventHandler {
 						e.setCanceled(true);
 				}
 			}
+			if(e.getEntityLiving().getCreatureAttribute() == EnumCreatureAttribute.UNDEAD)
+				if(e.getSource().getImmediateSource() != null && e.getSource().getImmediateSource() instanceof EntityPlayer)
+				{
+					IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getSource().getImmediateSource());
+					if(rpg != null)
+						if(Abilities.DIVINE_SMACKDOWN.isAvailable(rpg))
+							e.setAmount(e.getAmount() + ((float) rpg.getIntelligence() / 2));
+				}
 			if(e.getSource().getTrueSource() instanceof EntityPlayer)
 				if(e.getSource() instanceof EntityDamageSource) {
 					IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) e.getSource().getTrueSource());
