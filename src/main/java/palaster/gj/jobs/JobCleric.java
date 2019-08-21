@@ -7,10 +7,10 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import palaster.gj.api.EnumDomain;
 import palaster.gj.api.capabilities.IRPG;
 import palaster.gj.api.jobs.IRPGJob;
 import palaster.gj.blocks.BlockAltar;
@@ -87,22 +87,5 @@ public class JobCleric implements IRPGJob {
 		if(nbt.hasKey(TAG_LONG_BLOCKPOS))
 			altar = BlockPos.fromLong(nbt.getLong(TAG_LONG_BLOCKPOS));
 		spellSlots = nbt.getInteger(TAG_INT_SS);
-	}
-
-	public static enum EnumDomain implements IStringSerializable {
-		NONE("none"),
-		CREATION("creation"),
-		COMMUNITY("community"),
-		LIFE("life");
-
-		private String name;
-
-		private EnumDomain(String name) { this.name = name; }
-
-		@Override
-		public String getName() { return name; }
-
-		@Override
-		public String toString() { return getName(); }
 	}
 }

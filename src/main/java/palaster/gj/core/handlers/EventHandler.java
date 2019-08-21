@@ -15,6 +15,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickItem;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
@@ -40,6 +41,17 @@ public class EventHandler {
 	int timer = 0;
 
 	@SubscribeEvent
+	public void onBreakSpeed(BreakSpeed e) {
+		if(!e.getEntityPlayer().world.isRemote) {
+			IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
+			if(rpg != null)
+				if(rpg.getJob() != null && rpg.getJob() instanceof JobGod)
+					if(((JobGod) rpg.getJob()).isPowerActive(JobGod.GOD_POWER_ULTRA_MINER))
+						e.setNewSpeed(Float.MAX_VALUE);
+		}
+	}
+
+	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent e) {
 		if(!e.player.world.isRemote) {
 			IRPG rpg = RPGCapabilityProvider.get(e.player);
@@ -62,7 +74,7 @@ public class EventHandler {
 			if(!stack.isEmpty() && stack.getItem() == Items.DIAMOND)
 				if(e.getEntityPlayer().getUniqueID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
 					IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
-					if(rpg != null) {
+					if(rpg != null && (rpg.getJob() == null || rpg.getJob() != null && !(rpg.getJob() instanceof JobGod))) {
 						stack.shrink(1);
 						rpg.setJob(e.getEntityPlayer(), new JobGod(e.getEntityPlayer()));
 					}

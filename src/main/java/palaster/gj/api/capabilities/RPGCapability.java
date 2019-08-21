@@ -133,6 +133,8 @@ public static class RPGCapabilityDefault implements IRPG {
 		@Override
 		public void setJob(EntityPlayer player, IRPGJob job) {
 			if(this.job != null) {
+				if(this.job.getJobName().equals(job.getJobName()))
+					return;
 				if(this.job.canLeave()) {
 					if(player != null)
 						this.job.leaveJob(player);

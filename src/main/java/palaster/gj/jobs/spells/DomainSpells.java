@@ -1,6 +1,6 @@
 package palaster.gj.jobs.spells;
 
-import palaster.gj.jobs.JobCleric.EnumDomain;
+import palaster.gj.api.EnumDomain;
 
 import java.util.ArrayList;
 

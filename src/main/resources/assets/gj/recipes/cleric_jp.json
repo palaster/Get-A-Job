@@ -2,19 +2,19 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-	  "item": "gj:job_pamphlet"
-	},
+      "item": "gj:job_pamphlet"
+    },
     {
-	  "item": "gj:cleric_staff"
-	},
-	{
-	  "item": "minecraft:book"
-	}
+      "item": "gj:cleric_staff"
+    },
+    {
+      "item": "minecraft:book"
+    }
   ],
   "result": {
     "nbt": {
-	  "JobPamphletJobClass": "palaster.gj.jobs.JobCleric"
-	},
+      "JobPamphletJobClass": "palaster.gj.jobs.JobCleric"
+    },
     "item": "gj:job_pamphlet"
   }
 }
