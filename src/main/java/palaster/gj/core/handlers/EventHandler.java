@@ -11,6 +11,8 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -19,13 +21,19 @@ import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickItem;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import palaster.gj.api.capabilities.IRPG;
-import palaster.gj.api.capabilities.RPGCapability;
 import palaster.gj.api.capabilities.RPGCapability.RPGCapabilityProvider;
 import palaster.gj.blocks.GJBlocks;
+import palaster.gj.client.renderers.RenderSpineShooter;
+import palaster.gj.entities.EntitySpineShooter;
 import palaster.gj.items.GJItems;
 import palaster.gj.jobs.JobCleric;
 import palaster.gj.jobs.JobGod;
@@ -177,6 +185,18 @@ public class EventHandler {
 				GJItems.CLERIC_STAFF,
 				GJItems.BLOOD_BOOK,
 				GJItems.HAND,
+				GJItems.HERB_SACK,
 				GJItems.TEST);
+	}
+
+	@SubscribeEvent
+	public static void registerEntitites(RegistryEvent.Register<EntityEntry> e) throws Exception {
+		e.getRegistry().registerAll(EntityEntryBuilder.create().entity(EntitySpineShooter.class).id(new ResourceLocation(LibMod.MODID), 0).name("spine_shooter").egg(0x00FF00, 0x0000FF).tracker(64, 20, false).build());
+	}
+
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public static void registerRenderers(ModelRegistryEvent e) throws Exception {
+		RenderingRegistry.registerEntityRenderingHandler(EntitySpineShooter.class, RenderSpineShooter::new);
 	}
 }

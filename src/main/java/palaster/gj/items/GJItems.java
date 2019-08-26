@@ -14,5 +14,6 @@ public class GJItems {
 			CLERIC_STAFF = new ItemClericStaff(),
 			BLOOD_BOOK = new ItemBloodBook(),
 			HAND = new ItemHand(),
+			HERB_SACK = new ItemHerbSack(),
 			TEST = new ItemTest();
 }

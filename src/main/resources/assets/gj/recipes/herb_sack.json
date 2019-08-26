@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " y ",
+    "x x",
+    " x "
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "minecraft:leather"
+    },
+    "y":
+    {
+      "type":"forge:ore_dict",
+      "ore": "treeSapling"
+    }
+  },
+  "result": {
+    "item": "gj:herb_sack"
+  }
+}

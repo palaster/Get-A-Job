@@ -8,13 +8,14 @@ tile.altar.life.name=Life Altar
 item.rpg_intro.name=An Introduction Guide To RPGs
 item.job_pamphlet.name=Job Pamphlet
 item.pink_slip.name=Pink Slip
+item.gj_material.congealed_blood.name=Congealed Blood
 item.cleric_staff.name=Cleric Staff
 item.hand.name=Hand
 item.blood_book.name=Blood Book
-
-item.gj_material.congealed_blood.name=Congealed Blood
-
+item.herb_sack.name=Herb Sack
 item.test.name=Test
+
+entity.spine_shooter.name=Spine Shooter
 
 gj.expCost=XP Cost
 
@@ -38,6 +39,8 @@ gj.job.bloodSorcerer.spell.0=Drain
 
 gj.job.botanist=Botanist
 
+gj.job.botanist.spell.0=Summon Spine Shooter
+
 gj.job.cleric=Cleric
 gj.job.cleric.domain=Domain
 
@@ -49,5 +52,3 @@ gj.job.cleric.spell.life.0=Growth
 gj.job.cleric.spell.life.1=Heal
 
 gj.job.god=God
-
-gj.job.workshopWitch=Workshop Witch
