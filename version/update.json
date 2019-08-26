@@ -10,7 +10,8 @@
 		"0.0.4"
     },
 	"1.12.2": {
-		"0.0.4"
+		"0.0.4",
+		"0.0.5"
 	},
     "homepage": "https://minecraft.curseforge.com/projects/get-a-job",
     "promos": {
@@ -18,7 +19,7 @@
         "1.10.2-recommended": "0.0.3",
         "1.11.2-latest": "0.0.4",
         "1.11.2-recommended": "0.0.4",
-		"1.12.2-latest": "0.0.4",
-        "1.12.2-recommended": "0.0.4"
+		"1.12.2-latest": "0.0.5",
+        "1.12.2-recommended": "0.0.5"
     }
 }
