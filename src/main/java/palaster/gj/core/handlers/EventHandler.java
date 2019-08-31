@@ -9,8 +9,10 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -22,6 +24,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickItem
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
@@ -40,6 +43,7 @@ import palaster.gj.jobs.JobGod;
 import palaster.gj.jobs.abilities.Abilities;
 import palaster.gj.libs.LibMod;
 import palaster.libpal.api.ISpecialItemBlock;
+import palaster.libpal.core.helpers.PlayerHelper;
 
 import java.lang.reflect.Field;
 
@@ -85,6 +89,7 @@ public class EventHandler {
 					if(rpg != null && (rpg.getJob() == null || rpg.getJob() != null && !(rpg.getJob() instanceof JobGod))) {
 						stack.shrink(1);
 						rpg.setJob(e.getEntityPlayer(), new JobGod(e.getEntityPlayer()));
+						FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().sendMessage(new TextComponentString("§2§l§nA God has Awakened Among You."));
 					}
 				}
 		}

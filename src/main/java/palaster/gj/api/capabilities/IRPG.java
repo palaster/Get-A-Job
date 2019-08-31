@@ -15,6 +15,8 @@ public interface IRPG {
 	void setDexterity(EntityPlayer player, int amt);
 	
 	void setIntelligence(int amt);
+
+	void setExperienceSaved(int amt);
 	
 	void setMagick(int amt);
 	
@@ -29,6 +31,8 @@ public interface IRPG {
 	int getDexterity();
 	
 	int getIntelligence();
+
+	int getExperienceSaved();
 
 	int getLevel();
 		

@@ -30,6 +30,7 @@ public static class RPGCapabilityDefault implements IRPG {
 			TAG_INT_DEFENSE = "DefenseInteger",
 			TAG_INT_DEXTERITY = "DexterityInteger",
 			TAG_INT_INTELLIGENCE = "IntelligenceInteger",
+			TAG_INT_EXPERIENCE_SAVED = "ExperienceSaved",
 			TAG_INT_MAGICK = "MagickInteger";
 		public static final int MAX_LEVEL = 99;
 
@@ -43,6 +44,7 @@ public static class RPGCapabilityDefault implements IRPG {
 			defense = 0,
 			dexterity = 0,
 			intelligence = 0,
+			experienceSaved = 0,
 			magick = 0;
 
 		@Override
@@ -121,6 +123,9 @@ public static class RPGCapabilityDefault implements IRPG {
 		}
 
 		@Override
+		public void setExperienceSaved(int amt) { experienceSaved = amt; }
+
+		@Override
 		public void setMagick(int amt) {
 			if(amt > getMaxMagick())
 				magick = getMaxMagick();
@@ -166,6 +171,9 @@ public static class RPGCapabilityDefault implements IRPG {
 		public int getIntelligence() { return job != null ? job.overrideIntelligence() ? job.getOverrideIntelligence() : intelligence : intelligence; }
 
 		@Override
+		public int getExperienceSaved() { return experienceSaved; }
+
+		@Override
 		public int getLevel() { return constitution + strength + defense + dexterity + intelligence; }
 
 		@Override
@@ -185,6 +193,7 @@ public static class RPGCapabilityDefault implements IRPG {
 			nbt.setInteger(TAG_INT_DEFENSE, defense);
 			nbt.setInteger(TAG_INT_DEXTERITY, dexterity);
 			nbt.setInteger(TAG_INT_INTELLIGENCE, intelligence);
+			nbt.setInteger(TAG_INT_EXPERIENCE_SAVED, experienceSaved);
 			nbt.setInteger(TAG_INT_MAGICK, magick);
 			if(job != null && job.getClass() != null && !job.getClass().getName().isEmpty()) {
 				nbt.setString(TAG_STRING_CLASS, job.getClass().getName());
@@ -204,6 +213,7 @@ public static class RPGCapabilityDefault implements IRPG {
 			setDefense(nbt.getInteger(TAG_INT_DEFENSE));
 			setDexterity(player, nbt.getInteger(TAG_INT_DEXTERITY));
 			setIntelligence(nbt.getInteger(TAG_INT_INTELLIGENCE));
+			setExperienceSaved(nbt.getInteger(TAG_INT_EXPERIENCE_SAVED));
 			setMagick(nbt.getInteger(TAG_INT_MAGICK));
 			if(nbt.hasKey(TAG_STRING_CLASS) && !nbt.getString(TAG_STRING_CLASS).isEmpty()) {
 				try {
@@ -225,7 +235,7 @@ public static class RPGCapabilityDefault implements IRPG {
 	    	final IRPG rpg = RPGCapabilityProvider.get(player);
 	    	if(rpg != null) {
 	    		int rpgLevel = (rpg.getConstitution() + rpg.getStrength() + rpg.getDefense() + rpg.getDexterity() + rpg.getIntelligence());
-	    		return rpgLevel <= 0 ? 1 : (int) (rpgLevel * 1.2);
+	    		return rpgLevel <= 0 ? 1 : (int) (rpgLevel * 1.2) - rpg.getExperienceSaved();
 	    	}
 	        return 0;
 	    }

@@ -48,6 +48,7 @@ public class ItemRPGIntro extends ItemModSpecial implements IReceiveButton {
 						else if(RPGCapabilityDefault.getExperienceCostForNextLevel(player) > 0)
 							player.addExperienceLevel(-RPGCapabilityDefault.getExperienceCostForNextLevel(player));
 						rpg.setConstitution(player, rpg.getConstitution() + 1);
+						rpg.setExperienceSaved(0);
 						CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
 					}
 					break;
@@ -59,6 +60,7 @@ public class ItemRPGIntro extends ItemModSpecial implements IReceiveButton {
 						else if(RPGCapabilityDefault.getExperienceCostForNextLevel(player) > 0)
 							player.addExperienceLevel(-RPGCapabilityDefault.getExperienceCostForNextLevel(player));
 						rpg.setStrength(rpg.getStrength() + 1);
+						rpg.setExperienceSaved(0);
 						CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
 					}
 					break;
@@ -70,6 +72,7 @@ public class ItemRPGIntro extends ItemModSpecial implements IReceiveButton {
 						else if(RPGCapabilityDefault.getExperienceCostForNextLevel(player) > 0)
 							player.addExperienceLevel(-RPGCapabilityDefault.getExperienceCostForNextLevel(player));
 						rpg.setDefense(rpg.getDefense() + 1);
+						rpg.setExperienceSaved(0);
 						CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
 					}
 					break;
@@ -81,6 +84,7 @@ public class ItemRPGIntro extends ItemModSpecial implements IReceiveButton {
 						else if(RPGCapabilityDefault.getExperienceCostForNextLevel(player) > 0)
 							player.addExperienceLevel(-RPGCapabilityDefault.getExperienceCostForNextLevel(player));
 						rpg.setDexterity(player, rpg.getDexterity() + 1);
+						rpg.setExperienceSaved(0);
 						CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
 					}
 					break;
@@ -92,6 +96,15 @@ public class ItemRPGIntro extends ItemModSpecial implements IReceiveButton {
 						else if(RPGCapabilityDefault.getExperienceCostForNextLevel(player) > 0)
 							player.addExperienceLevel(-RPGCapabilityDefault.getExperienceCostForNextLevel(player));
 						rpg.setIntelligence(rpg.getIntelligence() + 1);
+						rpg.setExperienceSaved(0);
+						CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
+					}
+					break;
+				}
+				case 5: {
+					if(player.experienceLevel >= 1 && RPGCapabilityDefault.getExperienceCostForNextLevel(player) > 1) {
+						player.addExperienceLevel(-1);
+						rpg.setExperienceSaved(rpg.getExperienceSaved() + 1);
 						CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
 					}
 					break;

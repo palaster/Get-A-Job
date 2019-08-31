@@ -75,6 +75,7 @@ public class GuiRPGIntro extends GuiContainer {
         buttonList.add(new GuiButton(2, guiLeft + 82, guiTop + 46, 12, 10, "->"));
         buttonList.add(new GuiButton(3, guiLeft + 82, guiTop + 56, 12, 10, "->"));
         buttonList.add(new GuiButton(4, guiLeft + 82, guiTop + 66, 12, 10, "->"));
+		buttonList.add(new GuiButton(5, guiLeft + 82, guiTop + 76, 12, 10, "->"));
 	}
 	
 	@Override
