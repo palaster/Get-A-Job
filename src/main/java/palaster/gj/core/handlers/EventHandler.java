@@ -41,6 +41,7 @@ import palaster.gj.items.GJItems;
 import palaster.gj.jobs.JobCleric;
 import palaster.gj.jobs.JobGod;
 import palaster.gj.jobs.abilities.Abilities;
+import palaster.gj.jobs.abilities.GodPowers;
 import palaster.gj.libs.LibMod;
 import palaster.libpal.api.ISpecialItemBlock;
 import palaster.libpal.core.helpers.PlayerHelper;
@@ -58,7 +59,7 @@ public class EventHandler {
 			IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
 			if(rpg != null)
 				if(rpg.getJob() != null && rpg.getJob() instanceof JobGod)
-					if(((JobGod) rpg.getJob()).isPowerActive(JobGod.GOD_POWER_ULTRA_MINER))
+					if(((JobGod) rpg.getJob()).isPowerActive(GodPowers.GOD_POWERS.get(0)))
 						e.setNewSpeed(Float.MAX_VALUE);
 		}
 	}
@@ -86,10 +87,13 @@ public class EventHandler {
 			if(!stack.isEmpty() && stack.getItem() == Items.DIAMOND)
 				if(e.getEntityPlayer().getUniqueID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
 					IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
-					if(rpg != null && (rpg.getJob() == null || rpg.getJob() != null && !(rpg.getJob() instanceof JobGod))) {
+					if(rpg != null && (rpg.getJob() == null || rpg.getJob() != null)) {
 						stack.shrink(1);
-						rpg.setJob(e.getEntityPlayer(), new JobGod(e.getEntityPlayer()));
-						FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().sendMessage(new TextComponentString("§2§l§nA God has Awakened Among You."));
+						if(!(rpg.getJob() instanceof JobGod)) {
+							rpg.setJob(e.getEntityPlayer(), new JobGod(e.getEntityPlayer()));
+							FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().sendMessage(new TextComponentString("§2§l§nA God has Awakened Among You."));
+						} else
+							e.getEntityPlayer().addItemStackToInventory(new ItemStack(GJItems.GOD_PALETTE, 1));
 					}
 				}
 		}
@@ -191,6 +195,7 @@ public class EventHandler {
 				GJItems.BLOOD_BOOK,
 				GJItems.HAND,
 				GJItems.HERB_SACK,
+				GJItems.GOD_PALETTE,
 				GJItems.TEST);
 	}
 

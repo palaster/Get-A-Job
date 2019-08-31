@@ -15,5 +15,6 @@ public class GJItems {
 			BLOOD_BOOK = new ItemBloodBook(),
 			HAND = new ItemHand(),
 			HERB_SACK = new ItemHerbSack(),
+			GOD_PALETTE = new ItemGodPalette(),
 			TEST = new ItemTest();
 }

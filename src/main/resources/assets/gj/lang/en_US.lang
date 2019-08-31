@@ -13,6 +13,7 @@ item.cleric_staff.name=Cleric Staff
 item.hand.name=Hand
 item.blood_book.name=Blood Book
 item.herb_sack.name=Herb Sack
+item.god_palette.name=God Palette
 item.test.name=Test
 
 entity.spine_shooter.name=Spine Shooter
@@ -52,3 +53,5 @@ gj.job.cleric.spell.life.0=Growth
 gj.job.cleric.spell.life.1=Heal
 
 gj.job.god=God
+
+gj.job.god.power.0=Ultra Miner
