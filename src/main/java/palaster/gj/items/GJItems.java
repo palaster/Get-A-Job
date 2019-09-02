@@ -1,8 +1,11 @@
 package palaster.gj.items;
 
 import net.minecraft.item.Item;
+import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import palaster.gj.libs.LibMod;
+
+import static palaster.gj.items.GJToolMaterials.MATH_MATERIAL;
 
 @ObjectHolder(LibMod.MODID)
 public class GJItems {
@@ -16,5 +19,6 @@ public class GJItems {
 			HAND = new ItemHand(),
 			HERB_SACK = new ItemHerbSack(),
 			GOD_PALETTE = new ItemGodPalette(),
+			MATH_SWORD = new ItemGJSword(MATH_MATERIAL),
 			TEST = new ItemTest();
 }

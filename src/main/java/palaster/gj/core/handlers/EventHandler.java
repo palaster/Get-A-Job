@@ -5,6 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -36,6 +37,7 @@ import palaster.gj.api.capabilities.IRPG;
 import palaster.gj.api.capabilities.RPGCapability.RPGCapabilityProvider;
 import palaster.gj.blocks.GJBlocks;
 import palaster.gj.client.renderers.RenderSpineShooter;
+import palaster.gj.damage_sources.GJDamageSources;
 import palaster.gj.entities.EntitySpineShooter;
 import palaster.gj.items.GJItems;
 import palaster.gj.jobs.JobCleric;
@@ -84,16 +86,16 @@ public class EventHandler {
 	public void onPlayerInteract(RightClickItem e) {
 		if(!e.getWorld().isRemote) {
 			ItemStack stack = e.getEntityPlayer().getHeldItem(e.getHand());
-			if(!stack.isEmpty() && stack.getItem() == Items.DIAMOND)
+			if(!stack.isEmpty() && stack.getItem() == Item.getItemFromBlock(Blocks.DIAMOND_BLOCK))
 				if(e.getEntityPlayer().getUniqueID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
 					IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
 					if(rpg != null && (rpg.getJob() == null || rpg.getJob() != null)) {
 						stack.shrink(1);
 						if(!(rpg.getJob() instanceof JobGod)) {
-							rpg.setJob(e.getEntityPlayer(), new JobGod(e.getEntityPlayer()));
+							rpg.setJob(e.getEntityPlayer(), new JobGod());
 							FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().sendMessage(new TextComponentString("§2§l§nA God has Awakened Among You."));
-						} else
-							e.getEntityPlayer().addItemStackToInventory(new ItemStack(GJItems.GOD_PALETTE, 1));
+						}
+						e.getEntityPlayer().addItemStackToInventory(new ItemStack(GJItems.GOD_PALETTE, 1));
 					}
 				}
 		}
@@ -117,7 +119,7 @@ public class EventHandler {
 				if(rpg != null) {
 					if(!e.getSource().isDamageAbsolute())
 						e.setAmount(e.getAmount() * ((100f - rpg.getDefense()) / 100));
-					if(rpg.getJob() != null && rpg.getJob() instanceof JobGod)
+					if(rpg.getJob() != null && rpg.getJob() instanceof JobGod && !(e.getSource().getTrueSource() instanceof EntityPlayer && ((EntityPlayer) e.getSource().getTrueSource()).getHeldItemMainhand().getItem() == GJItems.MATH_SWORD))
 						e.setCanceled(true);
 				}
 			}
@@ -196,6 +198,7 @@ public class EventHandler {
 				GJItems.HAND,
 				GJItems.HERB_SACK,
 				GJItems.GOD_PALETTE,
+				GJItems.MATH_SWORD,
 				GJItems.TEST);
 	}
 

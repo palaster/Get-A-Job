@@ -18,14 +18,9 @@ public class JobGod implements IRPGJob {
 	private EnumDomain domain = null;
 	private HashMap<String, Boolean> godPowers = new HashMap<>();
 
-	public JobGod(EntityPlayer player) {
+	public JobGod() {
 		for(String godPower : GodPowers.GOD_POWERS)
 			godPowers.put(godPower, false);
-		if(!player.isSpectator() && !player.capabilities.isCreativeMode)
-			if(!player.capabilities.allowFlying) {
-				player.capabilities.allowFlying = true;
-				player.sendPlayerAbilities();
-			}
 	}
 
 	public void setDomain(EnumDomain domain) { this.domain = domain; }
@@ -36,28 +31,6 @@ public class JobGod implements IRPGJob {
 	public boolean isPowerActive(String power) { return godPowers.getOrDefault(power, false); }
 
 	public void setPower(String power, boolean activate) { godPowers.put(power, activate); }
-
-	@Override
-	public void leaveJob(EntityPlayer player) {
-		godPowers.clear();
-		if(!player.isSpectator() && !player.capabilities.isCreativeMode) {
-			player.capabilities.allowFlying = false;
-			player.capabilities.isFlying = false;
-			player.sendPlayerAbilities();
-		}
-	}
-
-	@Override
-	public boolean doUpdate() { return true; }
-
-	@Override
-	public void update(IRPG rpg, EntityPlayer player) {
-		if(!player.isSpectator() && !player.capabilities.isCreativeMode)
-			if(!player.capabilities.allowFlying) {
-				player.capabilities.allowFlying = true;
-				player.sendPlayerAbilities();
-			}
-	}
 
 	@Override
 	public String getJobName() { return "gj.job.god"; }

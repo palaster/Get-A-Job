@@ -14,6 +14,7 @@ item.hand.name=Hand
 item.blood_book.name=Blood Book
 item.herb_sack.name=Herb Sack
 item.god_palette.name=God Palette
+item.math_sword.name=Math Sword
 item.test.name=Test
 
 entity.spine_shooter.name=Spine Shooter
