@@ -203,13 +203,13 @@ public class EventHandler {
 	}
 
 	@SubscribeEvent
-	public static void registerEntitites(RegistryEvent.Register<EntityEntry> e) throws Exception {
+	public static void registerEntitites(RegistryEvent.Register<EntityEntry> e) {
 		e.getRegistry().registerAll(EntityEntryBuilder.create().entity(EntitySpineShooter.class).id(new ResourceLocation(LibMod.MODID), 0).name("spine_shooter").egg(0x00FF00, 0x0000FF).tracker(64, 20, false).build());
 	}
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
-	public static void registerRenderers(ModelRegistryEvent e) throws Exception {
+	public static void registerRenderers(ModelRegistryEvent e) {
 		RenderingRegistry.registerEntityRenderingHandler(EntitySpineShooter.class, RenderSpineShooter::new);
 	}
 }
