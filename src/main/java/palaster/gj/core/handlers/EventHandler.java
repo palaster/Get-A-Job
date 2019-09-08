@@ -6,16 +6,14 @@ import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -37,7 +35,6 @@ import palaster.gj.api.capabilities.IRPG;
 import palaster.gj.api.capabilities.RPGCapability.RPGCapabilityProvider;
 import palaster.gj.blocks.GJBlocks;
 import palaster.gj.client.renderers.RenderSpineShooter;
-import palaster.gj.damage_sources.GJDamageSources;
 import palaster.gj.entities.EntitySpineShooter;
 import palaster.gj.items.GJItems;
 import palaster.gj.jobs.JobCleric;
@@ -46,7 +43,6 @@ import palaster.gj.jobs.abilities.Abilities;
 import palaster.gj.jobs.abilities.GodPowers;
 import palaster.gj.libs.LibMod;
 import palaster.libpal.api.ISpecialItemBlock;
-import palaster.libpal.core.helpers.PlayerHelper;
 
 import java.lang.reflect.Field;
 
@@ -146,13 +142,14 @@ public class EventHandler {
 
 	@SubscribeEvent
 	public void onHarvestDrops(HarvestDropsEvent e) {
-		if(e.getHarvester() != null) {
+		if(e.getHarvester() != null && e.getWorld() != null && e.getPos() != null && e.getState() != null) {
 			IRPG rpg = RPGCapabilityProvider.get(e.getHarvester());
 			if (rpg != null)
-				if (Abilities.BOUNTIFUL_HARVEST.isAvailable(rpg))
+				if (e.getState().getBlock() instanceof IPlantable)
 					for(int i = 0; i < e.getDrops().size(); i++)
-						if(e.getDrops().get(i).getMaxStackSize() > e.getDrops().get(i).getCount() * 2)
-							e.getDrops().get(i).setCount(e.getDrops().get(i).getCount() * 2);
+						if (Abilities.BOUNTIFUL_HARVEST.isAvailable(rpg))
+							if(e.getDrops().get(i).getMaxStackSize() > e.getDrops().get(i).getCount() * 2)
+								e.getDrops().get(i).setCount(e.getDrops().get(i).getCount() * 2);
 		}
 	}
 
