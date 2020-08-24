@@ -27,7 +27,7 @@ minecraft {
 }
 
 dependencies {
-	// compile files("Path to a jar of LibPal")
+	//compile files("path/to/LibPal.jar")
 }
 
 processResources {

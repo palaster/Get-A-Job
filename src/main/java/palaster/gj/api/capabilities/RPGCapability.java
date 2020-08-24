@@ -11,12 +11,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import palaster.gj.api.jobs.IRPGJob;
-import palaster.gj.core.proxy.CommonProxy;
-import palaster.gj.jobs.JobGod;
 import palaster.libpal.core.helpers.PlayerHelper;
 
 public class RPGCapability {
@@ -31,13 +31,17 @@ public static class RPGCapabilityDefault implements IRPG {
 			TAG_INT_DEXTERITY = "DexterityInteger",
 			TAG_INT_INTELLIGENCE = "IntelligenceInteger",
 			TAG_INT_EXPERIENCE_SAVED = "ExperienceSaved",
-			TAG_INT_MAGICK = "MagickInteger";
+			TAG_INT_MAGICK = "MagickInteger",
+			TAG_UUID_PLAYER = "RPGPlayer";
 		public static final int MAX_LEVEL = 99;
 
 		public static final UUID HEALTH_ID = UUID.fromString("c6531f9f-b737-4cb6-aea1-fd01c25606be"),
 			DEXTERITY_ID = UUID.fromString("d0ff0df9-9f9c-491d-9d9c-5997b5d5ba22");
 
 		private IRPGJob job = null;
+		
+		private SoftReference<EntityPlayer> p;
+		private UUID playerUUID = null;
 		
 		private int constitution = 0,
 			strength = 0,
@@ -47,8 +51,15 @@ public static class RPGCapabilityDefault implements IRPG {
 			experienceSaved = 0,
 			magick = 0;
 
+		public RPGCapabilityDefault(EntityPlayer player) {
+			if(player != null) {
+				p = new SoftReference<EntityPlayer>(player);
+				playerUUID = player.getUniqueID();
+			}
+		}
+		
 		@Override
-		public void setConstitution(EntityPlayer player, int amt) {
+		public void setConstitution(int amt) {
 			if(amt > MAX_LEVEL)
 				constitution = MAX_LEVEL;
 			else if(amt <= 0)
@@ -57,14 +68,18 @@ public static class RPGCapabilityDefault implements IRPG {
 				constitution = amt;
 			constitution = job != null ? job.overrideConstitution() ? job.getOverrideConstitution() : constitution : constitution;
 			if(constitution <= 0) {
-    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
-    			if(iAttributeInstance.getModifier(HEALTH_ID) != null)
-    				iAttributeInstance.removeModifier(iAttributeInstance.getModifier(HEALTH_ID));
+				if(p != null && p.get() != null) {
+					IAttributeInstance iAttributeInstance = p.get().getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
+	    			if(iAttributeInstance.getModifier(HEALTH_ID) != null)
+	    				iAttributeInstance.removeModifier(iAttributeInstance.getModifier(HEALTH_ID));
+				}
     		} else {
-    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
-    			if(iAttributeInstance.getModifier(HEALTH_ID) != null)
-    				iAttributeInstance.removeModifier(iAttributeInstance.getModifier(HEALTH_ID));
-                iAttributeInstance.applyModifier(new AttributeModifier(HEALTH_ID, "gj.rpg.constitution", constitution * .4, 0));
+    			if(p != null && p.get() != null) {
+	    			IAttributeInstance iAttributeInstance = p.get().getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MAX_HEALTH);
+	    			if(iAttributeInstance.getModifier(HEALTH_ID) != null)
+	    				iAttributeInstance.removeModifier(iAttributeInstance.getModifier(HEALTH_ID));
+	                iAttributeInstance.applyModifier(new AttributeModifier(HEALTH_ID, "gj.rpg.constitution", constitution * .4, 0));
+    			}
     		}
 		}
 
@@ -91,7 +106,7 @@ public static class RPGCapabilityDefault implements IRPG {
 		}
 		
 		@Override
-		public void setDexterity(EntityPlayer player, int amt) {
+		public void setDexterity(int amt) {
 			if(amt > MAX_LEVEL)
 				dexterity = MAX_LEVEL;
 			else if(amt <= 0)
@@ -100,14 +115,18 @@ public static class RPGCapabilityDefault implements IRPG {
 				dexterity = amt;
 			dexterity = job != null ? job.overrideDexterity() ? job.getOverrideDexterity() : dexterity : dexterity;
 			if(dexterity <= 0) {
-    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED);
-    			if(iAttributeInstance.getModifier(DEXTERITY_ID) != null)
-                	iAttributeInstance.removeModifier(iAttributeInstance.getModifier(DEXTERITY_ID));
+				if(p != null && p.get() != null) {
+	    			IAttributeInstance iAttributeInstance = p.get().getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED);
+	    			if(iAttributeInstance.getModifier(DEXTERITY_ID) != null)
+	                	iAttributeInstance.removeModifier(iAttributeInstance.getModifier(DEXTERITY_ID));
+				}
     		} else {
-    			IAttributeInstance iAttributeInstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED);
-    			if(iAttributeInstance.getModifier(DEXTERITY_ID) != null)
-                	iAttributeInstance.removeModifier(iAttributeInstance.getModifier(DEXTERITY_ID));
-                iAttributeInstance.applyModifier(new AttributeModifier(DEXTERITY_ID, "gj.rpg.dexterity", dexterity * .008, 0));
+    			if(p != null && p.get() != null) {
+	    			IAttributeInstance iAttributeInstance = p.get().getAttributeMap().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED);
+	    			if(iAttributeInstance.getModifier(DEXTERITY_ID) != null)
+	                	iAttributeInstance.removeModifier(iAttributeInstance.getModifier(DEXTERITY_ID));
+	                iAttributeInstance.applyModifier(new AttributeModifier(DEXTERITY_ID, "gj.rpg.dexterity", dexterity * .008, 0));
+    			}
     		}
 		}
 
@@ -136,22 +155,33 @@ public static class RPGCapabilityDefault implements IRPG {
 		}
 
 		@Override
-		public void setJob(EntityPlayer player, IRPGJob job) {
-			if(this.job != null) {
-				if(this.job.getJobName().equals(job.getJobName()))
-					return;
-				if(this.job.canLeave()) {
-					if(player != null)
-						this.job.leaveJob(player);
+		public void setJob(IRPGJob job) {
+			if(job != null) {
+				if(this.job != null) {
+					if(this.job.getJobName().equals(job.getJobName()))
+						return;
+					if(this.job.canLeave()) {
+						if(p != null && p.get() != null)
+							this.job.leaveJob(p.get());
+						this.job = job;
+							if(p != null && p.get() != null)
+								this.job.updatePlayerAttributes(p.get());
+					} else if(p != null && p.get() != null)
+						PlayerHelper.sendChatMessageToPlayer(p.get(), "You can't leave these responsibilities.");
+				} else {
 					this.job = job;
-					if(this.job != null)
-						this.job.updatePlayerAttributes(player);
-				} else
-					PlayerHelper.sendChatMessageToPlayer(player, "You can't leave these responsibilities.");
+					if(p != null && p.get() != null)
+						this.job.updatePlayerAttributes(p.get());
+				}
 			} else {
-				this.job = job;
-				if(this.job != null)
-					this.job.updatePlayerAttributes(player);
+				if(this.job != null) {
+					if(this.job.canLeave()) {
+						if(p != null && p.get() != null)
+							this.job.leaveJob(p.get());
+						this.job = job;
+					} else if(p != null && p.get() != null)
+						PlayerHelper.sendChatMessageToPlayer(p.get(), "You can't leave these responsibilities.");
+				}
 			}
 		}
 
@@ -195,6 +225,7 @@ public static class RPGCapabilityDefault implements IRPG {
 			nbt.setInteger(TAG_INT_INTELLIGENCE, intelligence);
 			nbt.setInteger(TAG_INT_EXPERIENCE_SAVED, experienceSaved);
 			nbt.setInteger(TAG_INT_MAGICK, magick);
+			nbt.setUniqueId(TAG_UUID_PLAYER, playerUUID);
 			if(job != null && job.getClass() != null && !job.getClass().getName().isEmpty()) {
 				nbt.setString(TAG_STRING_CLASS, job.getClass().getName());
 				nbt.setTag(TAG_JOB, job.serializeNBT());
@@ -207,28 +238,34 @@ public static class RPGCapabilityDefault implements IRPG {
 		}
 
 		@Override
-		public void loadNBT(EntityPlayer player, NBTTagCompound nbt) {
-			setConstitution(player, nbt.getInteger(TAG_INT_CONSTITUTION));
+		public void loadNBT(NBTTagCompound nbt) {
+			setConstitution(nbt.getInteger(TAG_INT_CONSTITUTION));
 			setStrength(nbt.getInteger(TAG_INT_STRENGTH));
 			setDefense(nbt.getInteger(TAG_INT_DEFENSE));
-			setDexterity(player, nbt.getInteger(TAG_INT_DEXTERITY));
+			setDexterity(nbt.getInteger(TAG_INT_DEXTERITY));
 			setIntelligence(nbt.getInteger(TAG_INT_INTELLIGENCE));
 			setExperienceSaved(nbt.getInteger(TAG_INT_EXPERIENCE_SAVED));
 			setMagick(nbt.getInteger(TAG_INT_MAGICK));
+			playerUUID = nbt.getUniqueId(TAG_UUID_PLAYER);
+			for(WorldServer ws : DimensionManager.getWorlds())
+				if(ws.getEntityFromUuid(playerUUID) != null) {
+					p = new SoftReference<EntityPlayer>((EntityPlayer) ws.getEntityFromUuid(playerUUID));
+					break;
+				}
 			if(nbt.hasKey(TAG_STRING_CLASS) && !nbt.getString(TAG_STRING_CLASS).isEmpty()) {
 				try {
-					Object obj = nbt.getString(TAG_STRING_CLASS).equals(JobGod.class.getName()) ? Class.forName(nbt.getString(TAG_STRING_CLASS)).getConstructor(EntityPlayer.class).newInstance(player) : Class.forName(nbt.getString(TAG_STRING_CLASS)).newInstance();
+					Object obj = Class.forName(nbt.getString(TAG_STRING_CLASS)).newInstance();
 					if(obj != null && obj instanceof IRPGJob) {
 						if(nbt.hasKey(TAG_JOB) && nbt.getCompoundTag(TAG_JOB) != null)
 							((IRPGJob) obj).deserializeNBT(nbt.getCompoundTag(TAG_JOB));
-						setJob(player, (IRPGJob) obj);
+						setJob((IRPGJob) obj);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 			else
-				setJob(player, null);
+				setJob(null);
 		}
 
 	    public static int getExperienceCostForNextLevel(EntityPlayer player) {
@@ -243,7 +280,7 @@ public static class RPGCapabilityDefault implements IRPG {
 	
 	public static class RPGCapabilityFactory implements Callable<IRPG> {
 		@Override
-	    public IRPG call() throws Exception { return new RPGCapabilityDefault(); }
+	    public IRPG call() throws Exception { return new RPGCapabilityDefault(null); }
 	}
 	
 	public static class RPGCapabilityProvider implements ICapabilitySerializable<NBTTagCompound> {
@@ -251,13 +288,10 @@ public static class RPGCapabilityDefault implements IRPG {
 		@CapabilityInject(IRPG.class)
 	    public static final Capability<IRPG> RPG_CAP = null;
 		
-	    protected IRPG rpg = null;
-
-	    private final SoftReference<EntityPlayer> p;
+	    protected final IRPG rpg;
 
 	    public RPGCapabilityProvider(EntityPlayer player) {
-	    	rpg = new RPGCapabilityDefault();
-	    	p = new SoftReference<EntityPlayer>(player);
+	    	rpg = new RPGCapabilityDefault(player);
 	    }
 	    
 	    public static IRPG get(EntityPlayer player) {
@@ -280,18 +314,15 @@ public static class RPGCapabilityDefault implements IRPG {
 		public NBTTagCompound serializeNBT() { return rpg.saveNBT(); }
 
 		@Override
-		public void deserializeNBT(NBTTagCompound nbt) {
-			if(p != null && p.get() != null)
-				rpg.loadNBT(p.get(), nbt);
-		}
+		public void deserializeNBT(NBTTagCompound nbt) { rpg.loadNBT(nbt); }
 	}
 	
 	public static class RPGCapabilityStorage implements Capability.IStorage<IRPG> {
 		
 		@Override
-		public NBTBase writeNBT(Capability<IRPG> capability, IRPG instance, EnumFacing side) { return null; }
+		public NBTBase writeNBT(Capability<IRPG> capability, IRPG instance, EnumFacing side) { return instance.saveNBT(); }
 
 		@Override
-		public void readNBT(Capability<IRPG> capability, IRPG instance, EnumFacing side, NBTBase nbt) {}
+		public void readNBT(Capability<IRPG> capability, IRPG instance, EnumFacing side, NBTBase nbt) { instance.loadNBT((NBTTagCompound) nbt); }
 	}
 }

@@ -54,7 +54,7 @@ public class GuiRPGIntro extends GuiContainer {
     			fontRenderer.drawString(I18n.format("gj.job.dexterity") + ": " + rpg.getDexterity(), 6, 56, 4210752);
     			fontRenderer.drawString(I18n.format("gj.job.intelligence") + ": " + rpg.getIntelligence(), 6, 66, 4210752);
                 if(rpg.getJob() == null || !rpg.getJob().replaceMagick())
-                	fontRenderer.drawString(I18n.format("gj.job.magick") + ": " + rpg.getMagick() + "/" + rpg.getMaxMagick(), 98, 66, 4210752);
+                	fontRenderer.drawString(I18n.format("gj.job.magic") + ": " + rpg.getMagick() + "/" + rpg.getMaxMagick(), 98, 66, 4210752);
                 if(RPGCapabilityDefault.getExperienceCostForNextLevel(player.get()) > player.get().experienceLevel)
                 	fontRenderer.drawString(I18n.format("gj.expCost") + ": " + RPGCapabilityDefault.getExperienceCostForNextLevel(player.get()) + "", 6, 76, 0x8A0707);
                 else

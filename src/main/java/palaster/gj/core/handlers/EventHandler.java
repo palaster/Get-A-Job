@@ -1,6 +1,13 @@
 package palaster.gj.core.handlers;
 
+import java.lang.reflect.Field;
+
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockBeacon;
+import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
+import net.minecraft.command.CommandKill;
+import net.minecraft.command.EntityNotFoundException;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,18 +16,18 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntityBeacon;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickItem;
-import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -35,32 +42,18 @@ import palaster.gj.api.capabilities.IRPG;
 import palaster.gj.api.capabilities.RPGCapability.RPGCapabilityProvider;
 import palaster.gj.blocks.GJBlocks;
 import palaster.gj.client.renderers.RenderSpineShooter;
+import palaster.gj.core.proxy.CommonProxy;
 import palaster.gj.entities.EntitySpineShooter;
 import palaster.gj.items.GJItems;
-import palaster.gj.jobs.JobCleric;
 import palaster.gj.jobs.JobGod;
 import palaster.gj.jobs.abilities.Abilities;
-import palaster.gj.jobs.abilities.GodPowers;
 import palaster.gj.libs.LibMod;
 import palaster.libpal.api.ISpecialItemBlock;
-
-import java.lang.reflect.Field;
 
 @Mod.EventBusSubscriber(modid = LibMod.MODID)
 public class EventHandler {
 
 	int timer = 0;
-
-	@SubscribeEvent
-	public void onBreakSpeed(BreakSpeed e) {
-		if(!e.getEntityPlayer().world.isRemote) {
-			IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
-			if(rpg != null)
-				if(rpg.getJob() != null && rpg.getJob() instanceof JobGod)
-					if(((JobGod) rpg.getJob()).isPowerActive(GodPowers.GOD_POWERS.get(0)))
-						e.setNewSpeed(Float.MAX_VALUE);
-		}
-	}
 
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent e) {
@@ -79,31 +72,45 @@ public class EventHandler {
 	}
 
 	@SubscribeEvent
-	public void onPlayerInteract(RightClickItem e) {
-		if(!e.getWorld().isRemote) {
-			ItemStack stack = e.getEntityPlayer().getHeldItem(e.getHand());
-			if(!stack.isEmpty() && stack.getItem() == Item.getItemFromBlock(Blocks.DIAMOND_BLOCK))
-				if(e.getEntityPlayer().getUniqueID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
-					IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
-					if(rpg != null && (rpg.getJob() == null || rpg.getJob() != null)) {
-						stack.shrink(1);
-						if(!(rpg.getJob() instanceof JobGod)) {
-							rpg.setJob(e.getEntityPlayer(), new JobGod());
+	public void onPlayerRightClickBock(RightClickBlock e) {
+		if(!e.getWorld().isRemote && e.getWorld().getBlockState(e.getPos()) != null && e.getWorld().getBlockState(e.getPos()).getBlock() instanceof BlockBeacon && e.getWorld().getTileEntity(e.getPos()) != null && e.getWorld().getTileEntity(e.getPos()) instanceof TileEntityBeacon) {
+			BlockBeacon bb = (BlockBeacon) e.getWorld().getBlockState(e.getPos()).getBlock();
+			TileEntityBeacon teb = (TileEntityBeacon) e.getWorld().getTileEntity(e.getPos());
+			if(bb != null && teb != null && teb.getLevels() > 0) {
+				ItemStack stack = e.getEntityPlayer().getHeldItem(e.getHand());
+				if(!stack.isEmpty() && stack.getItem() == Item.getItemFromBlock(Blocks.DIAMOND_BLOCK))
+					if(e.getEntityPlayer().getUniqueID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
+						IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
+						if(rpg != null && !(rpg.getJob() instanceof JobGod)) {
+							stack.shrink(1);
+							rpg.setJob(new JobGod());
+							CommonProxy.syncPlayerRPGCapabilitiesToClient(e.getEntityPlayer());
 							FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().sendMessage(new TextComponentString("§2§l§nA God has Awakened Among You."));
+							e.setCanceled(true);
 						}
-						e.getEntityPlayer().addItemStackToInventory(new ItemStack(GJItems.GOD_PALETTE, 1));
 					}
-				}
+			}
 		}
 	}
-
-
+	
 	@SubscribeEvent
-	public void onPlayerWakeUp(PlayerWakeUpEvent e) {
-		if(!e.getEntityPlayer().world.isRemote) {
-			IRPG rpg = RPGCapabilityProvider.get(e.getEntityPlayer());
-			if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobCleric)
-				((JobCleric) rpg.getJob()).resetSpellSlots(rpg);
+	public void onCommand(CommandEvent e) {
+		if(e.getCommand() instanceof CommandKill) {
+			if(e.getSender() != null && e.getSender().getServer() != null) {
+				try {
+					Entity entity = CommandBase.getEntity(e.getSender().getServer(), e.getSender(), e.getParameters()[0]);
+					if(entity != null && entity instanceof EntityPlayer && entity.getUniqueID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
+						IRPG rpg = RPGCapabilityProvider.get((EntityPlayer) entity);
+						if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobGod)
+						{
+							e.setCanceled(true);
+							CommandBase.notifyCommandListener(e.getSender(), e.getCommand(), "commands.kill.god", new Object[] {});
+						}
+					}
+				} catch (EntityNotFoundException entityNotFoundException) {
+				} catch (CommandException commandException) {
+				}
+			}
 		}
 	}
 	
@@ -115,8 +122,12 @@ public class EventHandler {
 				if(rpg != null) {
 					if(!e.getSource().isDamageAbsolute())
 						e.setAmount(e.getAmount() * ((100f - rpg.getDefense()) / 100));
-					if(rpg.getJob() != null && rpg.getJob() instanceof JobGod && !(e.getSource().getTrueSource() instanceof EntityPlayer && ((EntityPlayer) e.getSource().getTrueSource()).getHeldItemMainhand().getItem() == GJItems.MATH_SWORD))
-						e.setCanceled(true);
+					if(rpg.getJob() != null && rpg.getJob() instanceof JobGod) {
+						EntityPlayer player = (EntityPlayer) e.getEntityLiving();
+						if(player.getFoodStats().getFoodLevel() > 0)
+							player.getFoodStats().setFoodLevel(player.getFoodStats().getFoodLevel() - e.getAmount() > 0.0f ? (int) (player.getFoodStats().getFoodLevel() - e.getAmount()) : 0);
+						e.setAmount(0.0f);
+					}
 				}
 			}
 			if(e.getEntityLiving().getCreatureAttribute() == EnumCreatureAttribute.UNDEAD)
@@ -167,13 +178,13 @@ public class EventHandler {
 			final IRPG rpgOG = RPGCapabilityProvider.get(e.getOriginal());
 			final IRPG rpgNew = RPGCapabilityProvider.get(e.getEntityPlayer());
 			if(rpgOG != null && rpgNew != null)
-				rpgNew.loadNBT(e.getEntityPlayer(), rpgOG.saveNBT());
+				rpgNew.loadNBT(rpgOG.saveNBT());
 		}
 	}
 	
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> e) {
-		e.getRegistry().registerAll(GJBlocks.altar);
+		e.getRegistry().registerAll(GJBlocks.ALTAR);
 	}
 
 	@SubscribeEvent
@@ -190,12 +201,10 @@ public class EventHandler {
 				GJItems.JOB_PAMPHLET,
 				GJItems.PINK_SLIP,
 				GJItems.GJ_MATERIAL,
-				GJItems.CLERIC_STAFF,
+				GJItems.GOSPEL,
 				GJItems.BLOOD_BOOK,
 				GJItems.HAND,
 				GJItems.HERB_SACK,
-				GJItems.GOD_PALETTE,
-				GJItems.MATH_SWORD,
 				GJItems.TEST);
 	}
 

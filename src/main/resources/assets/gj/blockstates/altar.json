@@ -1,15 +1,13 @@
 {
 	"forge_marker": 1,
 	"defaults": {
-		"textures": { "all": "gj:blocks/none_altar" },
-		"model": "cube_all"
+		"model": "cube_all",
+		"textures": { "all": "gj:blocks/altar" },
+		"uvlock": true
 	},
 	"variants": {
 		"normal": [{}],
 		"inventory": [{}],
-		"domain_type=none": [{ "textures": { "all": "gj:blocks/none_altar" } }],
-		"domain_type=creation": [{ "textures": { "all": "gj:blocks/creation_altar" } }],
-		"domain_type=community": [{ "textures": { "all": "gj:blocks/community_altar" } }],
-		"domain_type=life": [{ "textures": { "all": "gj:blocks/life_altar" } }]
+		"handlers": [{}]
 	}
 }

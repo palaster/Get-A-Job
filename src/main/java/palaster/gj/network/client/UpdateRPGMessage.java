@@ -30,7 +30,7 @@ public class UpdateRPGMessage extends AbstractMessage.AbstractClientMessage<Upda
 		if(player != null && tag != null) {
 			final IRPG rpg = RPGCapabilityProvider.get(player);
 			if(rpg != null)
-				rpg.loadNBT(player, tag);
+				rpg.loadNBT(tag);
 		}
 	}
 }

@@ -1,18 +1,17 @@
 package palaster.gj.api.capabilities;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import palaster.gj.api.jobs.IRPGJob;
 
 public interface IRPG {
 	
-	void setConstitution(EntityPlayer player, int amt);
+	void setConstitution(int amt);
 	
 	void setStrength(int amt);
 	
 	void setDefense(int amt);
 	
-	void setDexterity(EntityPlayer player, int amt);
+	void setDexterity(int amt);
 	
 	void setIntelligence(int amt);
 
@@ -20,7 +19,7 @@ public interface IRPG {
 	
 	void setMagick(int amt);
 	
-	void setJob(EntityPlayer player, IRPGJob job);
+	void setJob(IRPGJob job);
 	
 	int getConstitution();
 	
@@ -44,5 +43,5 @@ public interface IRPG {
 	
 	NBTTagCompound saveNBT();
 
-    void loadNBT(EntityPlayer player, NBTTagCompound nbt);
+    void loadNBT(NBTTagCompound nbt);
 }

@@ -27,7 +27,7 @@ public class ItemPinkSlip extends ItemModSpecial {
 			final IRPG rpg = RPGCapabilityProvider.get(playerIn);
 			if(rpg != null)
 				if(rpg.getJob() != null && rpg.getJob().canLeave()) {
-					rpg.setJob(playerIn, null);
+					rpg.setJob(null);
 					PlayerHelper.sendChatMessageToPlayer(playerIn, net.minecraft.util.text.translation.I18n.translateToLocal("gj.job.fired"));
 					CommonProxy.syncPlayerRPGCapabilitiesToClient(playerIn);
 					return ActionResult.newResult(EnumActionResult.SUCCESS, ItemStack.EMPTY);

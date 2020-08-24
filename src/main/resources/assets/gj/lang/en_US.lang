@@ -1,20 +1,17 @@
+commands.kill.god=Death does not recognize this creature anymore
+
 itemGroup.gj=Get A Job
 
-tile.altar.none.name=Altar
-tile.altar.creation.name=Creation Altar
-tile.altar.community.name=Community Altar
-tile.altar.life.name=Life Altar
+tile.altar.name=Altar
 
 item.rpg_intro.name=An Introduction Guide To RPGs
 item.job_pamphlet.name=Job Pamphlet
 item.pink_slip.name=Pink Slip
 item.gj_material.congealed_blood.name=Congealed Blood
-item.cleric_staff.name=Cleric Staff
+item.gospel.name=Gospel
 item.hand.name=Hand
 item.blood_book.name=Blood Book
 item.herb_sack.name=Herb Sack
-item.god_palette.name=God Palette
-item.math_sword.name=Math Sword
 item.test.name=Test
 
 entity.spine_shooter.name=Spine Shooter
@@ -32,7 +29,7 @@ gj.job.defense=Defense
 gj.job.dexterity=Dexterity
 gj.job.intelligence=Intelligence
 gj.job.level=Level
-gj.job.magick=Magick
+gj.job.magic=Magic
 
 gj.job.bloodSorcerer=Blood Sorcerer
 gj.job.bloodSorcerer.blood=Blood

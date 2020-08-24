@@ -47,7 +47,7 @@ public class ItemRPGIntro extends ItemModSpecial implements IReceiveButton {
 							player.addExperienceLevel(-player.experienceLevel);
 						else if(RPGCapabilityDefault.getExperienceCostForNextLevel(player) > 0)
 							player.addExperienceLevel(-RPGCapabilityDefault.getExperienceCostForNextLevel(player));
-						rpg.setConstitution(player, rpg.getConstitution() + 1);
+						rpg.setConstitution(rpg.getConstitution() + 1);
 						rpg.setExperienceSaved(0);
 						CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
 					}
@@ -83,7 +83,7 @@ public class ItemRPGIntro extends ItemModSpecial implements IReceiveButton {
 							player.addExperienceLevel(-player.experienceLevel);
 						else if(RPGCapabilityDefault.getExperienceCostForNextLevel(player) > 0)
 							player.addExperienceLevel(-RPGCapabilityDefault.getExperienceCostForNextLevel(player));
-						rpg.setDexterity(player, rpg.getDexterity() + 1);
+						rpg.setDexterity(rpg.getDexterity() + 1);
 						rpg.setExperienceSaved(0);
 						CommonProxy.syncPlayerRPGCapabilitiesToClient(player);
 					}

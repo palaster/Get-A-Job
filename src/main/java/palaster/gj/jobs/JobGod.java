@@ -2,36 +2,17 @@ package palaster.gj.jobs;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import palaster.gj.api.EnumDomain;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import palaster.gj.api.capabilities.IRPG;
 import palaster.gj.api.jobs.IRPGJob;
-import palaster.gj.jobs.abilities.GodPowers;
-
-import javax.annotation.Nullable;
-import java.util.HashMap;
 
 public class JobGod implements IRPGJob {
 
-	public static final String TAG_STRING_DOMAIN = "gj:GodDomain",
-			TAG_MAP_ACTIVE_POWERS = "gj:GodActivePower";
-
-	private EnumDomain domain = null;
-	private HashMap<String, Boolean> godPowers = new HashMap<>();
-
-	public JobGod() {
-		for(String godPower : GodPowers.GOD_POWERS)
-			godPowers.put(godPower, false);
-	}
-
-	public void setDomain(EnumDomain domain) { this.domain = domain; }
-
-	@Nullable
-	public EnumDomain getDomain() { return domain; }
-
-	public boolean isPowerActive(String power) { return godPowers.getOrDefault(power, false); }
-
-	public void setPower(String power, boolean activate) { godPowers.put(power, activate); }
-
+	public static final String TAG_BOOLEAN_DEBUFF_HUNGER = "gj:HasDebuffFromHunger";
+	
+	public boolean hasDebuffFromHunger = false;
+	
 	@Override
 	public String getJobName() { return "gj.job.god"; }
 
@@ -40,24 +21,69 @@ public class JobGod implements IRPGJob {
 
 	@Override
 	public boolean replaceMagick() { return true; }
+	
+	@Override
+	public boolean overrideConstitution() { return true; }
+	
+	@Override
+	public boolean overrideStrength() { return true; }
+	
+	@Override
+	public boolean overrideDefense() { return true; }
+	
+	@Override
+	public boolean overrideDexterity() { return true; }
+	
+	@Override
+	public boolean overrideIntelligence() { return true; }
+	
+	@Override
+	public boolean doUpdate() { return true; }
 
 	@Override
-	public NBTTagCompound serializeNBT() {
-		NBTTagCompound nbt = new NBTTagCompound();
-		if(domain != null)
-			nbt.setString(TAG_STRING_DOMAIN, domain.toString());
-		if(!godPowers.isEmpty())
-			for(String power : godPowers.keySet())
-				nbt.setBoolean(TAG_MAP_ACTIVE_POWERS + "_" + power, godPowers.getOrDefault(power, false));
-		return nbt;
+	public void update(IRPG rpg, EntityPlayer player) {
+		if(hasDebuffFromHunger) {
+			if(player.getFoodStats().getFoodLevel() > 0) {
+				hasDebuffFromHunger = false;
+				player.removePotionEffect(Potion.getPotionById(2));
+				player.removePotionEffect(Potion.getPotionById(4));
+				player.removePotionEffect(Potion.getPotionById(18));
+			} else {
+				PotionEffect slownessPotionEffect = player.getActivePotionEffect(Potion.getPotionById(2));
+				PotionEffect miningFatiguePotionEffect = player.getActivePotionEffect(Potion.getPotionById(4));
+				PotionEffect weaknessPotionEffect = player.getActivePotionEffect(Potion.getPotionById(18));
+				if(slownessPotionEffect == null)
+					player.addPotionEffect(new PotionEffect(Potion.getPotionById(2), 1, 0, true, false));
+				if(miningFatiguePotionEffect == null)
+					player.addPotionEffect(new PotionEffect(Potion.getPotionById(4), 1, 0, true, false));
+				if(weaknessPotionEffect == null)
+					player.addPotionEffect(new PotionEffect(Potion.getPotionById(18), 1, 0, true, false));
+			}
+		} else if(player.getFoodStats().getFoodLevel() <= 0) {
+			hasDebuffFromHunger = true;
+			PotionEffect slownessPotionEffect = player.getActivePotionEffect(Potion.getPotionById(2));
+			PotionEffect miningFatiguePotionEffect = player.getActivePotionEffect(Potion.getPotionById(4));
+			PotionEffect weaknessPotionEffect = player.getActivePotionEffect(Potion.getPotionById(18));
+			if(slownessPotionEffect == null)
+				player.addPotionEffect(new PotionEffect(Potion.getPotionById(2), 1, 0, true, false));
+			if(miningFatiguePotionEffect == null)
+				player.addPotionEffect(new PotionEffect(Potion.getPotionById(4), 1, 0, true, false));
+			if(weaknessPotionEffect == null)
+				player.addPotionEffect(new PotionEffect(Potion.getPotionById(18), 1, 0, true, false));
+		}
 	}
 
 	@Override
+	public NBTTagCompound serializeNBT() {
+		NBTTagCompound nbt = IRPGJob.super.serializeNBT();
+		nbt.setBoolean(TAG_BOOLEAN_DEBUFF_HUNGER, hasDebuffFromHunger);
+		return nbt;
+	}
+
+
+	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
-		if(nbt.hasKey(TAG_STRING_DOMAIN))
-			domain = EnumDomain.valueOf(nbt.getString(TAG_STRING_DOMAIN));
-		if(!godPowers.isEmpty())
-			for(String power : godPowers.keySet())
-				godPowers.put(power, nbt.getBoolean(TAG_MAP_ACTIVE_POWERS + "_" + power));
+		IRPGJob.super.deserializeNBT(nbt);
+		hasDebuffFromHunger = nbt.getBoolean(TAG_BOOLEAN_DEBUFF_HUNGER);
 	}
 }

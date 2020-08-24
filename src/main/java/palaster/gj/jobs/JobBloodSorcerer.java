@@ -11,6 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import palaster.gj.api.capabilities.IRPG;
 import palaster.gj.api.jobs.IRPGJob;
 import palaster.gj.core.proxy.CommonProxy;
+import palaster.gj.jobs.abilities.Abilities;
 
 public class JobBloodSorcerer implements IRPGJob {
 
@@ -24,6 +25,8 @@ public class JobBloodSorcerer implements IRPGJob {
 			bloodMax = 0,
 			bloodRegen = 0,
 			timer = 0;
+	
+	private boolean isInvisibleDueToDarkStalker = false;
 
 	public JobBloodSorcerer() { this(0, 2000); }
 
@@ -89,6 +92,15 @@ public class JobBloodSorcerer implements IRPGJob {
 
 	@Override
 	public void update(IRPG rpg, EntityPlayer player) {
+		if(player.isSneaking() && !player.isInvisible())
+			if(Abilities.DARK_STALKER.isAvailable(rpg)) {
+				player.setInvisible(true);
+				isInvisibleDueToDarkStalker = true;
+			}
+		if(!player.isSneaking() && player.isInvisible() && isInvisibleDueToDarkStalker) {
+			player.setInvisible(false);
+			isInvisibleDueToDarkStalker = false;
+		}
 		if(timer >= 100) {
 			if(bloodRegen > 0)
 				addBlood(player, bloodRegen);

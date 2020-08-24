@@ -7,5 +7,5 @@ import palaster.gj.libs.LibMod;
 
 @ObjectHolder(LibMod.MODID)
 public class GJBlocks {
-	public static final Block altar = new BlockAltar(Material.ROCK);
+	public static final Block ALTAR = new BlockAltar(Material.ROCK);
 }

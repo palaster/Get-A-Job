@@ -50,7 +50,7 @@ public class ItemJobPamphlet extends ItemModSpecial {
 					IRPG rpg = RPGCapabilityProvider.get(playerIn);
 					if(rpg != null && rpg.getJob() == null) {
 						try {
-							rpg.setJob(playerIn, (IRPGJob) Class.forName(NBTHelper.getStringFromItemStack(playerIn.getHeldItem(hand), TAG_STRING_JOB_CLASS)).newInstance());
+							rpg.setJob((IRPGJob) Class.forName(NBTHelper.getStringFromItemStack(playerIn.getHeldItem(hand), TAG_STRING_JOB_CLASS)).newInstance());
 						} catch(Exception e) {
 							e.printStackTrace();
 						}
