@@ -1,0 +1,55 @@
+{
+    "commands.kill.god":"Death does not recognize this creature anymore",
+
+    "itemGroup.getAJob": "Get-A-Job",
+
+    "block.gj.altar": "Altar",
+
+    "item.gj.rpg_intro": "An Introduction Guide To RPGs",
+    "item.gj.job_pamphlet": "Job Pamphlet",
+    "item.gj.pink_slip": "Pink Slip",
+    "item.gj.congealed_blood": "Congealed Blood",
+    "item.gj.gospel": "Gospel",
+    "item.gj.hand": "Hand",
+    "item.gj.blood_book": "Blood Book",
+    "item.gj.herb_sack": "Herb Sack",
+    "item.gj.test": "Test",
+
+    "entity.spine_shooter.name":"Spine Shooter",
+
+    "gj.expCost": "XP Cost: %d",
+
+    "gj.job.base": "Job: %s",
+    "gj.job.spellSlots": "Spell Slots",
+    "gj.job.noCareer": "Get A Job You Bum!",
+    "gj.job.fired": "You're fired!",
+    "gj.job.additionalInfo": "Additional Information",
+    "gj.job.constitution": "Constitution: %d",
+    "gj.job.strength": "Strength: %d",
+    "gj.job.defense": "Defense: %d",
+    "gj.job.dexterity": "Dexterity: %d",
+    "gj.job.intelligence": "Intelligence: %d",
+    "gj.job.level": "Level: %d",
+    "gj.job.magic": "Magic: %d / %d",
+
+    "gj.job.bloodSorcerer": "Blood Sorcerer",
+    "gj.job.bloodSorcerer.blood": "Blood",
+
+    "gj.job.bloodSorcerer.spell.0": "Drain",
+
+    "gj.job.botanist": "Botanist",
+
+    "gj.job.botanist.spell.0": "Summon Spine Shooter",
+
+    "gj.job.cleric": "Cleric",
+    "gj.job.cleric.domain": "Domain",
+
+    "gj.job.cleric.spell.creation.0": "Creation",
+    "gj.job.cleric.spell.creation.1": "Burn",
+    "gj.job.cleric.spell.community.0": "Shield Other",
+    "gj.job.cleric.spell.community.1": "Heal",
+    "gj.job.cleric.spell.life.0": "Growth",
+    "gj.job.cleric.spell.life.1": "Heal",
+
+    "gj.job.god": "God"
+}

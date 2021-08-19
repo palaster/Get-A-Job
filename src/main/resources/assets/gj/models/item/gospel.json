@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-	"layer0": "gj:items/gospel"
+	"layer0": "gj:item/gospel"
   }
 }

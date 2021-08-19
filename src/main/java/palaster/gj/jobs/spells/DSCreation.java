@@ -1,23 +1,23 @@
 package palaster.gj.jobs.spells;
 
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.item.Items;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 public class DSCreation implements IDomainSpell {
-
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if(worldIn.getBlockState(pos.add(0, 1, 0)) == null || worldIn.getBlockState(pos.add(0, 1, 0)).getBlock() == Blocks.AIR) {
-			worldIn.spawnEntity(new EntityItem(worldIn, pos.getX() + .5, pos.getY() + 1 + .25, pos.getZ() + .5, new ItemStack(Blocks.PLANKS, 16)));
-			return EnumActionResult.SUCCESS;
+	public ActionResultType useOn(ItemUseContext itemUseContext) {
+		BlockPos pos = itemUseContext.getClickedPos();
+		BlockState state = itemUseContext.getLevel().getBlockState(pos.relative(itemUseContext.getClickedFace()));
+		if(state == null || state.getBlock() == Blocks.AIR) {
+			itemUseContext.getLevel().addFreshEntity(new ItemEntity(itemUseContext.getLevel(), pos.getX() + .5, pos.getY() + .5, pos.getZ() + .5, new ItemStack(Items.OAK_PLANKS, 16)));
+			return ActionResultType.SUCCESS;
 		}
-		return IDomainSpell.super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+		return IDomainSpell.super.useOn(itemUseContext);
 	}
 }

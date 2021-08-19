@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "gj:items/herb_sack"
+    "layer0": "gj:item/herb_sack"
   }
 }

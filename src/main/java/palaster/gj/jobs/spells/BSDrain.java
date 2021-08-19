@@ -1,12 +1,14 @@
 package palaster.gj.jobs.spells;
 
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
-import palaster.gj.api.capabilities.IRPG;
-import palaster.gj.api.capabilities.RPGCapability;
+import net.minecraft.util.Hand;
+import net.minecraftforge.common.util.LazyOptional;
+import palaster.gj.api.capabilities.rpg.IRPG;
+import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
 
 public class BSDrain implements IBloodSpell {
 
@@ -14,13 +16,14 @@ public class BSDrain implements IBloodSpell {
     public int getBloodCost() { return 50; }
 
     @Override
-    public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
-        IRPG rpg = RPGCapability.RPGCapabilityProvider.get(playerIn);
-        if(rpg != null) {
-            target.attackEntityFrom(DamageSource.MAGIC, rpg.getIntelligence());
-            playerIn.heal(rpg.getIntelligence() / 4);
-            return true;
+    public ActionResultType interactLivingEntity(ItemStack itemStack, PlayerEntity playerEntity, LivingEntity livingEntity, Hand hand) {
+    	LazyOptional<IRPG> lazy_optional_rpg = playerEntity.getCapability(RPGProvider.RPG_CAPABILITY, null);
+    	IRPG rpg = lazy_optional_rpg.orElse(null);
+    	if(rpg != null) {
+            livingEntity.hurt(DamageSource.MAGIC, rpg.getIntelligence());
+            playerEntity.heal(rpg.getIntelligence() / 4);
+            return ActionResultType.SUCCESS;
         }
-        return false;
+    	return IBloodSpell.super.interactLivingEntity(itemStack, playerEntity, livingEntity, hand);
     }
 }

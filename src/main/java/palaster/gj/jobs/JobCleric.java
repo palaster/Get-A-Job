@@ -1,12 +1,14 @@
 package palaster.gj.jobs;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import palaster.gj.api.capabilities.IRPG;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.util.text.TranslationTextComponent;
+import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.jobs.IRPGJob;
 
 public class JobCleric implements IRPGJob {
@@ -25,25 +27,28 @@ public class JobCleric implements IRPGJob {
 
 	@Override
 	public String getJobName() { return "gj.job.cleric"; }
-	
+
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void drawExtraInformation(EntityPlayer player, FontRenderer fontRendererObj, int suggestedX, int suggestedY, int mouseX, int mouseY) {
-		fontRendererObj.drawString(I18n.format("gj.job.spellSlots") + ": " + spellSlots, suggestedX, suggestedY, 4210752);	
+	public void drawExtraInformation(MatrixStack ms, FontRenderer font, int mouseX, int mouseY, PlayerEntity player, int suggestedX, int suggestedY) {
+		//AbstractGui.drawString(ms, font, new StringTextComponent(I18n.get("gj.job.spellSlots", spellSlots)), suggestedX, suggestedY, 4210752);
+		AbstractGui.drawString(ms, font, new TranslationTextComponent("gj.job.spellSlots", spellSlots), suggestedX, suggestedY, 4210752);
 	}
 
 	@Override
 	public boolean replaceMagick() { return true; }
 
 	@Override
-	public NBTTagCompound serializeNBT() {
-		NBTTagCompound nbt = IRPGJob.super.serializeNBT();
-		nbt.setInteger(TAG_INT_SS, spellSlots);
+	public INBT serializeNBT() {
+		INBT nbt = IRPGJob.super.serializeNBT();
+		if(nbt instanceof CompoundNBT)
+			((CompoundNBT) nbt).putInt(TAG_INT_SS, spellSlots);
 		return nbt;
 	}
 
 	@Override
-	public void deserializeNBT(NBTTagCompound nbt) {
-		spellSlots = nbt.getInteger(TAG_INT_SS);
+	public void deserializeNBT(INBT nbt) {
+		IRPGJob.super.deserializeNBT(nbt);
+		if(nbt instanceof CompoundNBT)
+			spellSlots = ((CompoundNBT) nbt).getInt(TAG_INT_SS);
 	}
 }

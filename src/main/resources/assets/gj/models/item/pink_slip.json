@@ -1,6 +1,6 @@
 {
-  "parent": "libpal:item/lpstandard",
+  "parent": "item/generated",
   "textures": {
-	"layer0": "gj:items/pink_slip"
+	"layer0": "gj:item/pink_slip"
   }
 }

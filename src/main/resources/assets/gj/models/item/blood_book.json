@@ -1,6 +1,6 @@
 {
-  "parent": "libpal:item/lpstandard",
+  "parent": "item/generated",
   "textures": {
-	"layer0": "gj:items/blood_book"
+	"layer0": "gj:item/blood_book"
   }
 }

@@ -1,20 +1,21 @@
 package palaster.gj.jobs.spells;
 
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.EnumHand;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 
 public class DSShieldOther implements IDomainSpell {
-
 	@Override
-	public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
-		if(target.getActivePotionEffect(MobEffects.ABSORPTION) == null) {
-			target.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 1200, 0, true, false));
-			return true;
+	public ActionResultType interactLivingEntity(ItemStack itemStack, PlayerEntity playerEntity, LivingEntity livingEntity, Hand hand) {
+		if(!livingEntity.hasEffect(Effects.ABSORPTION)) {
+			livingEntity.addEffect(new EffectInstance(Effects.ABSORPTION, 1200, 0, true, false));
+			return ActionResultType.SUCCESS;
 		}
-		return false;
+		return IDomainSpell.super.interactLivingEntity(itemStack, playerEntity, livingEntity, hand);
 	}
+	
 }

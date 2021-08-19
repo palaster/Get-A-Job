@@ -3,43 +3,48 @@ package palaster.gj.api.jobs;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import palaster.gj.api.capabilities.IRPG;
+import palaster.gj.api.capabilities.rpg.IRPG;
 
-public interface IRPGJob extends INBTSerializable<NBTTagCompound> {
+public interface IRPGJob extends INBTSerializable<INBT> {
 
 	String getJobName();
 
 	default boolean canLeave() { return true; }
 
-	default void leaveJob(@Nullable EntityPlayer player) {}
+	default void leaveJob(@Nullable PlayerEntity player) {}
 
-	@SideOnly(Side.CLIENT)
-	default void drawExtraInformationBase(@Nullable EntityPlayer player, FontRenderer fontRendererObj, int suggestedX, int suggestedY, int mouseX, int mouseY) {
-		fontRendererObj.drawString(I18n.format("gj.job.additionalInfo") + ":", suggestedX, suggestedY, 4210752);
-		drawExtraInformation(player, fontRendererObj, suggestedX, suggestedY + 10, mouseX, mouseY);
+	@OnlyIn(Dist.CLIENT)
+	default void drawExtraInformationBase(MatrixStack ms, FontRenderer font, int mouseX, int mouseY, @Nullable PlayerEntity player, int suggestedX, int suggestedY) {
+		AbstractGui.drawString(ms, font, I18n.get("gj.job.additionalInfo") + ":", suggestedX, suggestedY, 4210752);
+		drawExtraInformation(ms, font, mouseX, mouseY, player, suggestedX, suggestedY + 10);
 	}
 
 	/**
 	 * Allows drawing in extra space in the RPG Intro.
 	 * 
-	 * @param player The player whose status is being shown.
-	 * @param fontRendererObj FontRenderer from the gui.
-	 * @param suggestedX Where you should start drawing, up to the end of the gui.
-	 * @param suggestedY Where you should start drawing, up to the end of the gui.
+	 * @param ms MatrixStack from the gui.
+	 * @param font FontRenderer from the gui.
 	 * @param mouseX X value of the location of the mouse.
 	 * @param mouseY Y value of the location of the mouse.
+	 * @param player The player whose status is being shown.
+	 * @param suggestedX Where you should start drawing, up to the end of the gui.
+	 * @param suggestedY Where you should start drawing, up to the end of the gui.
 	 */
-	@SideOnly(Side.CLIENT)
-	default void drawExtraInformation(@Nullable EntityPlayer player, FontRenderer fontRendererObj, int suggestedX, int suggestedY, int mouseX, int mouseY) {}
+	@OnlyIn(Dist.CLIENT)
+	default void drawExtraInformation(MatrixStack ms, FontRenderer font, int mouseX, int mouseY, @Nullable PlayerEntity player, int suggestedX, int suggestedY) {}
 
-	default void updatePlayerAttributes(EntityPlayer player) {}
+	default void updatePlayerAttributes(PlayerEntity player) {}
 
 	default boolean replaceMagick() { return false; }
 
@@ -57,12 +62,12 @@ public interface IRPGJob extends INBTSerializable<NBTTagCompound> {
 	
 	default boolean doUpdate() { return false; }
 	
-	default void update(IRPG rpg, EntityPlayer player) {}
+	default void update(IRPG rpg, PlayerEntity player) {}
 	
 	@Override
 	@Nonnull
-	default NBTTagCompound serializeNBT() { return new NBTTagCompound(); }
+	default INBT serializeNBT() { return new CompoundNBT(); }
 
 	@Override
-	default void deserializeNBT(NBTTagCompound nbt) {}
+	default void deserializeNBT(INBT nbt) {}
 }

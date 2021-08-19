@@ -1,35 +1,37 @@
 package palaster.gj.jobs.spells;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.IGrowable;
-import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.world.server.ServerWorld;
 
 public class DSGrowth implements IDomainSpell {
-	
 	@Override
-	public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
-		if(target instanceof EntityAgeable) {
-			((EntityAgeable) target).setGrowingAge(0);
-			return true;
+	public ActionResultType interactLivingEntity(ItemStack itemStack, PlayerEntity playerEntity, LivingEntity livingEntity, Hand hand) {
+		if(livingEntity instanceof AgeableEntity && ((AgeableEntity) livingEntity).isBaby()) {
+			((AgeableEntity) livingEntity).setAge(0);
+			return ActionResultType.SUCCESS;
 		}
-		return IDomainSpell.super.itemInteractionForEntity(stack, playerIn, target, hand);
+		return IDomainSpell.super.interactLivingEntity(itemStack, playerEntity, livingEntity, hand);
 	}
 	
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if(worldIn.getBlockState(pos) != null && worldIn.getBlockState(pos).getBlock() != Blocks.AIR)
-			if(worldIn.getBlockState(pos).getBlock() instanceof IGrowable) {
-				((IGrowable) worldIn.getBlockState(pos).getBlock()).grow(worldIn, worldIn.rand, pos, worldIn.getBlockState(pos));
-				return EnumActionResult.SUCCESS;
-			}
-		return IDomainSpell.super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+	public ActionResultType useOn(ItemUseContext itemUseContext) {
+		if(itemUseContext.getLevel() instanceof ServerWorld) {
+			BlockState state = itemUseContext.getLevel().getBlockState(itemUseContext.getClickedPos());
+			if(state != null && state.getBlock() != Blocks.AIR)
+				if(state.getBlock() instanceof IGrowable) {
+					((IGrowable) state.getBlock()).performBonemeal((ServerWorld) itemUseContext.getLevel(), itemUseContext.getLevel().random, itemUseContext.getClickedPos(), state);
+					return ActionResultType.SUCCESS;
+				}
+		}
+		return IDomainSpell.super.useOn(itemUseContext);
 	}
 }

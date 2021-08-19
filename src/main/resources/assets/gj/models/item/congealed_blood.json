@@ -1,6 +1,6 @@
 {
-  "parent": "libpal:item/lpstandard",
+  "parent": "item/generated",
   "textures": {
-	"layer0": "gj:items/congealed_blood"
+	"layer0": "gj:item/congealed_blood"
   }
 }

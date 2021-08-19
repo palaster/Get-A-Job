@@ -1,9 +1,10 @@
-package palaster.gj.api.capabilities;
+package palaster.gj.api.capabilities.rpg;
 
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.INBT;
+import net.minecraftforge.common.util.INBTSerializable;
 import palaster.gj.api.jobs.IRPGJob;
 
-public interface IRPG {
+public interface IRPG extends INBTSerializable<INBT> {
 	
 	void setConstitution(int amt);
 	
@@ -40,8 +41,4 @@ public interface IRPG {
 	int getMaxMagick();
 	
 	IRPGJob getJob();
-	
-	NBTTagCompound saveNBT();
-
-    void loadNBT(NBTTagCompound nbt);
 }
