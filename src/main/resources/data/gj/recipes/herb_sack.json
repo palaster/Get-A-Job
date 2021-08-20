@@ -13,8 +13,7 @@
     },
     "y":
     {
-      "type":"forge:ore_dict",
-      "ore": "treeSapling"
+      "tag":"minecraft:saplings"
     }
   },
   "result": {

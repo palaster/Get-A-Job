@@ -11,7 +11,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '0.0.7'
+version = '0.0.8'
 group = 'palaster.gj' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'gj'
 
@@ -126,8 +126,8 @@ dependencies {
     // compile "some.group:artifact:version:classifier"
     // compile "some.group:artifact:version"
 
-	compileOnly fg.deobf('palaster.libpal:libpal:0.0.6')
-	runtimeOnly fg.deobf('palaster.libpal:libpal:0.0.6')
+	compileOnly fg.deobf('palaster.libpal:libpal:1.16.5-0.0.6')
+	runtimeOnly fg.deobf('palaster.libpal:libpal:1.16.5-0.0.6')
 
     // Real examples
     // compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env

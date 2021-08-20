@@ -2,8 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
 	{
-	 "data": 0,
-	 "item": "gj:gj_material"
+	 "item": "gj:congealed_blood"
 	},
     {
 	 "item": "minecraft:bone"

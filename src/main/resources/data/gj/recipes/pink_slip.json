@@ -1,11 +1,11 @@
 {
-  "type": "forge:ore_shapeless",
+  "type": "minecraft:crafting_shapeless",
   "ingredients": [
 	{
 	 "item": "minecraft:paper"
 	},
     {
-	 "item": "#DYEPINK"
+	 "tag": "forge:dyes/pink"
 	},
 	{
 	 "item": "minecraft:flint_and_steel"

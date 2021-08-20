@@ -1,9 +1,0 @@
-[
-  {
-    "name": "DYEPINK",
-	"ingredient": {
-		"type": "forge:ore_dict",
-		"ore": "dyePink"
-	}
-  }
-]
