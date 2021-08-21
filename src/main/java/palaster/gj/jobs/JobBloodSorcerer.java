@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -22,9 +21,9 @@ import palaster.gj.network.client.PacketUpdateRPG;
 
 public class JobBloodSorcerer implements IRPGJob {
 
-	public static final String TAG_INT_BLOOD_CURRENT = "gj:BloodCurrent",
-			TAG_INT_BLOOD_MAX = "gj:BloodMax",
-			TAG_INT_BLOOD_REGEN = "gj:BloodRegen";
+	public static final String NBT_BLOOD_CURRENT = "gj:blood_sorcerer:blood_current",
+			NBT_BLOOD_MAX = "gj:blood_sorcerer:blood_max",
+			NBT_BLOOD_REGEN = "gj:blood_sorcerer:blood_regen";
 			
 	public static final UUID HEALTH_ID = UUID.fromString("4de67577-1e12-4dad-8ab4-3ee5d2cf3cc2");
 
@@ -77,8 +76,8 @@ public class JobBloodSorcerer implements IRPGJob {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void drawExtraInformation(MatrixStack ms, FontRenderer font, int mouseX, int mouseY, PlayerEntity player, int suggestedX, int suggestedY) {
-		//AbstractGui.drawString(ms, font, new StringTextComponent(I18n.get("gj.job.bloodSorcerer.blood", bloodCurrent, bloodMax)) , suggestedX, suggestedY, 4210752);
-		AbstractGui.drawString(ms, font, new TranslationTextComponent("gj.job.bloodSorcerer.blood", bloodCurrent, bloodMax) , suggestedX, suggestedY, 4210752);
+		//font.draw(ms, new StringTextComponent(I18n.get("gj.job.bloodSorcerer.blood", bloodCurrent, bloodMax)), suggestedX, suggestedY, 4210752);
+		font.draw(ms, new TranslationTextComponent("gj.job.bloodSorcerer.blood", bloodCurrent, bloodMax), suggestedX, suggestedY, 4210752);
 	}
 
 	@Override
@@ -126,9 +125,9 @@ public class JobBloodSorcerer implements IRPGJob {
 		INBT nbt = IRPGJob.super.serializeNBT();
 		if(nbt instanceof CompoundNBT) {
 			CompoundNBT cNBT = (CompoundNBT) nbt;
-			cNBT.putInt(TAG_INT_BLOOD_CURRENT, bloodCurrent);
-			cNBT.putInt(TAG_INT_BLOOD_MAX, bloodMax);
-			cNBT.putInt(TAG_INT_BLOOD_REGEN, bloodRegen);
+			cNBT.putInt(NBT_BLOOD_CURRENT, bloodCurrent);
+			cNBT.putInt(NBT_BLOOD_MAX, bloodMax);
+			cNBT.putInt(NBT_BLOOD_REGEN, bloodRegen);
 		}
 		return nbt;
 	}
@@ -139,9 +138,9 @@ public class JobBloodSorcerer implements IRPGJob {
 		IRPGJob.super.deserializeNBT(nbt);
 		if(nbt instanceof CompoundNBT) {
 			CompoundNBT cNBT = (CompoundNBT) nbt;
-			bloodCurrent = cNBT.getInt(TAG_INT_BLOOD_CURRENT);
-			bloodMax = cNBT.getInt(TAG_INT_BLOOD_MAX);
-			bloodRegen = cNBT.getInt(TAG_INT_BLOOD_REGEN);
+			bloodCurrent = cNBT.getInt(NBT_BLOOD_CURRENT);
+			bloodMax = cNBT.getInt(NBT_BLOOD_MAX);
+			bloodRegen = cNBT.getInt(NBT_BLOOD_REGEN);
 		}
 	}
 }

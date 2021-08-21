@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 import palaster.gj.api.capabilities.rpg.IRPG;
 
+@FunctionalInterface
 public interface IAbility {
-
-    boolean isAvailable(@Nonnull IRPG RPG);
+    boolean isAvailable(@Nonnull IRPG rpg);
 }

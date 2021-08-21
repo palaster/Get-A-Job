@@ -5,7 +5,6 @@ import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerEntity;
@@ -26,7 +25,7 @@ public interface IRPGJob extends INBTSerializable<INBT> {
 
 	@OnlyIn(Dist.CLIENT)
 	default void drawExtraInformationBase(MatrixStack ms, FontRenderer font, int mouseX, int mouseY, @Nullable PlayerEntity player, int suggestedX, int suggestedY) {
-		AbstractGui.drawString(ms, font, I18n.get("gj.job.additionalInfo") + ":", suggestedX, suggestedY, 4210752);
+		font.draw(ms, I18n.get("gj.job.additionalInfo") + ":", suggestedX, suggestedY, 4210752);
 		drawExtraInformation(ms, font, mouseX, mouseY, player, suggestedX, suggestedY + 10);
 	}
 

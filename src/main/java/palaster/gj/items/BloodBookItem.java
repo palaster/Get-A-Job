@@ -28,15 +28,15 @@ import palaster.libpal.items.SpecialModItem;
 
 public class BloodBookItem extends SpecialModItem {
 
-	public static final String TAG_INT_SS = "gj:BloodBookSelectedSpell";
+	public static final String NBT_SELECTED_SPELL = "gj:blood_book:selected_spell";
 
 	public BloodBookItem(Properties properties, ResourceLocation resourceLocation) { super(properties, resourceLocation, 0); }
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void appendHoverText(ItemStack stack, World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
-		if(NBTHelper.getIntegerFromItemStack(stack, TAG_INT_SS) >= 0)
-			tooltip.add(new StringTextComponent("Selected Spell: " + I18n.get("gj.job.bloodSorcerer.spell." + NBTHelper.getIntegerFromItemStack(stack, TAG_INT_SS))));
+		if(NBTHelper.getIntegerFromItemStack(stack, NBT_SELECTED_SPELL) >= 0)
+			tooltip.add(new StringTextComponent("Selected Spell: " + I18n.get("gj.job.bloodSorcerer.spell." + NBTHelper.getIntegerFromItemStack(stack, NBT_SELECTED_SPELL))));
 	}
 	
 	@Override
@@ -45,7 +45,7 @@ public class BloodBookItem extends SpecialModItem {
     		LazyOptional<IRPG> lazy_optional_rpg = playerEntity.getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
 	        if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobBloodSorcerer) {
-	            IBloodSpell IBS = BloodSpells.BLOOD_SPELLS.get(NBTHelper.getIntegerFromItemStack(itemStack, TAG_INT_SS));
+	            IBloodSpell IBS = BloodSpells.BLOOD_SPELLS.get(NBTHelper.getIntegerFromItemStack(itemStack, NBT_SELECTED_SPELL));
 	            ActionResultType actionResultType = IBS.interactLivingEntity(itemStack, playerEntity, livingEntity, hand);
 	            if(actionResultType == ActionResultType.SUCCESS)
 	            	((JobBloodSorcerer) rpg.getJob()).setBloodCurrent(playerEntity, ((JobBloodSorcerer) rpg.getJob()).getBloodCurrent() - IBS.getBloodCost());
@@ -59,16 +59,16 @@ public class BloodBookItem extends SpecialModItem {
     public ActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand) {
     	if(!world.isClientSide) {
             if(playerEntity.isShiftKeyDown()) {
-                int currentSelection = NBTHelper.getIntegerFromItemStack(playerEntity.getItemInHand(hand), TAG_INT_SS);
+                int currentSelection = NBTHelper.getIntegerFromItemStack(playerEntity.getItemInHand(hand), NBT_SELECTED_SPELL);
                 if(currentSelection >= BloodSpells.BLOOD_SPELLS.size() - 1)
-                    return ActionResult.success(NBTHelper.setIntegerToItemStack(playerEntity.getItemInHand(hand), TAG_INT_SS, 0));
+                    return ActionResult.success(NBTHelper.setIntegerToItemStack(playerEntity.getItemInHand(hand), NBT_SELECTED_SPELL, 0));
                 else
-                    return ActionResult.success(NBTHelper.setIntegerToItemStack(playerEntity.getItemInHand(hand), TAG_INT_SS, NBTHelper.getIntegerFromItemStack(playerEntity.getItemInHand(hand), TAG_INT_SS) + 1));
+                    return ActionResult.success(NBTHelper.setIntegerToItemStack(playerEntity.getItemInHand(hand), NBT_SELECTED_SPELL, NBTHelper.getIntegerFromItemStack(playerEntity.getItemInHand(hand), NBT_SELECTED_SPELL) + 1));
             } else {
             	LazyOptional<IRPG> lazy_optional_rpg = playerEntity.getCapability(RPGProvider.RPG_CAPABILITY, null);
     			final IRPG rpg = lazy_optional_rpg.orElse(null);
                 if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobBloodSorcerer) {
-                    IBloodSpell IBS = BloodSpells.BLOOD_SPELLS.get(NBTHelper.getIntegerFromItemStack(playerEntity.getItemInHand(hand), TAG_INT_SS));
+                    IBloodSpell IBS = BloodSpells.BLOOD_SPELLS.get(NBTHelper.getIntegerFromItemStack(playerEntity.getItemInHand(hand), NBT_SELECTED_SPELL));
                     ActionResult<ItemStack> actionResult = IBS.use(world, playerEntity, hand);
                     if(actionResult.getResult() == ActionResultType.SUCCESS)
                     	((JobBloodSorcerer) rpg.getJob()).setBloodCurrent(playerEntity, ((JobBloodSorcerer) rpg.getJob()).getBloodCurrent() - IBS.getBloodCost());
@@ -85,7 +85,7 @@ public class BloodBookItem extends SpecialModItem {
     		LazyOptional<IRPG> lazy_optional_rpg = itemUseContext.getPlayer().getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
             if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobBloodSorcerer) {
-                IBloodSpell IBS = BloodSpells.BLOOD_SPELLS.get(NBTHelper.getIntegerFromItemStack(itemUseContext.getItemInHand(), TAG_INT_SS));
+                IBloodSpell IBS = BloodSpells.BLOOD_SPELLS.get(NBTHelper.getIntegerFromItemStack(itemUseContext.getItemInHand(), NBT_SELECTED_SPELL));
                 ActionResultType actionResultType = IBS.useOn(itemUseContext);
                 if(actionResultType == ActionResultType.SUCCESS)
                 	((JobBloodSorcerer) rpg.getJob()).setBloodCurrent(itemUseContext.getPlayer(), ((JobBloodSorcerer) rpg.getJob()).getBloodCurrent() - IBS.getBloodCost());

@@ -23,16 +23,16 @@ import palaster.libpal.items.SpecialModItem;
 
 public class JobPamphletItem extends SpecialModItem {
 	
-	public static final String TAG_STRING_JOB_CLASS = "JobPamphletJobClass";
+	public static final String NBT_JOB_CLASS = "gj:job_pamphlet:job_class";
 
 	public JobPamphletItem(Properties properties, ResourceLocation resourceLocation) { super(properties, resourceLocation, 0); }
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void appendHoverText(ItemStack stack, World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
-		if(!NBTHelper.getStringFromItemStack(stack, TAG_STRING_JOB_CLASS).isEmpty())
+		if(!NBTHelper.getStringFromItemStack(stack, NBT_JOB_CLASS).isEmpty())
 			try {
-				tooltip.add(new StringTextComponent(I18n.get("gj.job.base") + ": " + I18n.get(((IRPGJob) Class.forName(NBTHelper.getStringFromItemStack(stack, TAG_STRING_JOB_CLASS)).newInstance()).getJobName())));
+				tooltip.add(new StringTextComponent(I18n.get("gj.job.base", I18n.get(((IRPGJob) Class.forName(NBTHelper.getStringFromItemStack(stack, NBT_JOB_CLASS)).newInstance()).getJobName()))));
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -41,12 +41,12 @@ public class JobPamphletItem extends SpecialModItem {
 	@Override
 	public ActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand) {
 		if(!world.isClientSide)
-			if(!NBTHelper.getStringFromItemStack(playerEntity.getItemInHand(hand), TAG_STRING_JOB_CLASS).isEmpty()) {
+			if(!NBTHelper.getStringFromItemStack(playerEntity.getItemInHand(hand), NBT_JOB_CLASS).isEmpty()) {
 				LazyOptional<IRPG> lazy_optional_rpg = playerEntity.getCapability(RPGProvider.RPG_CAPABILITY, null);
 				final IRPG rpg = lazy_optional_rpg.orElse(null);
 				if(rpg != null && rpg.getJob() == null) {
 					try {
-						rpg.setJob((IRPGJob) Class.forName(NBTHelper.getStringFromItemStack(playerEntity.getItemInHand(hand), TAG_STRING_JOB_CLASS)).newInstance());
+						rpg.setJob((IRPGJob) Class.forName(NBTHelper.getStringFromItemStack(playerEntity.getItemInHand(hand), NBT_JOB_CLASS)).newInstance());
 					} catch(Exception e) { }
 					return ActionResult.success(ItemStack.EMPTY);
 				}

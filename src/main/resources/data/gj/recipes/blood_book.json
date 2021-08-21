@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+	  "item": "minecraft:book"
+	},
+    {
+	  "item": "gj:congealed_blood"
+	}
+  ],
+  "result": {
+    "item": "gj:blood_book"
+  }
+}

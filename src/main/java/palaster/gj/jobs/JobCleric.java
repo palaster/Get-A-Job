@@ -2,7 +2,6 @@ package palaster.gj.jobs;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -13,7 +12,7 @@ import palaster.gj.api.jobs.IRPGJob;
 
 public class JobCleric implements IRPGJob {
 
-	public static final String TAG_INT_SS = "gj:ClericSpellSlots";
+	public static final String NBT_SPELL_SLOTS = "gj:cleric:spell_slots";
 	
 	private int spellSlots = 0;
 	
@@ -30,8 +29,8 @@ public class JobCleric implements IRPGJob {
 
 	@Override
 	public void drawExtraInformation(MatrixStack ms, FontRenderer font, int mouseX, int mouseY, PlayerEntity player, int suggestedX, int suggestedY) {
-		//AbstractGui.drawString(ms, font, new StringTextComponent(I18n.get("gj.job.spellSlots", spellSlots)), suggestedX, suggestedY, 4210752);
-		AbstractGui.drawString(ms, font, new TranslationTextComponent("gj.job.spellSlots", spellSlots), suggestedX, suggestedY, 4210752);
+		//font.draw(ms, new StringTextComponent(I18n.get("gj.job.spellSlots", spellSlots)), suggestedX, suggestedY, 4210752);
+		font.draw(ms, new TranslationTextComponent("gj.job.spellSlots", spellSlots), suggestedX, suggestedY, 4210752);
 	}
 
 	@Override
@@ -41,7 +40,7 @@ public class JobCleric implements IRPGJob {
 	public INBT serializeNBT() {
 		INBT nbt = IRPGJob.super.serializeNBT();
 		if(nbt instanceof CompoundNBT)
-			((CompoundNBT) nbt).putInt(TAG_INT_SS, spellSlots);
+			((CompoundNBT) nbt).putInt(NBT_SPELL_SLOTS, spellSlots);
 		return nbt;
 	}
 
@@ -49,6 +48,6 @@ public class JobCleric implements IRPGJob {
 	public void deserializeNBT(INBT nbt) {
 		IRPGJob.super.deserializeNBT(nbt);
 		if(nbt instanceof CompoundNBT)
-			spellSlots = ((CompoundNBT) nbt).getInt(TAG_INT_SS);
+			spellSlots = ((CompoundNBT) nbt).getInt(NBT_SPELL_SLOTS);
 	}
 }
