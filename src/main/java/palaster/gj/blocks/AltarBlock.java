@@ -24,7 +24,7 @@ public class AltarBlock extends ModBlock {
 		if(!world.isClientSide) {
 			LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
 	    	IRPG rpg = lazy_optional_rpg.orElse(null);
-			if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobCleric)
+			if(rpg != null && rpg.getJob() instanceof JobCleric)
 				((JobCleric) rpg.getJob()).resetSpellSlots(rpg);
 			PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(player);
 		}

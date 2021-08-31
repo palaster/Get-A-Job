@@ -44,7 +44,7 @@ public class HerbSackItem extends SpecialModItem {
     	if(!playerEntity.level.isClientSide) {
     		LazyOptional<IRPG> lazy_optional_rpg = playerEntity.getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
-	        if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobBotanist) {
+	        if(rpg != null && rpg.getJob() instanceof JobBotanist) {
 	            IBotanySpell IBS = BotanySpells.BOTANY_SPELLS.get(NBTHelper.getIntegerFromItemStack(itemStack, NBT_SELECTED_SPELL));
 	            if(rpg.getMagick() < IBS.getCost())
 	                return ActionResultType.FAIL;
@@ -69,7 +69,7 @@ public class HerbSackItem extends SpecialModItem {
             } else {
             	LazyOptional<IRPG> lazy_optional_rpg = playerEntity.getCapability(RPGProvider.RPG_CAPABILITY, null);
     			final IRPG rpg = lazy_optional_rpg.orElse(null);
-                if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobBotanist) {
+                if(rpg != null && rpg.getJob() instanceof JobBotanist) {
                     IBotanySpell IBS = BotanySpells.BOTANY_SPELLS.get(NBTHelper.getIntegerFromItemStack(playerEntity.getItemInHand(hand), NBT_SELECTED_SPELL));
                     if(rpg.getMagick() < IBS.getCost())
                         return ActionResult.fail(playerEntity.getItemInHand(hand));
@@ -88,7 +88,7 @@ public class HerbSackItem extends SpecialModItem {
     	if(!itemUseContext.getLevel().isClientSide) {
     		LazyOptional<IRPG> lazy_optional_rpg = itemUseContext.getPlayer().getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
-            if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobBotanist) {
+            if(rpg != null && rpg.getJob() instanceof JobBotanist) {
                 IBotanySpell IBS = BotanySpells.BOTANY_SPELLS.get(NBTHelper.getIntegerFromItemStack(itemUseContext.getItemInHand(), NBT_SELECTED_SPELL));
                 if(rpg.getMagick() < IBS.getCost())
                     return ActionResultType.FAIL;

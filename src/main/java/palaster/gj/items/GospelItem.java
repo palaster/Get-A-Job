@@ -41,7 +41,7 @@ public class GospelItem extends SpecialModItem {
 		if(NBTHelper.getIntegerFromItemStack(stack, NBT_SELECTED_SPELL) >= 0) {
 			LazyOptional<IRPG> lazy_optional_rpg = minecraft.player.getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
-			if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobCleric)
+			if(rpg != null && rpg.getJob() instanceof JobCleric)
 				if(((JobCleric) rpg.getJob()).canCastSpell())
 					tooltip.add(new StringTextComponent("Selected Spell: " + I18n.get("gj.job.cleric.spell." + NBTHelper.getIntegerFromItemStack(stack, NBT_SELECTED_SPELL))));
 		}
@@ -52,7 +52,7 @@ public class GospelItem extends SpecialModItem {
     	if(!playerEntity.level.isClientSide) {
     		LazyOptional<IRPG> lazy_optional_rpg = playerEntity.getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
-	        if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobCleric)
+	        if(rpg != null && rpg.getJob() instanceof JobCleric)
 	        	if(((JobCleric) rpg.getJob()).canCastSpell())
 	        		if(DomainSpells.DOMAIN_SPELLS.get(NBTHelper.getIntegerFromItemStack(itemStack, NBT_SELECTED_SPELL)) != null) {
 	        			ActionResultType actionResultType = DomainSpells.DOMAIN_SPELLS.get(NBTHelper.getIntegerFromItemStack(itemStack, NBT_SELECTED_SPELL)).interactLivingEntity(itemStack, playerEntity, livingEntity, hand);
@@ -76,7 +76,7 @@ public class GospelItem extends SpecialModItem {
             } else {
             	LazyOptional<IRPG> lazy_optional_rpg = playerEntity.getCapability(RPGProvider.RPG_CAPABILITY, null);
     			final IRPG rpg = lazy_optional_rpg.orElse(null);
-                if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobCleric)
+                if(rpg != null && rpg.getJob() instanceof JobCleric)
                 	if(((JobCleric) rpg.getJob()).canCastSpell())
                 		if(DomainSpells.DOMAIN_SPELLS.get(NBTHelper.getIntegerFromItemStack(playerEntity.getItemInHand(hand), NBT_SELECTED_SPELL)) != null) {
                 			ActionResult<ItemStack> actionResult = DomainSpells.DOMAIN_SPELLS.get(NBTHelper.getIntegerFromItemStack(playerEntity.getItemInHand(hand), NBT_SELECTED_SPELL)).use(world, playerEntity, hand);
@@ -94,7 +94,7 @@ public class GospelItem extends SpecialModItem {
     	if(!itemUseContext.getLevel().isClientSide) {
     		LazyOptional<IRPG> lazy_optional_rpg = itemUseContext.getPlayer().getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
-            if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobCleric)
+            if(rpg != null && rpg.getJob() instanceof JobCleric)
             	if(((JobCleric) rpg.getJob()).canCastSpell())
             		if(DomainSpells.DOMAIN_SPELLS.get(NBTHelper.getIntegerFromItemStack(itemUseContext.getItemInHand(), NBT_SELECTED_SPELL)) != null) {
             			ActionResultType actionResultType = DomainSpells.DOMAIN_SPELLS.get(NBTHelper.getIntegerFromItemStack(itemUseContext.getItemInHand(), NBT_SELECTED_SPELL)).useOn(itemUseContext);

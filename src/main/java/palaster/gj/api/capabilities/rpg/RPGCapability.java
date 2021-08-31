@@ -198,7 +198,7 @@ public class RPGCapability {
 				if(cNBT.contains(NBT_JOB_CLASS) && !cNBT.getString(NBT_JOB_CLASS).isEmpty()) {
 					try {
 						Object obj = Class.forName(cNBT.getString(NBT_JOB_CLASS)).newInstance();
-						if(obj != null && obj instanceof IRPGJob) {
+						if(obj instanceof IRPGJob) {
 							if(cNBT.contains(NBT_JOB) && cNBT.getCompound(NBT_JOB) != null)
 								((IRPGJob) obj).deserializeNBT(cNBT.getCompound(NBT_JOB));
 							setJob((IRPGJob) obj);

@@ -51,7 +51,7 @@ public class RPGIntroItem extends SpecialModItem implements IReceiveButton {
 							player.giveExperienceLevels(-player.experienceLevel);
 						else if(RPGDefault.getExperienceCostForNextLevel(player) > 0)
 							player.giveExperienceLevels(-RPGDefault.getExperienceCostForNextLevel(player));
-						rpg.setConstitution(rpg.getConstitution() + 1);
+						rpg.setConstitution(rpg.getConstitution(true) + 1);
 						rpg.setExperienceSaved(0);
 						RPGDefault.updatePlayerAttributes(player, rpg);
 						PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(player);
@@ -64,7 +64,7 @@ public class RPGIntroItem extends SpecialModItem implements IReceiveButton {
 							player.giveExperienceLevels(-player.experienceLevel);
 						else if(RPGDefault.getExperienceCostForNextLevel(player) > 0)
 							player.giveExperienceLevels(-RPGDefault.getExperienceCostForNextLevel(player));
-						rpg.setStrength(rpg.getStrength() + 1);
+						rpg.setStrength(rpg.getStrength(true) + 1);
 						rpg.setExperienceSaved(0);
 						RPGDefault.updatePlayerAttributes(player, rpg);
 						PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(player);
@@ -77,7 +77,7 @@ public class RPGIntroItem extends SpecialModItem implements IReceiveButton {
 							player.giveExperienceLevels(-player.experienceLevel);
 						else if(RPGDefault.getExperienceCostForNextLevel(player) > 0)
 							player.giveExperienceLevels(-RPGDefault.getExperienceCostForNextLevel(player));
-						rpg.setDefense(rpg.getDefense() + 1);
+						rpg.setDefense(rpg.getDefense(true) + 1);
 						rpg.setExperienceSaved(0);
 						RPGDefault.updatePlayerAttributes(player, rpg);
 						PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(player);
@@ -90,7 +90,7 @@ public class RPGIntroItem extends SpecialModItem implements IReceiveButton {
 							player.giveExperienceLevels(-player.experienceLevel);
 						else if(RPGDefault.getExperienceCostForNextLevel(player) > 0)
 							player.giveExperienceLevels(-RPGDefault.getExperienceCostForNextLevel(player));
-						rpg.setDexterity(rpg.getDexterity() + 1);
+						rpg.setDexterity(rpg.getDexterity(true) + 1);
 						rpg.setExperienceSaved(0);
 						RPGDefault.updatePlayerAttributes(player, rpg);
 						PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(player);
@@ -103,7 +103,7 @@ public class RPGIntroItem extends SpecialModItem implements IReceiveButton {
 							player.giveExperienceLevels(-player.experienceLevel);
 						else if(RPGDefault.getExperienceCostForNextLevel(player) > 0)
 							player.giveExperienceLevels(-RPGDefault.getExperienceCostForNextLevel(player));
-						rpg.setIntelligence(rpg.getIntelligence() + 1);
+						rpg.setIntelligence(rpg.getIntelligence(true) + 1);
 						rpg.setExperienceSaved(0);
 						RPGDefault.updatePlayerAttributes(player, rpg);
 						PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(player);

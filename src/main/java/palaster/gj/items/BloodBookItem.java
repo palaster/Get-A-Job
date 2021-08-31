@@ -44,7 +44,7 @@ public class BloodBookItem extends SpecialModItem {
     	if(!playerEntity.level.isClientSide) {
     		LazyOptional<IRPG> lazy_optional_rpg = playerEntity.getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
-	        if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobBloodSorcerer) {
+	        if(rpg != null && rpg.getJob() instanceof JobBloodSorcerer) {
 	            IBloodSpell IBS = BloodSpells.BLOOD_SPELLS.get(NBTHelper.getIntegerFromItemStack(itemStack, NBT_SELECTED_SPELL));
 	            ActionResultType actionResultType = IBS.interactLivingEntity(itemStack, playerEntity, livingEntity, hand);
 	            if(actionResultType == ActionResultType.SUCCESS)
@@ -67,7 +67,7 @@ public class BloodBookItem extends SpecialModItem {
             } else {
             	LazyOptional<IRPG> lazy_optional_rpg = playerEntity.getCapability(RPGProvider.RPG_CAPABILITY, null);
     			final IRPG rpg = lazy_optional_rpg.orElse(null);
-                if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobBloodSorcerer) {
+                if(rpg != null && rpg.getJob() instanceof JobBloodSorcerer) {
                     IBloodSpell IBS = BloodSpells.BLOOD_SPELLS.get(NBTHelper.getIntegerFromItemStack(playerEntity.getItemInHand(hand), NBT_SELECTED_SPELL));
                     ActionResult<ItemStack> actionResult = IBS.use(world, playerEntity, hand);
                     if(actionResult.getResult() == ActionResultType.SUCCESS)
@@ -84,7 +84,7 @@ public class BloodBookItem extends SpecialModItem {
     	if(!itemUseContext.getLevel().isClientSide) {
     		LazyOptional<IRPG> lazy_optional_rpg = itemUseContext.getPlayer().getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
-            if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobBloodSorcerer) {
+            if(rpg != null && rpg.getJob() instanceof JobBloodSorcerer) {
                 IBloodSpell IBS = BloodSpells.BLOOD_SPELLS.get(NBTHelper.getIntegerFromItemStack(itemUseContext.getItemInHand(), NBT_SELECTED_SPELL));
                 ActionResultType actionResultType = IBS.useOn(itemUseContext);
                 if(actionResultType == ActionResultType.SUCCESS)

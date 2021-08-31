@@ -85,10 +85,10 @@ public class EventHandler {
 		CommandContextBuilder<CommandSource> commandContextBuilder = e.getParseResults().getContext();
 		if(commandContextBuilder.getCommand() instanceof KillCommand) {
 			Entity entity = commandContextBuilder.getSource().getEntity();
-			if(entity != null && entity instanceof ServerPlayerEntity && entity.getUUID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
+			if(entity instanceof ServerPlayerEntity && entity.getUUID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
 				LazyOptional<IRPG> lazy_optional_rgp =  entity.getCapability(RPGProvider.RPG_CAPABILITY, null);
 				final IRPG rpg = lazy_optional_rgp.orElse(null);
-				if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobGod) {
+				if(rpg != null && rpg.getJob() instanceof JobGod) {
 					e.setCanceled(true);
 					e.getParseResults().getContext().getSource().sendFailure(new TranslationTextComponent("commands.kill.god"));
 				}
@@ -105,7 +105,7 @@ public class EventHandler {
 				if(rpg != null) {
 					if(!e.getSource().isBypassMagic() && !e.getSource().isBypassArmor())
 						e.setAmount(e.getAmount() * ((100f - rpg.getDefense()) / 100));
-					if(rpg.getJob() != null && rpg.getJob() instanceof JobGod) {
+					if(rpg.getJob() instanceof JobGod) {
 						PlayerEntity player = (PlayerEntity) e.getEntityLiving();
 						if(player.getFoodData().getFoodLevel() > 0)
 							player.getFoodData().setFoodLevel(player.getFoodData().getFoodLevel() - e.getAmount() > 0.0f ? (int) (player.getFoodData().getFoodLevel() - e.getAmount()) : 0);
@@ -153,7 +153,7 @@ public class EventHandler {
 
 	@SubscribeEvent
 	public static void attachEntityCapability(AttachCapabilitiesEvent<Entity> e) {
-		if(e.getObject() != null && e.getObject() instanceof PlayerEntity) {
+		if(e.getObject() instanceof PlayerEntity) {
 			LazyOptional<IRPG> lazy_optional_rpg =  e.getObject().getCapability(RPGProvider.RPG_CAPABILITY, null);
 			if(lazy_optional_rpg == null || !lazy_optional_rpg.isPresent())
 				e.addCapability(new ResourceLocation(LibMod.MODID, "rpg"), new RPGProvider());

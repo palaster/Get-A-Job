@@ -9,6 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.LazyOptional;
 import palaster.gj.api.capabilities.rpg.IRPG;
+import palaster.gj.api.capabilities.rpg.RPGCapability.RPGDefault;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
 import palaster.gj.network.client.PacketUpdateRPG;
 import palaster.libpal.core.helpers.PlayerHelper;
@@ -24,7 +25,7 @@ public class PinkSlipItem extends SpecialModItem {
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
 			if(rpg != null)
 				if(rpg.getJob() != null && rpg.getJob().canLeave()) {
-					rpg.setJob(null);
+					RPGDefault.jobChange(playerEntity, rpg, null);
 					PlayerHelper.sendChatMessageToPlayer(playerEntity, I18n.get("gj.job.fired"));
 					PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(playerEntity);
 					return ActionResult.success(ItemStack.EMPTY);
