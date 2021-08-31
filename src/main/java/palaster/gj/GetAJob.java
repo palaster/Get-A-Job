@@ -1,8 +1,5 @@
 package palaster.gj;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.inventory.container.ContainerType;
@@ -42,8 +39,6 @@ public class GetAJob {
 		@Override
 		public ItemStack makeIcon() { return new ItemStack(ModItems.RPG_INTRO); }
 	};
-	
-	private static final Logger LOGGER = LogManager.getLogger();
 	
 	public GetAJob() {
 		final IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();

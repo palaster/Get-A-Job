@@ -18,6 +18,9 @@ public class JobBotanist implements IRPGJob {
     public String getJobName() { return "gj.job.botanist"; }
 
     @Override
+    public boolean shouldDrawExtraInformation() { return false; }
+    
+    @Override
     public boolean doUpdate() { return true; }
 
     @Override

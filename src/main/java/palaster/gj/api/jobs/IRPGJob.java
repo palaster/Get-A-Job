@@ -22,11 +22,15 @@ public interface IRPGJob extends INBTSerializable<INBT> {
 	default boolean canLeave() { return true; }
 
 	default void leaveJob(@Nullable PlayerEntity player) {}
+	
+	default boolean shouldDrawExtraInformation() { return true; }
 
 	@OnlyIn(Dist.CLIENT)
 	default void drawExtraInformationBase(MatrixStack ms, FontRenderer font, int mouseX, int mouseY, @Nullable PlayerEntity player, int suggestedX, int suggestedY) {
-		font.draw(ms, I18n.get("gj.job.additionalInfo") + ":", suggestedX, suggestedY, 4210752);
-		drawExtraInformation(ms, font, mouseX, mouseY, player, suggestedX, suggestedY + 10);
+		if(shouldDrawExtraInformation()) {
+			font.draw(ms, I18n.get("gj.job.additionalInfo") + ":", suggestedX, suggestedY, 4210752);
+			drawExtraInformation(ms, font, mouseX, mouseY, player, suggestedX, suggestedY + 10);
+		}
 	}
 
 	/**
@@ -53,11 +57,11 @@ public interface IRPGJob extends INBTSerializable<INBT> {
 	default boolean overrideDexterity() { return false; }
 	default boolean overrideIntelligence() { return false; }
 
-	default int getOverrideConstitution() { return 0; }
-	default int getOverrideStrength() { return 0; }
-	default int getOverrideDefense() { return 0; }
-	default int getOverrideDexterity() { return 0; }
-	default int getOverrideIntelligence() { return 0; }
+	default int getOverrideConstitution(int originalStat) { return originalStat; }
+	default int getOverrideStrength(int originalStat) { return originalStat; }
+	default int getOverrideDefense(int originalStat) { return originalStat; }
+	default int getOverrideDexterity(int originalStat) { return originalStat; }
+	default int getOverrideIntelligence(int originalStat) { return originalStat; }
 	
 	default boolean doUpdate() { return false; }
 	

@@ -55,11 +55,74 @@ public class RPGIntroScreen extends ContainerScreen<RPGIntroContainer> {
     			else
     				font.draw(ms, I18n.get("gj.job.base", I18n.get("gj.job.noCareer")), 6, 6, 4210752);
     			font.draw(ms, I18n.get("gj.job.level", rpg.getLevel()), 6, 16, 4210752);
-    			font.draw(ms, I18n.get("gj.job.constitution", rpg.getConstitution()), 6, 26, 4210752);
-    			font.draw(ms, I18n.get("gj.job.strength", rpg.getStrength()), 6, 36, 4210752);
-    			font.draw(ms, I18n.get("gj.job.defense", rpg.getDefense()), 6, 46, 4210752);
-    			font.draw(ms, I18n.get("gj.job.dexterity", rpg.getDexterity()), 6, 56, 4210752);
-    			font.draw(ms, I18n.get("gj.job.intelligence", rpg.getIntelligence()), 6, 66, 4210752);
+    			
+    			String constitution = I18n.get("gj.job.constitution", rpg.getConstitution());
+    			if(rpg.getJob() != null && rpg.getJob().overrideConstitution()) {
+    				int difference = rpg.getConstitution() - rpg.getConstitution(true);
+    				String temp = "(" + rpg.getConstitution(true);
+    				if(difference < 0)
+    					temp = temp + "-" + Math.abs(difference) + ")";
+    				else if(difference > 0)
+    					temp = temp + "+" + difference + ")";
+    				else
+    					temp = temp + ")";
+    				constitution = I18n.get("gj.job.constitution_job", rpg.getConstitution(), temp);
+    			}
+    			String strength = I18n.get("gj.job.strength", rpg.getStrength());
+    			if(rpg.getJob() != null && rpg.getJob().overrideStrength()) {
+    				int difference = rpg.getStrength() - rpg.getStrength(true);
+    				String temp = "(" + rpg.getStrength(true);
+    				if(difference < 0)
+    					temp = temp + "-" + Math.abs(difference) + ")";
+    				else if(difference > 0)
+    					temp = temp + "+" + difference + ")";
+    				else
+    					temp = temp + ")"; 
+    				strength = I18n.get("gj.job.strength_job", rpg.getStrength(), temp);
+    			}
+    			String defense = I18n.get("gj.job.defense", rpg.getDefense());
+    			if(rpg.getJob() != null && rpg.getJob().overrideDefense()) {
+    				int difference = rpg.getDefense() - rpg.getDefense(true);
+    				String temp = "(" + rpg.getDefense(true);
+    				if(difference < 0)
+    					temp = temp + "-" + Math.abs(difference) + ")";
+    				else if(difference > 0)
+    					temp = temp + "+" + difference + ")";
+    				else
+    					temp = temp + ")"; 
+    				constitution = I18n.get("gj.job.defense_job", rpg.getDefense(), temp);
+    			}
+    			String dexterity = I18n.get("gj.job.dexterity", rpg.getDexterity());
+    			if(rpg.getJob() != null && rpg.getJob().overrideDexterity()) {
+    				int difference = rpg.getDexterity() - rpg.getDexterity(true);
+    				String temp = "(" + rpg.getDexterity(true);
+    				if(difference < 0)
+    					temp = temp + "-" + Math.abs(difference) + ")";
+    				else if(difference > 0)
+    					temp = temp + "+" + difference + ")";
+    				else
+    					temp = temp + ")"; 
+    				constitution = I18n.get("gj.job.dexterity_job", rpg.getDexterity(), temp);
+    			}
+    			String intelligence = I18n.get("gj.job.intelligence", rpg.getIntelligence());
+    			if(rpg.getJob() != null && rpg.getJob().overrideIntelligence()) {
+    				int difference = rpg.getIntelligence() - rpg.getIntelligence(true);
+    				String temp = "(" + rpg.getIntelligence(true);
+    				if(difference < 0)
+    					temp = temp + "-" + Math.abs(difference) + ")";
+    				else if(difference > 0)
+    					temp = temp + "+" + difference + ")";
+    				else
+    					temp = temp + ")"; 
+    				constitution = I18n.get("gj.job.intelligence_job", rpg.getIntelligence(), temp);
+    			}
+    			
+    			font.draw(ms, constitution, 6, 26, 4210752);
+    			font.draw(ms, strength, 6, 36, 4210752);
+    			font.draw(ms, defense, 6, 46, 4210752);
+    			font.draw(ms, dexterity, 6, 56, 4210752);
+    			font.draw(ms, intelligence, 6, 66, 4210752);
+    			
     			if(rpg.getJob() == null || !rpg.getJob().replaceMagick())
     				font.draw(ms, I18n.get("gj.job.magic", rpg.getMagick(), rpg.getMaxMagick()), 98, 66, 4210752);
     			int expColor = RPGDefault.getExperienceCostForNextLevel(player.get()) >= player.get().experienceLevel ? 0x8A0707 : 0x009900; 

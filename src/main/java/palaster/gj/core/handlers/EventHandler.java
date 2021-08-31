@@ -134,7 +134,7 @@ public class EventHandler {
 		}
 	}
 
-	/* TODO: Prior to 1.16.5 look here  https://github.com/MinecraftForge/MinecraftForge/pull/6401
+	/* TODO: Fix onHarvestDrops  https://github.com/MinecraftForge/MinecraftForge/pull/6401
 	@SubscribeEvent
 	public static void onHarvestDrops(HarvestDropsEvent e) {
 		if(e.getHarvester() != null && e.getWorld() != null && e.getPos() != null && e.getState() != null) {
@@ -162,7 +162,7 @@ public class EventHandler {
 
 	@SubscribeEvent
 	public static void onClonePlayer(PlayerEvent.Clone e) {
-		if(!e.getPlayer().level.isClientSide() && e.isWasDeath()) {
+		if(!e.getPlayer().level.isClientSide()) {
 			LazyOptional<IRPG> lazy_optional_rpg_og =  e.getOriginal().getCapability(RPGProvider.RPG_CAPABILITY, null);
 			LazyOptional<IRPG> lazy_optional_rpg_new =  e.getPlayer().getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg_og = lazy_optional_rpg_og.orElse(null);
@@ -184,7 +184,7 @@ public class EventHandler {
 		}
 	}
 
-	/* TODO: Prior to 1.16.5
+	/* TODO: Old Entity/Renderer registry
 	@SubscribeEvent
 	public static void registerEntitites(RegistryEvent.Register<EntityEntry> e) {
 		e.getRegistry().registerAll(EntityEntryBuilder.create().entity(EntitySpineShooter.class).id(new ResourceLocation(LibMod.MODID), 0).name("spine_shooter").egg(0x00FF00, 0x0000FF).tracker(64, 20, false).build());

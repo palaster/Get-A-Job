@@ -29,6 +29,11 @@
     "gj.job.defense": "Defense: %d",
     "gj.job.dexterity": "Dexterity: %d",
     "gj.job.intelligence": "Intelligence: %d",
+    "gj.job.constitution_job": "Constitution: %d (%s)",
+    "gj.job.strength_job": "Strength: %d (%s)",
+    "gj.job.defense_job": "Defense: %d (%s)",
+    "gj.job.dexterity_job": "Dexterity: %d (%s)",
+    "gj.job.intelligence_job": "Intelligence: %d (%s)",
     "gj.job.level": "Level: %d",
     "gj.job.magic": "Magic: %d / %d",
 

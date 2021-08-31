@@ -22,15 +22,25 @@ public interface IRPG extends INBTSerializable<INBT> {
 	
 	void setJob(IRPGJob job);
 	
-	int getConstitution();
+	int getConstitution(boolean getTrueValue);
 	
-	int getStrength();
+	int getStrength(boolean getTrueValue);
 	
-	int getDefense();
+	int getDefense(boolean getTrueValue);
 	
-	int getDexterity();
+	int getDexterity(boolean getTrueValue);
 	
-	int getIntelligence();
+	int getIntelligence(boolean getTrueValue);
+	
+	default int getConstitution() { return getConstitution(false); }
+	
+	default int getStrength() { return getStrength(false); }
+	
+	default int getDefense() { return getDefense(false); }
+	
+	default int getDexterity() { return getDexterity(false); }
+	
+	default int getIntelligence() { return getIntelligence(false); }
 
 	int getExperienceSaved();
 

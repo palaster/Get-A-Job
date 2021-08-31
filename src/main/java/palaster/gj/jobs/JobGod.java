@@ -14,6 +14,9 @@ public class JobGod implements IRPGJob {
 	public boolean canLeave() { return false; }
 
 	@Override
+	public boolean shouldDrawExtraInformation() { return false; }
+	
+	@Override
 	public boolean replaceMagick() { return true; }
 	
 	@Override

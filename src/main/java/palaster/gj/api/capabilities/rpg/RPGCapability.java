@@ -21,7 +21,7 @@ import palaster.libpal.core.helpers.PlayerHelper;
 
 public class RPGCapability {
 
-public static class RPGDefault implements IRPG {
+	public static class RPGDefault implements IRPG {
 
 		public static final String NBT_JOB_CLASS = "gj:rpg:job_class",
 			NBT_JOB = "gj:rpg:job",
@@ -114,19 +114,39 @@ public static class RPGDefault implements IRPG {
 		public void setJob(IRPGJob job) { this.job = job; }
 
 		@Override
-		public int getConstitution() { return job != null ? job.overrideConstitution() ? job.getOverrideConstitution() : constitution : constitution; }
+		public int getConstitution(boolean getTrueValue) {
+			if(getTrueValue)
+				return constitution;
+			return job != null ? job.overrideConstitution() ? job.getOverrideConstitution(constitution) : constitution : constitution;
+		}
 
 		@Override
-		public int getStrength() { return job != null ? job.overrideStrength() ? job.getOverrideStrength() : strength : strength; }
+		public int getStrength(boolean getTrueValue) {
+			if(getTrueValue)
+				return strength;
+			return job != null ? job.overrideStrength() ? job.getOverrideStrength(strength) : strength : strength;
+		}
 
 		@Override
-		public int getDefense() { return job != null ? job.overrideDefense() ? job.getOverrideDefense() : defense : defense; }
+		public int getDefense(boolean getTrueValue) {
+			if(getTrueValue)
+				return defense;
+			return job != null ? job.overrideDefense() ? job.getOverrideDefense(defense) : defense : defense;
+		}
 
 		@Override
-		public int getDexterity() { return job != null ? job.overrideDexterity() ? job.getOverrideDexterity() : dexterity : dexterity; }
+		public int getDexterity(boolean getTrueValue) {
+			if(getTrueValue)
+				return dexterity;
+			return job != null ? job.overrideDexterity() ? job.getOverrideDexterity(dexterity) : dexterity : dexterity;
+		}
 
 		@Override
-		public int getIntelligence() { return job != null ? job.overrideIntelligence() ? job.getOverrideIntelligence() : intelligence : intelligence; }
+		public int getIntelligence(boolean getTrueValue) {
+			if(getTrueValue)
+				return intelligence;
+			return job != null ? job.overrideIntelligence() ? job.getOverrideIntelligence(intelligence) : intelligence : intelligence;
+		}
 
 		@Override
 		public int getExperienceSaved() { return experienceSaved; }
@@ -254,7 +274,7 @@ public static class RPGDefault implements IRPG {
 	    	LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
 	    	IRPG rpg = lazy_optional_rpg.orElse(null);
 	    	if(rpg != null) {
-	    		int rpgLevel = (rpg.getConstitution() + rpg.getStrength() + rpg.getDefense() + rpg.getDexterity() + rpg.getIntelligence());
+	    		int rpgLevel = (rpg.getConstitution(true) + rpg.getStrength(true) + rpg.getDefense(true) + rpg.getDexterity(true) + rpg.getIntelligence(true));
 	    		return rpgLevel <= 0 ? 1 : (int) (rpgLevel * 1.2) - rpg.getExperienceSaved();
 	    	}
 	        return 0;

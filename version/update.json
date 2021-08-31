@@ -1,10 +1,11 @@
 {
 	"homepage": "https://www.curseforge.com/minecraft/mc-mods/get-a-job",
 	"1.16.5": {
-        	"0.0.8": "Fixed broken recipes and server crash",
+		"0.0.9": "Fixed player data reseting when leaving the end",
+		"0.0.8": "Fixed broken recipes and server crash",
 		"0.0.7": "1.16.5 Update"
 	},
 	"promos": {
-		"1.16.5-latest": "0.0.8"
+		"1.16.5-latest": "0.0.9"
 	}
 }

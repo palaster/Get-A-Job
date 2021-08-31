@@ -86,7 +86,7 @@ public class ModelSpineShooter extends EntityModel<SpineShooterEntity> {
         mouthBack.render(matrixStack, vertexBuilder, light, overlay, r, g, b, a);
 	}
 
-    /* TODO: Prior to 1.16.5
+    /* TODO: Old Render
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         mouthBottomBack.render(f5);
@@ -105,7 +105,7 @@ public class ModelSpineShooter extends EntityModel<SpineShooterEntity> {
     	modelRenderer.xRot = x;
     	modelRenderer.yRot = y;
     	modelRenderer.zRot = z;
-    	/* TODO: Prior to 1.16.5
+    	/* TODO: Old rotateAngle
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;
