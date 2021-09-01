@@ -5,21 +5,21 @@
       "item": "gj:job_pamphlet"
     },
     {
-      "item": "minecraft:wheat_seeds"
+      "tag": "forge:seeds/wheat"
     },
     {
-      "item": "minecraft:carrot"
+      "tag": "forge:crops/carrot"
     },
     {
-      "item": "minecraft:potato"
+      "tag": "forge:crops/potato"
     },
     {
-      "item": "minecraft:beetroot_seeds"
+      "tag": "forge:seeds/beetroot"
     }
   ],
   "result": {
     "nbt": {
-      "JobPamphletJobClass": "palaster.gj.jobs.JobBotanist"
+      "gj:job_pamphlet:job_class": "palaster.gj.jobs.JobBotanist"
     },
     "item": "gj:job_pamphlet"
   }

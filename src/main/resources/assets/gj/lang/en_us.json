@@ -20,10 +20,10 @@
     "gj.expCost": "XP Cost: %d",
 
     "gj.job.base": "Job: %s",
-    "gj.job.spellSlots": "Spell Slots",
+    "gj.job.spellSlots": "Spell Slots: %d",
     "gj.job.noCareer": "Get A Job You Bum!",
     "gj.job.fired": "You're fired!",
-    "gj.job.additionalInfo": "Additional Information",
+    "gj.job.additionalInfo": "Additional Information:",
     "gj.job.constitution": "Constitution: %d",
     "gj.job.strength": "Strength: %d",
     "gj.job.defense": "Defense: %d",
@@ -38,7 +38,7 @@
     "gj.job.magic": "Magic: %d / %d",
 
     "gj.job.bloodSorcerer": "Blood Sorcerer",
-    "gj.job.bloodSorcerer.blood": "Blood",
+    "gj.job.bloodSorcerer.blood": "Blood: %d / %d",
 
     "gj.job.bloodSorcerer.spell.0": "Drain",
 
@@ -49,12 +49,12 @@
     "gj.job.cleric": "Cleric",
     "gj.job.cleric.domain": "Domain",
 
-    "gj.job.cleric.spell.creation.0": "Creation",
-    "gj.job.cleric.spell.creation.1": "Burn",
-    "gj.job.cleric.spell.community.0": "Shield Other",
-    "gj.job.cleric.spell.community.1": "Heal",
-    "gj.job.cleric.spell.life.0": "Growth",
-    "gj.job.cleric.spell.life.1": "Heal",
+    "gj.job.cleric.spell.0": "Creation",
+    "gj.job.cleric.spell.1": "Burn",
+    "gj.job.cleric.spell.2": "Shield Other",
+    "gj.job.cleric.spell.3": "Heal",
+    "gj.job.cleric.spell.4": "Growth",
+    "gj.job.cleric.spell.5": "Heal",
 
     "gj.job.god": "God"
 }

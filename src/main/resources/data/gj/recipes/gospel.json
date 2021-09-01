@@ -1,18 +1,13 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-	"x  ",
-	" y ",
-	"  y"
-  ],
-  "key": {
-	"x": {
-	  "item": "minecraft:ender_pearl"
-	},
-	"y": {
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+	{
 	  "item": "minecraft:book"
+	},
+	{
+	  "tag": "forge:dusts/glowstone"
 	}
-  },
+  ],
   "result": {
 	"item": "gj:gospel"
   }

@@ -28,7 +28,7 @@ public interface IRPGJob extends INBTSerializable<INBT> {
 	@OnlyIn(Dist.CLIENT)
 	default void drawExtraInformationBase(MatrixStack ms, FontRenderer font, int mouseX, int mouseY, @Nullable PlayerEntity player, int suggestedX, int suggestedY) {
 		if(shouldDrawExtraInformation()) {
-			font.draw(ms, I18n.get("gj.job.additionalInfo") + ":", suggestedX, suggestedY, 4210752);
+			font.draw(ms, I18n.get("gj.job.additionalInfo"), suggestedX, suggestedY, 4210752);
 			drawExtraInformation(ms, font, mouseX, mouseY, player, suggestedX, suggestedY + 12);
 		}
 	}

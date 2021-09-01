@@ -10,11 +10,10 @@
 	  "tag": "forge:stone"
 	},
 	"y": {
-	  "item": "minecraft:gold_ingot"
+	  "tag": "forge:ingots/gold"
 	}
   },
   "result": {
-	"data": 0,
 	"item": "gj:altar"
   }
 }

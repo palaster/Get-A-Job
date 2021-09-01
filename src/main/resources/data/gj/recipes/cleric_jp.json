@@ -5,7 +5,7 @@
       "item": "gj:job_pamphlet"
     },
     {
-      "item": "gj:gospel"
+      "item": "gj:altar"
     },
     {
       "item": "minecraft:book"
@@ -13,7 +13,7 @@
   ],
   "result": {
     "nbt": {
-      "JobPamphletJobClass": "palaster.gj.jobs.JobCleric"
+      "gj:job_pamphlet:job_class": "palaster.gj.jobs.JobCleric"
     },
     "item": "gj:job_pamphlet"
   }

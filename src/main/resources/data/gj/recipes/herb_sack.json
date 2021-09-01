@@ -9,7 +9,7 @@
   {
     "x":
     {
-      "item": "minecraft:leather"
+      "tag": "forge:leather"
     },
     "y":
     {
