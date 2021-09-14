@@ -126,8 +126,8 @@ dependencies {
     // compile "some.group:artifact:version:classifier"
     // compile "some.group:artifact:version"
 
-	compileOnly fg.deobf('palaster.libpal:libpal:1.16.5-0.0.8')
-	runtimeOnly fg.deobf('palaster.libpal:libpal:1.16.5-0.0.8')
+	compileOnly fg.deobf('palaster.libpal:libpal:1.16.5-0.0.9')
+	runtimeOnly fg.deobf('palaster.libpal:libpal:1.16.5-0.0.9')
 
     // Real examples
     // compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env

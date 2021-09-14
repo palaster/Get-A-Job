@@ -44,7 +44,7 @@ public class EventHandler {
 			IRPG rpg = lazy_optional_rpg.orElse(null);
 			if(rpg != null) {
 				if(timer >= 60) {
-					rpg.setMagick(rpg.getMagick() + 1);
+					rpg.setMagick(rpg.getMagick() + (rpg.getMaxMagick() / 100));
 					timer = 0;
 				} else
 					timer++;

@@ -7,5 +7,6 @@ public class BotanySpells {
 
     static {
         BOTANY_SPELLS.add(new BSSummonSpineShooter());
+        BOTANY_SPELLS.add(new BSRoot());
     }
 }
