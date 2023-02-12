@@ -1,21 +1,20 @@
 package palaster.gj.jobs.spells;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 public class DSShieldOther implements IDomainSpell {
 	@Override
-	public ActionResultType interactLivingEntity(ItemStack itemStack, PlayerEntity playerEntity, LivingEntity livingEntity, Hand hand) {
-		if(!livingEntity.hasEffect(Effects.ABSORPTION)) {
-			livingEntity.addEffect(new EffectInstance(Effects.ABSORPTION, 1200, 0, true, false));
-			return ActionResultType.SUCCESS;
+	public InteractionResult interactLivingEntity(ItemStack itemStack, Player player, LivingEntity livingEntity, InteractionHand hand) {
+		if(!livingEntity.hasEffect(MobEffects.ABSORPTION)) {
+			livingEntity.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 1200, 0, true, false));
+			return InteractionResult.SUCCESS;
 		}
-		return IDomainSpell.super.interactLivingEntity(itemStack, playerEntity, livingEntity, hand);
+		return IDomainSpell.super.interactLivingEntity(itemStack, player, livingEntity, hand);
 	}
-	
 }

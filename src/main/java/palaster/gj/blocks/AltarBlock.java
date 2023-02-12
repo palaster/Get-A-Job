@@ -1,33 +1,32 @@
 package palaster.gj.blocks;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.util.LazyOptional;
 import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
 import palaster.gj.jobs.JobCleric;
 import palaster.gj.network.client.PacketUpdateRPG;
-import palaster.libpal.blocks.ModBlock;
 
-public class AltarBlock extends ModBlock {
+public class AltarBlock extends Block {
 	
-	public AltarBlock(Properties properties, ResourceLocation resourceLocation) { super(properties, resourceLocation); }
+	public AltarBlock(Properties properties) { super(properties); }
 
 	@Override
-	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult blockRayTraceResult) {
-		if(!world.isClientSide) {
+	public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult blockHitResult) {
+		if(!level.isClientSide) {
 			LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
 	    	IRPG rpg = lazy_optional_rpg.orElse(null);
 			if(rpg != null && rpg.getJob() instanceof JobCleric)
 				((JobCleric) rpg.getJob()).resetSpellSlots(rpg);
 			PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(player);
 		}
-		return ActionResultType.SUCCESS;
+		return InteractionResult.SUCCESS;
 	}
 }

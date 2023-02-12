@@ -1,3 +1,4 @@
+/* TODO: fix me
 package palaster.gj.client.renderers;
 
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -17,3 +18,4 @@ public class RenderSpineShooter extends LivingRenderer<SpineShooterEntity, Model
 	@Override
 	public ResourceLocation getTextureLocation(SpineShooterEntity entity) { return LibResource.SPINE_SHOOTER; }
 }
+*/

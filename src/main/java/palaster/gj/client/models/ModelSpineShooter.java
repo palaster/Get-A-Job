@@ -1,10 +1,11 @@
+/* TODO: fix me
 package palaster.gj.client.models;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -100,7 +101,7 @@ public class ModelSpineShooter extends EntityModel<SpineShooterEntity> {
         mouthBack.render(f5);
     }
     */
-
+/*
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
     	modelRenderer.xRot = x;
     	modelRenderer.yRot = y;
@@ -110,8 +111,10 @@ public class ModelSpineShooter extends EntityModel<SpineShooterEntity> {
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;
         */
+/*
     }
 
 	@Override
 	public void setupAnim(SpineShooterEntity p_225597_1_, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) { }
 }
+*/

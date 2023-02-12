@@ -1,41 +1,47 @@
 package palaster.gj;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.gui.ScreenManager;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 import palaster.gj.api.capabilities.rpg.IRPG;
-import palaster.gj.api.capabilities.rpg.RPGCapability.RPGFactory;
-import palaster.gj.api.capabilities.rpg.RPGCapability.RPGStorage;
+import palaster.gj.blocks.AltarBlock;
 import palaster.gj.blocks.ModBlocks;
-import palaster.gj.client.gui.RPGIntroScreen;
-import palaster.gj.containers.ModContainerTypes;
+import palaster.gj.client.screens.RPGIntroScreen;
+import palaster.gj.containers.ModMenuTypes;
+import palaster.gj.containers.RPGIntroMenu;
 import palaster.gj.core.handlers.EventHandler;
+import palaster.gj.items.BloodBookItem;
+import palaster.gj.items.GospelItem;
+import palaster.gj.items.HandItem;
+import palaster.gj.items.HerbSackItem;
+import palaster.gj.items.JobPamphletItem;
 import palaster.gj.items.ModItems;
+import palaster.gj.items.PinkSlipItem;
+import palaster.gj.items.RPGIntroItem;
+import palaster.gj.items.TestItem;
 import palaster.gj.libs.LibMod;
-import palaster.gj.network.client.PacketUpdateRPG;
-import palaster.libpal.network.PacketHandler;
+import palaster.gj.network.PacketHandler;
 
 @Mod(LibMod.MODID)
 public class GetAJob {
 	
-	public static final ItemGroup GET_A_JOB = new ItemGroup("getAJob") {
+	public static final CreativeModeTab GET_A_JOB = new CreativeModeTab("getAJob") {
 		@Override
 		public ItemStack makeIcon() { return new ItemStack(ModItems.RPG_INTRO); }
 	};
@@ -47,59 +53,53 @@ public class GetAJob {
         // Register the onClientSetup method for modloading
         eventBus.addListener(this::onClientSetup);
         // Register the onLoadComplete method for modloading
-        eventBus.addListener(this::onLoadComplete);
-        // Register the onEnqueueIMC method for modloading
-        eventBus.addListener(this::onEnqueueIMC);
-        // Register the onProcessIMC method for modloading
-        eventBus.addListener(this::onProcessIMC);
+        eventBus.addListener(this::onRegisterCapabilities);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
 	}
 	
 	private void onCommonSetup(final FMLCommonSetupEvent event) {
-		CapabilityManager.INSTANCE.register(IRPG.class, new RPGStorage(), new RPGFactory());
-		
+		PacketHandler.init();
+	}
+
+    private void onClientSetup(final FMLClientSetupEvent event) {
 		event.enqueueWork(() -> {
-			PacketHandler.getInstance().registerMessage(PacketHandler.packet_id++, PacketUpdateRPG.class, PacketUpdateRPG::encode, PacketUpdateRPG::decode, PacketUpdateRPG::handle);
+			MenuScreens.register(ModMenuTypes.RPG_INTRO_CONTAINER, RPGIntroScreen::new);
 		});
 	}
 
-    private void onClientSetup(final FMLClientSetupEvent event) { }
-    
-    private void onLoadComplete(final FMLLoadCompleteEvent event) { }
-
-    private void onEnqueueIMC(final InterModEnqueueEvent event) { }
-
-    private void onProcessIMC(final InterModProcessEvent event) { }
+    private void onRegisterCapabilities(final RegisterCapabilitiesEvent event) {
+		event.register(IRPG.class);
+	}
     
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryEvents {
-    	@SubscribeEvent
-        public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
-    		blockRegistryEvent.getRegistry().registerAll(ModBlocks.ALTAR);
-        }
-    	
-    	@SubscribeEvent
-        public static void onItemsRegistry(final RegistryEvent.Register<Item> itemRegistryEvent) {
-        	itemRegistryEvent.getRegistry().registerAll(ModItems.ALTAR,
-        			ModItems.RPG_INTRO,
-        			ModItems.JOB_PAMPHLET,
-        			ModItems.PINK_SLIP,
-        			ModItems.CONGEALED_BLOOD,
-        			ModItems.GOSPEL,
-        			ModItems.BLOOD_BOOK,
-        			ModItems.HAND,
-        			ModItems.HERB_SACK,
-        			ModItems.TEST);
-        }
-    	
-    	@SubscribeEvent
-        public static void onContainerTypesRegistry(final RegistryEvent.Register<ContainerType<?>> containerTypesRegistryEvent) {
-        	containerTypesRegistryEvent.getRegistry().registerAll(ModContainerTypes.RPG_INTRO_CONTAINER.setRegistryName(LibMod.MODID, "rpg_intro"));
-        	DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-        		ScreenManager.register(ModContainerTypes.RPG_INTRO_CONTAINER, RPGIntroScreen::new);
-        	});
+
+		@SubscribeEvent
+        public static void onRegister(RegisterEvent event) {
+    		event.register(ForgeRegistries.Keys.BLOCKS, helper -> {
+				helper.register(new ResourceLocation(LibMod.MODID, "altar"), new AltarBlock(BlockBehaviour.Properties.of(Material.STONE)));
+			});
+			final Item.Properties DEFAULT_PROPERTIES = new Item.Properties().tab(GetAJob.GET_A_JOB);
+			final Item.Properties SPECIAL_PROPERTIES = DEFAULT_PROPERTIES.defaultDurability(0);
+			event.register(ForgeRegistries.Keys.ITEMS, helper -> {
+				helper.register(new ResourceLocation(LibMod.MODID, "altar"), new BlockItem(ModBlocks.ALTAR, DEFAULT_PROPERTIES));
+
+				helper.register(new ResourceLocation(LibMod.MODID, "congealed_blood"), new Item(DEFAULT_PROPERTIES));
+
+				helper.register(new ResourceLocation(LibMod.MODID, "rpg_intro"), new RPGIntroItem(SPECIAL_PROPERTIES));
+				helper.register(new ResourceLocation(LibMod.MODID, "job_pamphlet"), new JobPamphletItem(SPECIAL_PROPERTIES));
+				helper.register(new ResourceLocation(LibMod.MODID, "pink_slip"), new PinkSlipItem(SPECIAL_PROPERTIES));
+				helper.register(new ResourceLocation(LibMod.MODID, "gospel"), new GospelItem(SPECIAL_PROPERTIES));
+				helper.register(new ResourceLocation(LibMod.MODID, "blood_book"), new BloodBookItem(SPECIAL_PROPERTIES));
+				helper.register(new ResourceLocation(LibMod.MODID, "hand"), new HandItem(SPECIAL_PROPERTIES));
+				helper.register(new ResourceLocation(LibMod.MODID, "herb_sack"), new HerbSackItem(SPECIAL_PROPERTIES));
+				helper.register(new ResourceLocation(LibMod.MODID, "test"), new TestItem(SPECIAL_PROPERTIES));
+			});
+			event.register(ForgeRegistries.Keys.MENU_TYPES, helper -> {
+				helper.register(new ResourceLocation(LibMod.MODID, "rpg_intro"), new MenuType<>(new RPGIntroMenu.Factory()));
+			});
         }
     }
 }

@@ -1,46 +1,45 @@
 package palaster.gj.items;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.inventory.container.SimpleNamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.network.NetworkHooks;
+import palaster.gj.api.IReceiveButton;
 import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGDefault;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
-import palaster.gj.containers.RPGIntroContainer;
+import palaster.gj.containers.RPGIntroMenu;
 import palaster.gj.network.client.PacketUpdateRPG;
-import palaster.libpal.api.IReceiveButton;
-import palaster.libpal.items.SpecialModItem;
 
-public class RPGIntroItem extends SpecialModItem implements IReceiveButton {
-	public RPGIntroItem(Properties properties, ResourceLocation resourceLocation) { super(properties, resourceLocation, 0); }
+public class RPGIntroItem extends Item implements IReceiveButton {
+	public RPGIntroItem(Properties properties) { super(properties); }
 	
 	@Override
-	public ActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand) {
-		if(!world.isClientSide) {
-			LazyOptional<IRPG> lazy_optional_rpg = playerEntity.getCapability(RPGProvider.RPG_CAPABILITY, null);
+	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+		if(!level.isClientSide) {
+			LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
 			if(rpg != null) {
-				PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(playerEntity);
-				INamedContainerProvider container = new SimpleNamedContainerProvider((containerId, playerInventory, player) -> new RPGIntroContainer(containerId, hand), playerEntity.getItemInHand(hand).getDisplayName());
-				NetworkHooks.openGui((ServerPlayerEntity) playerEntity, container, buf -> {
-					buf.writeBoolean(hand == Hand.MAIN_HAND);
+				PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(player);
+				MenuProvider container = new SimpleMenuProvider((containerId, playerInventory, playerEntity) -> new RPGIntroMenu(containerId, hand), player.getItemInHand(hand).getDisplayName());
+				NetworkHooks.openScreen((ServerPlayer) player, container, buf -> {
+					buf.writeBoolean(hand == InteractionHand.MAIN_HAND);
 				});
-				return ActionResult.success(playerEntity.getItemInHand(hand));
+				return InteractionResultHolder.success(player.getItemInHand(hand));
 			}
 		}
-		return super.use(world, playerEntity, hand);
+		return super.use(level, player, hand);
 	}
 
 	@Override
-	public void receiveButtonEvent(int buttonId, PlayerEntity player) {
+	public void receiveButtonEvent(Player player, int buttonId) {
 		LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
 		final IRPG rpg = lazy_optional_rpg.orElse(null);
 		if(rpg != null) {

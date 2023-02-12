@@ -2,102 +2,102 @@ package palaster.gj.items;
 
 import java.util.List;
 
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
+import javax.annotation.Nullable;
+
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.LazyOptional;
 import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
+import palaster.gj.core.helpers.NBTHelper;
 import palaster.gj.jobs.JobBotanist;
 import palaster.gj.jobs.spells.BotanySpells;
 import palaster.gj.jobs.spells.IBotanySpell;
-import palaster.libpal.core.helpers.NBTHelper;
-import palaster.libpal.items.SpecialModItem;
 
-public class HerbSackItem extends SpecialModItem {
+public class HerbSackItem extends Item {
 
     public static final String NBT_SELECTED_SPELL = "gj:herb_sack:selected_spell";
 
-    public HerbSackItem(Properties properties, ResourceLocation resourceLocation) { super(properties, resourceLocation, 0); }
+    public HerbSackItem(Properties properties) { super(properties); }
     
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
+	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
 		if(NBTHelper.getIntegerFromItemStack(stack, NBT_SELECTED_SPELL) >= 0)
-			tooltip.add(new StringTextComponent("Selected Spell: " + I18n.get("gj.job.botanist.spell." + NBTHelper.getIntegerFromItemStack(stack, NBT_SELECTED_SPELL))));
+			tooltip.add(Component.literal("Selected Spell: " + I18n.get("gj.job.botanist.spell." + NBTHelper.getIntegerFromItemStack(stack, NBT_SELECTED_SPELL))));
 	}
     
     @Override
-    public ActionResultType interactLivingEntity(ItemStack itemStack, PlayerEntity playerEntity, LivingEntity livingEntity, Hand hand) {
-    	if(!playerEntity.level.isClientSide) {
-    		LazyOptional<IRPG> lazy_optional_rpg = playerEntity.getCapability(RPGProvider.RPG_CAPABILITY, null);
+    public InteractionResult interactLivingEntity(ItemStack itemStack, Player player, LivingEntity livingEntity, InteractionHand hand) {
+    	if(!player.level.isClientSide) {
+    		LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
 	        if(rpg != null && rpg.getJob() instanceof JobBotanist) {
 	            IBotanySpell IBS = BotanySpells.BOTANY_SPELLS.get(NBTHelper.getIntegerFromItemStack(itemStack, NBT_SELECTED_SPELL));
 	            if(rpg.getMagick() < IBS.getCost())
-	                return ActionResultType.FAIL;
-	            ActionResultType actionResultType = IBS.interactLivingEntity(itemStack, playerEntity, livingEntity, hand);
-	            if(actionResultType == ActionResultType.SUCCESS)
+	                return InteractionResult.FAIL;
+                    InteractionResult interactionResult = IBS.interactLivingEntity(itemStack, player, livingEntity, hand);
+	            if(interactionResult == InteractionResult.SUCCESS)
 	                rpg.setMagick(rpg.getMagick() - IBS.getCost());
-	            return actionResultType;
+	            return interactionResult;
 	        }
     	}
-    	return super.interactLivingEntity(itemStack, playerEntity, livingEntity, hand);
+    	return super.interactLivingEntity(itemStack, player, livingEntity, hand);
     }
     
     @Override
-    public ActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand) {
-    	if(!world.isClientSide) {
-            if(playerEntity.isShiftKeyDown()) {
-                int currentSelection = NBTHelper.getIntegerFromItemStack(playerEntity.getItemInHand(hand), NBT_SELECTED_SPELL);
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    	if(!level.isClientSide) {
+            if(player.isShiftKeyDown()) {
+                int currentSelection = NBTHelper.getIntegerFromItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL);
                 if(currentSelection >= BotanySpells.BOTANY_SPELLS.size() - 1)
-                    return ActionResult.success(NBTHelper.setIntegerToItemStack(playerEntity.getItemInHand(hand), NBT_SELECTED_SPELL, 0));
+                    return InteractionResultHolder.success(NBTHelper.setIntegerToItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL, 0));
                 else
-                    return ActionResult.success(NBTHelper.setIntegerToItemStack(playerEntity.getItemInHand(hand), NBT_SELECTED_SPELL, NBTHelper.getIntegerFromItemStack(playerEntity.getItemInHand(hand), NBT_SELECTED_SPELL) + 1));
+                    return InteractionResultHolder.success(NBTHelper.setIntegerToItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL, NBTHelper.getIntegerFromItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL) + 1));
             } else {
-            	LazyOptional<IRPG> lazy_optional_rpg = playerEntity.getCapability(RPGProvider.RPG_CAPABILITY, null);
+            	LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
     			final IRPG rpg = lazy_optional_rpg.orElse(null);
                 if(rpg != null && rpg.getJob() instanceof JobBotanist) {
-                    IBotanySpell IBS = BotanySpells.BOTANY_SPELLS.get(NBTHelper.getIntegerFromItemStack(playerEntity.getItemInHand(hand), NBT_SELECTED_SPELL));
+                    IBotanySpell IBS = BotanySpells.BOTANY_SPELLS.get(NBTHelper.getIntegerFromItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL));
                     if(rpg.getMagick() < IBS.getCost())
-                        return ActionResult.fail(playerEntity.getItemInHand(hand));
-                    ActionResult<ItemStack> actionResult = IBS.use(world, playerEntity, hand);
-                    if(actionResult.getResult() == ActionResultType.SUCCESS)
+                        return InteractionResultHolder.fail(player.getItemInHand(hand));
+                        InteractionResultHolder<ItemStack> actionResult = IBS.use(level, player, hand);
+                    if(actionResult.getResult() == InteractionResult.SUCCESS)
                         rpg.setMagick(rpg.getMagick() - IBS.getCost());
                     return actionResult;
                 }
             }
         }
-    	return super.use(world, playerEntity, hand);
+    	return super.use(level, player, hand);
     }
     
     @Override
-    public ActionResultType useOn(ItemUseContext itemUseContext) {
-    	if(!itemUseContext.getLevel().isClientSide) {
-    		LazyOptional<IRPG> lazy_optional_rpg = itemUseContext.getPlayer().getCapability(RPGProvider.RPG_CAPABILITY, null);
+    public InteractionResult useOn(UseOnContext useOnContext) {
+    	if(!useOnContext.getLevel().isClientSide) {
+    		LazyOptional<IRPG> lazy_optional_rpg = useOnContext.getPlayer().getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
             if(rpg != null && rpg.getJob() instanceof JobBotanist) {
-                IBotanySpell IBS = BotanySpells.BOTANY_SPELLS.get(NBTHelper.getIntegerFromItemStack(itemUseContext.getItemInHand(), NBT_SELECTED_SPELL));
+                IBotanySpell IBS = BotanySpells.BOTANY_SPELLS.get(NBTHelper.getIntegerFromItemStack(useOnContext.getItemInHand(), NBT_SELECTED_SPELL));
                 if(rpg.getMagick() < IBS.getCost())
-                    return ActionResultType.FAIL;
-                ActionResultType actionResultType = IBS.useOn(itemUseContext);
-                if(actionResultType == ActionResultType.SUCCESS)
+                    return InteractionResult.FAIL;
+                    InteractionResult interationResult = IBS.useOn(useOnContext);
+                if(interationResult == InteractionResult.SUCCESS)
                     rpg.setMagick(rpg.getMagick() - IBS.getCost());
-                return actionResultType;
+                return interationResult;
             }
         }
-    	return super.useOn(itemUseContext);
+    	return super.useOn(useOnContext);
     }
 }

@@ -1,23 +1,23 @@
 package palaster.gj.api.capabilities.rpg;
 
 import java.util.UUID;
-import java.util.concurrent.Callable;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.Direction;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import palaster.gj.api.jobs.IRPGJob;
-import palaster.libpal.core.helpers.PlayerHelper;
 
 public class RPGCapability {
 
@@ -48,66 +48,66 @@ public class RPGCapability {
 			magick = 0;
 		
 		@Override
-		public void setConstitution(int amt) {
-			if(amt > MAX_LEVEL)
+		public void setConstitution(int amount) {
+			if(amount > MAX_LEVEL)
 				constitution = MAX_LEVEL;
-			else if(amt <= 0)
+			else if(amount <= 0)
 				constitution = 0;
 			else
-				constitution = amt;
+				constitution = amount;
 		}
 
 		@Override
-		public void setStrength(int amt) {
-			if(amt > MAX_LEVEL)
+		public void setStrength(int amount) {
+			if(amount > MAX_LEVEL)
 				strength = MAX_LEVEL;
-			else if(amt <= 0)
+			else if(amount <= 0)
 				strength = 0;
 			else
-				strength = amt;
+				strength = amount;
 		}
 		
 		@Override
-		public void setDefense(int amt) {
-			if(amt > MAX_LEVEL)
+		public void setDefense(int amount) {
+			if(amount > MAX_LEVEL)
 				defense = MAX_LEVEL;
-			else if(amt <= 0)
+			else if(amount <= 0)
 				defense = 0;
 			else
-				defense = amt;
+				defense = amount;
 		}
 		
 		@Override
-		public void setDexterity(int amt) {
-			if(amt > MAX_LEVEL)
+		public void setDexterity(int amount) {
+			if(amount > MAX_LEVEL)
 				dexterity = MAX_LEVEL;
-			else if(amt <= 0)
+			else if(amount <= 0)
 				dexterity = 0;
 			else
-				dexterity = amt;
+				dexterity = amount;
 		}
 
 		@Override
-		public void setIntelligence(int amt) {
-			if(amt > MAX_LEVEL)
+		public void setIntelligence(int amount) {
+			if(amount > MAX_LEVEL)
 				intelligence = MAX_LEVEL;
-			else if(amt <= 0)
+			else if(amount <= 0)
 				intelligence = 0;
 			else
-				intelligence = amt;
+				intelligence = amount;
 		}
 
 		@Override
-		public void setExperienceSaved(int amt) { experienceSaved = amt; }
+		public void setExperienceSaved(int amount) { experienceSaved = amount; }
 
 		@Override
-		public void setMagick(int amt) {
-			if(amt > getMaxMagick())
+		public void setMagick(int amount) {
+			if(amount > getMaxMagick())
 				magick = getMaxMagick();
-			else if(amt <= 0)
+			else if(amount <= 0)
 				magick = 0;
 			else
-				magick = amt;
+				magick = amount;
 		}
 
 		@Override
@@ -164,30 +164,30 @@ public class RPGCapability {
 		public IRPGJob getJob() { return job; }
 		
 		@Override
-		public INBT serializeNBT() {
-			CompoundNBT nbt = new CompoundNBT();
-			nbt.putInt(NBT_CONSTITUTION, constitution);
-			nbt.putInt(NBT_STRENGTH, strength);
-			nbt.putInt(NBT_DEFENSE, defense);
-			nbt.putInt(NBT_DEXTERITY, dexterity);
-			nbt.putInt(NBT_INTELLIGENCE, intelligence);
-			nbt.putInt(NBT_EXPERIENCE_SAVED, experienceSaved);
-			nbt.putInt(NBT_MAGICK, magick);
+		public Tag serializeNBT() {
+			CompoundTag compoundTag = new CompoundTag();
+			compoundTag.putInt(NBT_CONSTITUTION, constitution);
+			compoundTag.putInt(NBT_STRENGTH, strength);
+			compoundTag.putInt(NBT_DEFENSE, defense);
+			compoundTag.putInt(NBT_DEXTERITY, dexterity);
+			compoundTag.putInt(NBT_INTELLIGENCE, intelligence);
+			compoundTag.putInt(NBT_EXPERIENCE_SAVED, experienceSaved);
+			compoundTag.putInt(NBT_MAGICK, magick);
 			if(job != null && job.getClass() != null && !job.getClass().getName().isEmpty()) {
-				nbt.putString(NBT_JOB_CLASS, job.getClass().getName());
-				nbt.put(NBT_JOB, job.serializeNBT());
+				compoundTag.putString(NBT_JOB_CLASS, job.getClass().getName());
+				compoundTag.put(NBT_JOB, job.serializeNBT());
 			}
 			if(job == null || job.getClass() == null || job.getClass().getName().isEmpty()) {
-				nbt.remove(NBT_JOB_CLASS);
-				nbt.remove(NBT_JOB);
+				compoundTag.remove(NBT_JOB_CLASS);
+				compoundTag.remove(NBT_JOB);
 			}
-			return nbt;
+			return compoundTag;
 		}
 		
 		@Override
-		public void deserializeNBT(INBT nbt) {
-			if(nbt instanceof CompoundNBT) {
-				CompoundNBT cNBT = (CompoundNBT) nbt;
+		public void deserializeNBT(Tag tag) {
+			if(tag instanceof CompoundTag) {
+				CompoundTag cNBT = (CompoundTag) tag;
 				setConstitution(cNBT.getInt(NBT_CONSTITUTION));
 				setStrength(cNBT.getInt(NBT_STRENGTH));
 				setDefense(cNBT.getInt(NBT_DEFENSE));
@@ -197,7 +197,7 @@ public class RPGCapability {
 				setMagick(cNBT.getInt(NBT_MAGICK));
 				if(cNBT.contains(NBT_JOB_CLASS) && !cNBT.getString(NBT_JOB_CLASS).isEmpty()) {
 					try {
-						Object obj = Class.forName(cNBT.getString(NBT_JOB_CLASS)).newInstance();
+						Object obj = Class.forName(cNBT.getString(NBT_JOB_CLASS)).getConstructor().newInstance();
 						if(obj instanceof IRPGJob) {
 							if(cNBT.contains(NBT_JOB) && cNBT.getCompound(NBT_JOB) != null)
 								((IRPGJob) obj).deserializeNBT(cNBT.getCompound(NBT_JOB));
@@ -212,36 +212,40 @@ public class RPGCapability {
 			}
 		}
 
-		public static void updatePlayerAttributes(@Nullable PlayerEntity player, @Nullable IRPG rpg) {
+		public static void updatePlayerAttributes(@Nullable Player player, @Nullable IRPG rpg) {
 			if(player == null || rpg == null)
 				return;
 			if(rpg.getConstitution() <= 0) {
-				ModifiableAttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.MAX_HEALTH);
-    			if(attributeInstance.getModifier(HEALTH_ID) != null)
+				AttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.MAX_HEALTH);
+    			if(attributeInstance != null && attributeInstance.getModifier(HEALTH_ID) != null)
     				attributeInstance.removeModifier(attributeInstance.getModifier(HEALTH_ID));
     		} else {
-    			ModifiableAttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.MAX_HEALTH);
-    			if(attributeInstance.getModifier(HEALTH_ID) != null)
-    				attributeInstance.removeModifier(attributeInstance.getModifier(HEALTH_ID));
-    			attributeInstance.addTransientModifier(new AttributeModifier(HEALTH_ID, "gj.rpg.constitution", rpg.getConstitution() * .4, AttributeModifier.Operation.ADDITION));
-    			// attributeInstance.addPermanentModifier();
+    			AttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.MAX_HEALTH);
+				if(attributeInstance != null) {
+					if(attributeInstance.getModifier(HEALTH_ID) != null)
+    					attributeInstance.removeModifier(attributeInstance.getModifier(HEALTH_ID));
+					attributeInstance.addTransientModifier(new AttributeModifier(HEALTH_ID, "gj.rpg.constitution", rpg.getConstitution() * .4, AttributeModifier.Operation.ADDITION));
+					// attributeInstance.addPermanentModifier();
+				}
     		}
 			if(rpg.getDexterity() <= 0) {
-				ModifiableAttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.MOVEMENT_SPEED);
-    			if(attributeInstance.getModifier(DEXTERITY_ID) != null)
+				AttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.MOVEMENT_SPEED);
+    			if(attributeInstance != null && attributeInstance.getModifier(DEXTERITY_ID) != null)
     				attributeInstance.removeModifier(attributeInstance.getModifier(DEXTERITY_ID));
     		} else {
-    			ModifiableAttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.MOVEMENT_SPEED);
-    			if(attributeInstance.getModifier(DEXTERITY_ID) != null)
-    				attributeInstance.removeModifier(attributeInstance.getModifier(DEXTERITY_ID));
-    			attributeInstance.addTransientModifier(new AttributeModifier(DEXTERITY_ID, "gj.rpg.dexterity", rpg.getDexterity() * .008, AttributeModifier.Operation.ADDITION));
-    			// attributeInstance.addPermanentModifier();
+    			AttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.MOVEMENT_SPEED);
+				if(attributeInstance != null) {
+					if(attributeInstance.getModifier(DEXTERITY_ID) != null)
+    					attributeInstance.removeModifier(attributeInstance.getModifier(DEXTERITY_ID));
+    				attributeInstance.addTransientModifier(new AttributeModifier(DEXTERITY_ID, "gj.rpg.dexterity", rpg.getDexterity() * .008, AttributeModifier.Operation.ADDITION));
+					// attributeInstance.addPermanentModifier();
+				}
     		}
 			if(rpg.getJob() != null)
 				rpg.getJob().updatePlayerAttributes(player);
 		}
 		
-		public static void jobChange(@Nullable PlayerEntity player, @Nullable IRPG rpg, @Nullable IRPGJob job) {
+		public static void jobChange(@Nullable Player player, @Nullable IRPG rpg, @Nullable IRPGJob job) {
 			if(player == null || rpg == null)
 				return;
 			if(job != null) {
@@ -254,7 +258,7 @@ public class RPGCapability {
 						rpg.setJob(job);
 						rpg.getJob().updatePlayerAttributes(player);
 					} else
-						PlayerHelper.sendChatMessageToPlayer(player, "You can't leave these responsibilities.");
+						player.sendSystemMessage(Component.literal("You can't leave these responsibilities."));
 				} else {
 					rpg.setJob(job);
 					rpg.getJob().updatePlayerAttributes(player);
@@ -265,12 +269,12 @@ public class RPGCapability {
 						rpg.getJob().leaveJob(player);
 						rpg.setJob(job);
 					} else
-						PlayerHelper.sendChatMessageToPlayer(player, "You can't leave these responsibilities.");
+						player.sendSystemMessage(Component.literal("You can't leave these responsibilities."));
 				}
 			}
 		}
 		
-	    public static int getExperienceCostForNextLevel(PlayerEntity player) {
+	    public static int getExperienceCostForNextLevel(Player player) {
 	    	LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
 	    	IRPG rpg = lazy_optional_rpg.orElse(null);
 	    	if(rpg != null) {
@@ -281,34 +285,20 @@ public class RPGCapability {
 	    }
 	}
 	
-	public static class RPGProvider implements ICapabilitySerializable<INBT> {
-		@CapabilityInject(IRPG.class)
-	    public static final Capability<IRPG> RPG_CAPABILITY = null;
+	public static class RPGProvider implements ICapabilitySerializable<Tag> {
+	    public static final Capability<IRPG> RPG_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
 		
 	    protected IRPG rpg = new RPGDefault();
 	    
 	    private final LazyOptional<IRPG> holder = LazyOptional.of(() -> rpg);
 	    
 		@Override
-		public <T> LazyOptional<T> getCapability(Capability<T> capability, Direction side) { return RPG_CAPABILITY.orEmpty(capability, holder); }
+		public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) { return RPG_CAPABILITY.orEmpty(cap, holder); }
 
 		@Override
-		public INBT serializeNBT() { return rpg.serializeNBT(); }
+		public Tag serializeNBT() { return rpg.serializeNBT(); }
 
 		@Override
-		public void deserializeNBT(INBT nbt) { rpg.deserializeNBT(nbt); }
-	}
-	
-	public static class RPGStorage implements Capability.IStorage<IRPG> {
-		@Override
-		public INBT writeNBT(Capability<IRPG> capability, IRPG instance, Direction side) { return instance.serializeNBT(); }
-
-		@Override
-		public void readNBT(Capability<IRPG> capability, IRPG instance, Direction side, INBT nbt) { instance.deserializeNBT(nbt); }
-	}
-
-	public static class RPGFactory implements Callable<IRPG> {
-		@Override
-	    public IRPG call() throws Exception { return new RPGDefault(); }
+		public void deserializeNBT(Tag nbt) { rpg.deserializeNBT(nbt); }
 	}
 }

@@ -1,36 +1,34 @@
 package palaster.gj.items;
 
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.LazyOptional;
 import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGDefault;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
 import palaster.gj.network.client.PacketUpdateRPG;
-import palaster.libpal.core.helpers.PlayerHelper;
-import palaster.libpal.items.SpecialModItem;
 
-public class PinkSlipItem extends SpecialModItem {
-	public PinkSlipItem(Properties properties, ResourceLocation resourceLocation) { super(properties, resourceLocation, 0); }
+public class PinkSlipItem extends Item {
+	public PinkSlipItem(Properties properties) { super(properties); }
 	
 	@Override
-	public ActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand) {
-		if(!world.isClientSide) {
-			LazyOptional<IRPG> lazy_optional_rpg = playerEntity.getCapability(RPGProvider.RPG_CAPABILITY, null);
+	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+		if(!level.isClientSide) {
+			LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
 			if(rpg != null)
 				if(rpg.getJob() != null && rpg.getJob().canLeave()) {
-					RPGDefault.jobChange(playerEntity, rpg, null);
-					PlayerHelper.sendChatMessageToPlayer(playerEntity, I18n.get("gj.job.fired"));
-					PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(playerEntity);
-					return ActionResult.success(ItemStack.EMPTY);
+					RPGDefault.jobChange(player, rpg, null);
+					player.sendSystemMessage(Component.translatable("gj.job.fired"));
+					PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(player);
+					return InteractionResultHolder.success(ItemStack.EMPTY);
 				}
 		}
-		return super.use(world, playerEntity, hand);
+		return super.use(level, player, hand);
 	}
 }

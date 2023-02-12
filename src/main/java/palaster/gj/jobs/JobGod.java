@@ -1,8 +1,8 @@
 package palaster.gj.jobs;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.player.Player;
 import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.jobs.IRPGJob;
 
@@ -38,18 +38,18 @@ public class JobGod implements IRPGJob {
 	public boolean doUpdate() { return true; }
 
 	@Override
-	public void update(IRPG rpg, PlayerEntity player) {
+	public void update(IRPG rpg, Player player) {
 		if(player.getFoodData().getFoodLevel() > 0) {
-			player.removeEffect(Effects.MOVEMENT_SLOWDOWN);
-			player.removeEffect(Effects.DIG_SLOWDOWN);
-			player.removeEffect(Effects.WEAKNESS);
+			player.removeEffect(MobEffects.MOVEMENT_SLOWDOWN);
+			player.removeEffect(MobEffects.DIG_SLOWDOWN);
+			player.removeEffect(MobEffects.WEAKNESS);
 		} else {
-			if(!player.hasEffect(Effects.MOVEMENT_SLOWDOWN))
-				player.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, 1, 0, true, false));
-			if(!player.hasEffect(Effects.DIG_SLOWDOWN))
-				player.addEffect(new EffectInstance(Effects.DIG_SLOWDOWN, 1, 0, true, false));
-			if(!player.hasEffect(Effects.WEAKNESS))
-				player.addEffect(new EffectInstance(Effects.WEAKNESS, 1, 0, true, false));
+			if(!player.hasEffect(MobEffects.MOVEMENT_SLOWDOWN))
+				player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 1, 0, true, false));
+			if(!player.hasEffect(MobEffects.DIG_SLOWDOWN))
+				player.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 1, 0, true, false));
+			if(!player.hasEffect(MobEffects.WEAKNESS))
+				player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 1, 0, true, false));
 		}
 	}
 }

@@ -2,20 +2,20 @@ package palaster.gj.core.handlers;
 
 import com.mojang.brigadier.context.CommandContextBuilder;
 
-import net.minecraft.block.BeaconBlock;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.impl.KillCommand;
-import net.minecraft.entity.CreatureAttribute;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.tileentity.BeaconTileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ChatType;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.PlayerChatMessage;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.commands.KillCommand;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.BeaconBlock;
+import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.CommandEvent;
@@ -27,7 +27,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGDefault;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
-import palaster.gj.containers.RPGIntroContainer;
+import palaster.gj.containers.RPGIntroMenu;
 import palaster.gj.jobs.JobGod;
 import palaster.gj.jobs.abilities.Abilities;
 import palaster.gj.libs.LibMod;
@@ -50,7 +50,7 @@ public class EventHandler {
 					timer++;
 				if(rpg.getJob() != null && rpg.getJob().doUpdate())
 					rpg.getJob().update(rpg, e.player);
-				if(e.player.containerMenu instanceof RPGIntroContainer)
+				if(e.player.containerMenu instanceof RPGIntroMenu)
 					PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(e.player);
 			}
 		}
@@ -58,21 +58,21 @@ public class EventHandler {
 
 	@SubscribeEvent
 	public static void onPlayerRightClickBock(RightClickBlock e) {
-		if(e.getSide().isServer() && e.getWorld().getBlockState(e.getPos()) != null && e.getWorld().getBlockState(e.getPos()).getBlock() instanceof BeaconBlock && e.getWorld().getBlockEntity(e.getPos()) != null && e.getWorld().getBlockEntity(e.getPos()) instanceof BeaconTileEntity) {
-			BeaconBlock bb = (BeaconBlock) e.getWorld().getBlockState(e.getPos()).getBlock();
-			BeaconTileEntity teb = (BeaconTileEntity) e.getWorld().getBlockEntity(e.getPos());
-			if(bb != null && teb != null && teb.getLevels() > 0) {
-				ItemStack stack = e.getPlayer().getItemInHand(e.getHand());
+		if(e.getSide().isServer() && e.getEntity().level.getBlockState(e.getPos()) != null && e.getEntity().level.getBlockState(e.getPos()).getBlock() instanceof BeaconBlock && e.getEntity().level.getBlockEntity(e.getPos()) != null && e.getEntity().level.getBlockEntity(e.getPos()) instanceof BeaconBlockEntity) {
+			BeaconBlock bb = (BeaconBlock) e.getEntity().level.getBlockState(e.getPos()).getBlock();
+			BeaconBlockEntity teb = (BeaconBlockEntity) e.getEntity().level.getBlockEntity(e.getPos());
+			if(bb != null && teb != null && teb.getBeamSections().size() > 0) {
+				ItemStack stack = e.getEntity().getItemInHand(e.getHand());
 				if(!stack.isEmpty() && stack.getItem() == Items.DIAMOND_BLOCK)
-					if(e.getPlayer().getUUID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
-						LazyOptional<IRPG> lazy_optional_rpg = e.getPlayer().getCapability(RPGProvider.RPG_CAPABILITY, null);
+					if(e.getEntity().getUUID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
+						LazyOptional<IRPG> lazy_optional_rpg = e.getEntity().getCapability(RPGProvider.RPG_CAPABILITY, null);
 						IRPG rpg = lazy_optional_rpg.orElse(null);
 						if(rpg != null && !(rpg.getJob() instanceof JobGod)) {
 							stack.shrink(1);
-							RPGDefault.jobChange(e.getPlayer(), rpg, new JobGod());
-							PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(e.getPlayer());
-							if(e.getWorld().getServer() != null)
-								e.getWorld().getServer().getPlayerList().broadcastMessage(new StringTextComponent("§2§l§nA God has Awakened Among You."), ChatType.CHAT, e.getPlayer().getUUID());
+							RPGDefault.jobChange(e.getEntity(), rpg, new JobGod());
+							PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(e.getEntity());
+							if(e.getEntity().level.getServer() != null)
+								e.getEntity().level.getServer().getPlayerList().broadcastChatMessage(PlayerChatMessage.unsigned(Component.literal("§2§l§nA God has Awakened Among You.")), e.getEntity().asChatSender(), ChatType.CHAT);
 							e.setCanceled(true);
 						}
 					}
@@ -82,15 +82,15 @@ public class EventHandler {
 	
 	@SubscribeEvent
 	public static void onCommand(CommandEvent e) {
-		CommandContextBuilder<CommandSource> commandContextBuilder = e.getParseResults().getContext();
+		CommandContextBuilder<CommandSourceStack> commandContextBuilder = e.getParseResults().getContext();
 		if(commandContextBuilder.getCommand() instanceof KillCommand) {
 			Entity entity = commandContextBuilder.getSource().getEntity();
-			if(entity instanceof ServerPlayerEntity && entity.getUUID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
+			if(entity instanceof ServerPlayer && entity.getUUID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
 				LazyOptional<IRPG> lazy_optional_rgp =  entity.getCapability(RPGProvider.RPG_CAPABILITY, null);
 				final IRPG rpg = lazy_optional_rgp.orElse(null);
 				if(rpg != null && rpg.getJob() instanceof JobGod) {
 					e.setCanceled(true);
-					e.getParseResults().getContext().getSource().sendFailure(new TranslationTextComponent("commands.kill.god"));
+					e.getParseResults().getContext().getSource().sendFailure(Component.translatable("commands.kill.god"));
 				}
 			}
 		}
@@ -98,30 +98,30 @@ public class EventHandler {
 	
 	@SubscribeEvent
 	public static void onLivingHurt(LivingHurtEvent e) {
-		if(!e.getEntityLiving().level.isClientSide) {
-			if(e.getEntityLiving() instanceof PlayerEntity) {
-				LazyOptional<IRPG> lazy_optional_rpg = e.getEntityLiving().getCapability(RPGProvider.RPG_CAPABILITY, null);
+		if(!e.getEntity().level.isClientSide) {
+			if(e.getEntity() instanceof Player) {
+				LazyOptional<IRPG> lazy_optional_rpg = e.getEntity().getCapability(RPGProvider.RPG_CAPABILITY, null);
 				final IRPG rpg = lazy_optional_rpg.orElse(null);
 				if(rpg != null) {
 					if(!e.getSource().isBypassMagic() && !e.getSource().isBypassArmor())
 						e.setAmount(e.getAmount() * ((100f - rpg.getDefense()) / 100));
 					if(rpg.getJob() instanceof JobGod) {
-						PlayerEntity player = (PlayerEntity) e.getEntityLiving();
+						Player player = (Player) e.getEntity();
 						if(player.getFoodData().getFoodLevel() > 0)
 							player.getFoodData().setFoodLevel(player.getFoodData().getFoodLevel() - e.getAmount() > 0.0f ? (int) (player.getFoodData().getFoodLevel() - e.getAmount()) : 0);
 						e.setAmount(0.0f);
 					}
 				}
 			}
-			if(e.getEntityLiving().getMobType() == CreatureAttribute.UNDEAD)
-				if(e.getSource().getDirectEntity() != null && e.getSource().getDirectEntity() instanceof PlayerEntity) {
+			if(e.getEntity().getMobType() == MobType.UNDEAD)
+				if(e.getSource() != null && e.getSource().getDirectEntity() instanceof Player) {
 					LazyOptional<IRPG> lazy_optional_rpg = e.getSource().getDirectEntity().getCapability(RPGProvider.RPG_CAPABILITY, null);
 					final IRPG rpg = lazy_optional_rpg.orElse(null);
 					if(rpg != null)
 						if(Abilities.DIVINE_SMACKDOWN.isAvailable(rpg))
 							e.setAmount(e.getAmount() + ((float) rpg.getIntelligence() / 2));
 				}
-			if(e.getSource().getEntity() instanceof PlayerEntity) {
+			if(e.getSource() != null && e.getSource().getEntity() instanceof Player) {
 				LazyOptional<IRPG> lazy_optional_rpg = e.getSource().getEntity().getCapability(RPGProvider.RPG_CAPABILITY, null);
 				final IRPG rpg = lazy_optional_rpg.orElse(null);
 				if(rpg != null) {
@@ -153,7 +153,7 @@ public class EventHandler {
 
 	@SubscribeEvent
 	public static void attachEntityCapability(AttachCapabilitiesEvent<Entity> e) {
-		if(e.getObject() instanceof PlayerEntity) {
+		if(e.getObject() instanceof Player) {
 			LazyOptional<IRPG> lazy_optional_rpg =  e.getObject().getCapability(RPGProvider.RPG_CAPABILITY, null);
 			if(lazy_optional_rpg == null || !lazy_optional_rpg.isPresent())
 				e.addCapability(new ResourceLocation(LibMod.MODID, "rpg"), new RPGProvider());
@@ -162,25 +162,25 @@ public class EventHandler {
 
 	@SubscribeEvent
 	public static void onClonePlayer(PlayerEvent.Clone e) {
-		if(!e.getPlayer().level.isClientSide()) {
+		if(!e.getEntity().level.isClientSide()) {
 			LazyOptional<IRPG> lazy_optional_rpg_og =  e.getOriginal().getCapability(RPGProvider.RPG_CAPABILITY, null);
-			LazyOptional<IRPG> lazy_optional_rpg_new =  e.getPlayer().getCapability(RPGProvider.RPG_CAPABILITY, null);
+			LazyOptional<IRPG> lazy_optional_rpg_new =  e.getEntity().getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg_og = lazy_optional_rpg_og.orElse(null);
 			final IRPG rpg_new = lazy_optional_rpg_new.orElse(null);
 			if(rpg_og != null && rpg_new != null) {
 				rpg_new.deserializeNBT(rpg_og.serializeNBT());
-				RPGDefault.updatePlayerAttributes(e.getPlayer(), rpg_new);
+				RPGDefault.updatePlayerAttributes(e.getEntity(), rpg_new);
 			}
 		}
 	}
 	
 	@SubscribeEvent
 	public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent e) {
-		if(!e.getPlayer().level.isClientSide()) {
-			LazyOptional<IRPG> lazy_optional_rpg =  e.getPlayer().getCapability(RPGProvider.RPG_CAPABILITY, null);
+		if(!e.getEntity().level.isClientSide()) {
+			LazyOptional<IRPG> lazy_optional_rpg =  e.getEntity().getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
 			if(rpg != null)
-				RPGDefault.updatePlayerAttributes(e.getPlayer(), rpg);
+				RPGDefault.updatePlayerAttributes(e.getEntity(), rpg);
 		}
 	}
 

@@ -1,21 +1,20 @@
 package palaster.gj.jobs.spells;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 public class BSRoot implements IBotanySpell {
 
 	@Override
 	public int getCost() { return 250; }
-	
+
 	@Override
-	public ActionResultType interactLivingEntity(ItemStack itemStack, PlayerEntity playerEntity, LivingEntity livingEntity, Hand hand) {
-		livingEntity.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, 200, 7, false, true, false));
-		return ActionResultType.SUCCESS;
+	public InteractionResult interactLivingEntity(ItemStack itemStack, Player player, net.minecraft.world.entity.LivingEntity livingEntity, InteractionHand hand) {
+		livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 200, 7, false, true, false));
+		return InteractionResult.SUCCESS;
 	}
 }

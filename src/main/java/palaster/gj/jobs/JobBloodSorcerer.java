@@ -2,16 +2,18 @@ package palaster.gj.jobs;
 
 import java.util.UUID;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import javax.annotation.Nullable;
 
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.text.TranslationTextComponent;
+import com.mojang.blaze3d.vertex.PoseStack;
+
+import net.minecraft.client.gui.Font;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import palaster.gj.api.capabilities.rpg.IRPG;
@@ -41,20 +43,20 @@ public class JobBloodSorcerer implements IRPGJob {
 		this.bloodMax = bloodMax;
 	}
 
-	public void addBlood(PlayerEntity player, int amt) { setBloodCurrent(player, getBloodCurrent() + amt); }
+	public void addBlood(Player player, int amount) { setBloodCurrent(player, getBloodCurrent() + amount); }
 	
-	public void setBloodCurrent(PlayerEntity player, int amt) {
-		bloodCurrent = amt >= bloodMax ? bloodCurrent : amt <= 0 ? 0 : amt;
+	public void setBloodCurrent(Player player, int amount) {
+		bloodCurrent = amount >= bloodMax ? bloodCurrent : amount <= 0 ? 0 : amount;
 		PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(player);
 	}
 
-	public void setBloodMax(PlayerEntity player, int amt) {
-		bloodMax = amt > 0 ? amt : 0;
+	public void setBloodMax(Player player, int amount) {
+		bloodMax = amount > 0 ? amount : 0;
 		PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(player);
 	}
 
-	public void setBloodRegen(PlayerEntity player, int amt) {
-		bloodRegen = amt > 0 ? amt : 0;
+	public void setBloodRegen(Player player, int amount) {
+		bloodRegen = amount > 0 ? amount : 0;
 		updatePlayerAttributes(player);
 		PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(player);
 	}
@@ -67,30 +69,32 @@ public class JobBloodSorcerer implements IRPGJob {
 	public String getJobName() { return "gj.job.bloodSorcerer"; }
 	
 	@Override
-	public void leaveJob(PlayerEntity player) {
-		ModifiableAttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.MAX_HEALTH);
-		if(attributeInstance.getModifier(HEALTH_ID) != null)
+	public void leaveJob(@Nullable Player player) {
+		AttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.MAX_HEALTH);
+		if(attributeInstance != null && attributeInstance.getModifier(HEALTH_ID) != null)
 			attributeInstance.removeModifier(attributeInstance.getModifier(HEALTH_ID));
 	}
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void drawExtraInformation(MatrixStack ms, FontRenderer font, int mouseX, int mouseY, PlayerEntity player, int suggestedX, int suggestedY) {
+	public void drawExtraInformation(PoseStack ms, Font font, int mouseX, int mouseY, @Nullable Player player, int suggestedX, int suggestedY) {
 		//font.draw(ms, new StringTextComponent(I18n.get("gj.job.bloodSorcerer.blood", bloodCurrent, bloodMax)), suggestedX, suggestedY, 4210752);
-		font.draw(ms, new TranslationTextComponent("gj.job.bloodSorcerer.blood", bloodCurrent, bloodMax), suggestedX, suggestedY, 4210752);
+		font.draw(ms, Component.translatable("gj.job.bloodSorcerer.blood", bloodCurrent, bloodMax), suggestedX, suggestedY, 4210752);
 	}
 
 	@Override
-	public void updatePlayerAttributes(PlayerEntity player) {
+	public void updatePlayerAttributes(@Nullable Player player) {
 		if(bloodRegen <= 0) {
-			ModifiableAttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.MAX_HEALTH);
-			if(attributeInstance.getModifier(HEALTH_ID) != null)
+			AttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.MAX_HEALTH);
+			if(attributeInstance != null && attributeInstance.getModifier(HEALTH_ID) != null)
 				attributeInstance.removeModifier(attributeInstance.getModifier(HEALTH_ID));
 		} else {
-			ModifiableAttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.MAX_HEALTH);
-			if(attributeInstance.getModifier(HEALTH_ID) != null)
-				attributeInstance.removeModifier(attributeInstance.getModifier(HEALTH_ID));
-			attributeInstance.addTransientModifier(new AttributeModifier(HEALTH_ID, "gj.job.bloodSorcerer.regen", bloodRegen * -1, AttributeModifier.Operation.ADDITION));
+			AttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.MAX_HEALTH);
+			if(attributeInstance != null) {
+				if(attributeInstance.getModifier(HEALTH_ID) != null)
+					attributeInstance.removeModifier(attributeInstance.getModifier(HEALTH_ID));
+				attributeInstance.addTransientModifier(new AttributeModifier(HEALTH_ID, "gj.job.bloodSorcerer.regen", bloodRegen * -1, AttributeModifier.Operation.ADDITION));
+			}
 			// attributeInstance.addPermanentModifier();
 		}
 	}
@@ -102,7 +106,7 @@ public class JobBloodSorcerer implements IRPGJob {
 	public boolean doUpdate() { return true; }
 
 	@Override
-	public void update(IRPG rpg, PlayerEntity player) {
+	public void update(IRPG rpg, Player player) {
 		if(player.isShiftKeyDown() && !player.isInvisible())
 			if(Abilities.DARK_STALKER.isAvailable(rpg)) {
 				player.setInvisible(true);
@@ -121,10 +125,10 @@ public class JobBloodSorcerer implements IRPGJob {
 	}
 
 	@Override
-	public INBT serializeNBT() {
-		INBT nbt = IRPGJob.super.serializeNBT();
-		if(nbt instanceof CompoundNBT) {
-			CompoundNBT cNBT = (CompoundNBT) nbt;
+	public Tag serializeNBT() {
+		Tag nbt = IRPGJob.super.serializeNBT();
+		if(nbt instanceof CompoundTag) {
+			CompoundTag cNBT = (CompoundTag) nbt;
 			cNBT.putInt(NBT_BLOOD_CURRENT, bloodCurrent);
 			cNBT.putInt(NBT_BLOOD_MAX, bloodMax);
 			cNBT.putInt(NBT_BLOOD_REGEN, bloodRegen);
@@ -134,10 +138,10 @@ public class JobBloodSorcerer implements IRPGJob {
 
 
 	@Override
-	public void deserializeNBT(INBT nbt) {
+	public void deserializeNBT(Tag nbt) {
 		IRPGJob.super.deserializeNBT(nbt);
-		if(nbt instanceof CompoundNBT) {
-			CompoundNBT cNBT = (CompoundNBT) nbt;
+		if(nbt instanceof CompoundTag) {
+			CompoundTag cNBT = (CompoundTag) nbt;
 			bloodCurrent = cNBT.getInt(NBT_BLOOD_CURRENT);
 			bloodMax = cNBT.getInt(NBT_BLOOD_MAX);
 			bloodRegen = cNBT.getInt(NBT_BLOOD_REGEN);

@@ -1,12 +1,15 @@
 package palaster.gj.jobs;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.text.TranslationTextComponent;
+import com.mojang.blaze3d.vertex.PoseStack;
+
+import net.minecraft.client.gui.Font;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
 import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.jobs.IRPGJob;
 
@@ -28,26 +31,27 @@ public class JobCleric implements IRPGJob {
 	public String getJobName() { return "gj.job.cleric"; }
 
 	@Override
-	public void drawExtraInformation(MatrixStack ms, FontRenderer font, int mouseX, int mouseY, PlayerEntity player, int suggestedX, int suggestedY) {
+	public void drawExtraInformation(PoseStack ps, Font font, int mouseX, int mouseY, @Nullable Player player, int suggestedX, int suggestedY) {
 		//font.draw(ms, new StringTextComponent(I18n.get("gj.job.spellSlots", spellSlots)), suggestedX, suggestedY, 4210752);
-		font.draw(ms, new TranslationTextComponent("gj.job.spellSlots", spellSlots), suggestedX, suggestedY, 4210752);
+		font.draw(ps, Component.translatable("gj.job.spellSlots", spellSlots), suggestedX, suggestedY, 4210752);
 	}
 
 	@Override
 	public boolean replaceMagick() { return true; }
 
 	@Override
-	public INBT serializeNBT() {
-		INBT nbt = IRPGJob.super.serializeNBT();
-		if(nbt instanceof CompoundNBT)
-			((CompoundNBT) nbt).putInt(NBT_SPELL_SLOTS, spellSlots);
+	@Nonnull
+	public Tag serializeNBT() {
+		Tag nbt = IRPGJob.super.serializeNBT();
+		if(nbt instanceof CompoundTag)
+			((CompoundTag) nbt).putInt(NBT_SPELL_SLOTS, spellSlots);
 		return nbt;
 	}
 
 	@Override
-	public void deserializeNBT(INBT nbt) {
+	public void deserializeNBT(Tag nbt) {
 		IRPGJob.super.deserializeNBT(nbt);
-		if(nbt instanceof CompoundNBT)
-			spellSlots = ((CompoundNBT) nbt).getInt(NBT_SPELL_SLOTS);
+		if(nbt instanceof CompoundTag)
+			spellSlots = ((CompoundTag) nbt).getInt(NBT_SPELL_SLOTS);
 	}
 }

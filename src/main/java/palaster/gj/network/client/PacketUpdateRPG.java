@@ -5,29 +5,29 @@ import java.util.function.Supplier;
 import javax.annotation.Nullable;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.network.NetworkEvent;
 import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
-import palaster.libpal.network.PacketHandler;
+import palaster.gj.network.PacketHandler;
 
 public class PacketUpdateRPG {
 
-	private final INBT tag;
+	private final Tag tag;
 
-    public PacketUpdateRPG(INBT tag) { this.tag = tag; }
+    public PacketUpdateRPG(Tag tag) { this.tag = tag; }
 
-	public void encode(PacketBuffer buffer) {
-		if(tag instanceof CompoundNBT)
-			buffer.writeNbt((CompoundNBT) tag);
+	public static void encode(PacketUpdateRPG pkt, FriendlyByteBuf buffer) {
+		if(pkt.tag instanceof CompoundTag)
+			buffer.writeNbt((CompoundTag) pkt.tag);
 	}
 
-	public static PacketUpdateRPG decode(PacketBuffer buffer) { return new PacketUpdateRPG(buffer.readNbt()); }
+	public static PacketUpdateRPG decode(FriendlyByteBuf buffer) { return new PacketUpdateRPG(buffer.readNbt()); }
 
 	public static void handle(PacketUpdateRPG pkt, Supplier<NetworkEvent.Context> ctx) {
 		if(ctx.get().getDirection().getReceptionSide().isClient()) {
@@ -41,12 +41,12 @@ public class PacketUpdateRPG {
 		ctx.get().setPacketHandled(true);
 	}
 	
-	public static void syncPlayerRPGCapabilitiesToClient(@Nullable PlayerEntity player) {
+	public static void syncPlayerRPGCapabilitiesToClient(@Nullable Player player) {
     	if(player != null && !player.level.isClientSide) {
     		LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
     		IRPG rpg = lazy_optional_rpg.orElse(null);
     		if(rpg != null)
-    			PacketHandler.sendTo((ServerPlayerEntity) player, new PacketUpdateRPG(rpg.serializeNBT()));
+    			PacketHandler.sendTo((ServerPlayer) player, new PacketUpdateRPG(rpg.serializeNBT()));
     	}
     }
 }

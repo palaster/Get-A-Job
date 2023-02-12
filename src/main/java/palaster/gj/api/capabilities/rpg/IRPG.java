@@ -1,24 +1,24 @@
 package palaster.gj.api.capabilities.rpg;
 
-import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.Tag;
 import net.minecraftforge.common.util.INBTSerializable;
 import palaster.gj.api.jobs.IRPGJob;
 
-public interface IRPG extends INBTSerializable<INBT> {
+public interface IRPG extends INBTSerializable<Tag> {
 	
-	void setConstitution(int amt);
+	void setConstitution(int amount);
 	
-	void setStrength(int amt);
+	void setStrength(int amount);
 	
-	void setDefense(int amt);
+	void setDefense(int amount);
 	
-	void setDexterity(int amt);
+	void setDexterity(int amount);
 	
-	void setIntelligence(int amt);
+	void setIntelligence(int amount);
 
-	void setExperienceSaved(int amt);
+	void setExperienceSaved(int amount);
 	
-	void setMagick(int amt);
+	void setMagick(int amount);
 	
 	void setJob(IRPGJob job);
 	

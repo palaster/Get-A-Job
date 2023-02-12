@@ -1,8 +1,7 @@
 package palaster.gj.items;
 
-import net.minecraft.util.ResourceLocation;
-import palaster.libpal.items.SpecialModItem;
+import net.minecraft.world.item.Item;
 
-public class TestItem extends SpecialModItem {
-	public TestItem(Properties properties, ResourceLocation resourceLocation) { super(properties, resourceLocation, 0); }
+public class TestItem extends Item {
+	public TestItem(Properties properties) { super(properties); }
 }
