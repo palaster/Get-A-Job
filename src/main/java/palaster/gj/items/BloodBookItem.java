@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -28,8 +29,6 @@ import palaster.gj.jobs.spells.IBloodSpell;
 
 public class BloodBookItem extends Item {
 
-	// TODO: Make sure correct rpg job is using it
-
 	public static final String NBT_SELECTED_SPELL = "gj:blood_book:selected_spell";
 
 	public BloodBookItem(Properties properties) { super(properties); }
@@ -37,8 +36,11 @@ public class BloodBookItem extends Item {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-		if(NBTHelper.getIntegerFromItemStack(stack, NBT_SELECTED_SPELL) >= 0)
-			tooltip.add(Component.literal("Selected Spell: " + I18n.get("gj.job.bloodSorcerer.spell." + NBTHelper.getIntegerFromItemStack(stack, NBT_SELECTED_SPELL))));
+		LazyOptional<IRPG> lazy_optional_rpg = Minecraft.getInstance().player.getCapability(RPGProvider.RPG_CAPABILITY, null);
+		IRPG rpg = lazy_optional_rpg.orElse(null);
+		if(rpg != null && rpg.getJob() instanceof JobBloodSorcerer)
+			if(NBTHelper.getIntegerFromItemStack(stack, NBT_SELECTED_SPELL) >= 0)
+				tooltip.add(Component.literal("Selected Spell: " + I18n.get("gj.job.bloodSorcerer.spell." + NBTHelper.getIntegerFromItemStack(stack, NBT_SELECTED_SPELL))));
 	}
 	
 	@Override
@@ -60,23 +62,23 @@ public class BloodBookItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
     	if(!level.isClientSide) {
-            if(player.isShiftKeyDown()) {
-                int currentSelection = NBTHelper.getIntegerFromItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL);
-                if(currentSelection >= BloodSpells.BLOOD_SPELLS.size() - 1)
-                    return InteractionResultHolder.success(NBTHelper.setIntegerToItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL, 0));
-                else
-                    return InteractionResultHolder.success(NBTHelper.setIntegerToItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL, NBTHelper.getIntegerFromItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL) + 1));
-            } else {
-            	LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
-    			final IRPG rpg = lazy_optional_rpg.orElse(null);
-                if(rpg != null && rpg.getJob() instanceof JobBloodSorcerer) {
-                    IBloodSpell IBS = BloodSpells.BLOOD_SPELLS.get(NBTHelper.getIntegerFromItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL));
-                    InteractionResultHolder<ItemStack> interactionResultHolder = IBS.use(level, player, hand);
-                    if(interactionResultHolder.getResult() == InteractionResult.SUCCESS)
-                    	((JobBloodSorcerer) rpg.getJob()).setBloodCurrent(player, ((JobBloodSorcerer) rpg.getJob()).getBloodCurrent() - IBS.getBloodCost());
-                    return interactionResultHolder;
-                }
-            }
+			LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
+			final IRPG rpg = lazy_optional_rpg.orElse(null);
+			if(rpg != null && rpg.getJob() instanceof JobBloodSorcerer) {
+				if(player.isShiftKeyDown()) {
+					int currentSelection = NBTHelper.getIntegerFromItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL);
+					if(currentSelection >= BloodSpells.BLOOD_SPELLS.size() - 1)
+						return InteractionResultHolder.success(NBTHelper.setIntegerToItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL, 0));
+					else
+						return InteractionResultHolder.success(NBTHelper.setIntegerToItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL, NBTHelper.getIntegerFromItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL) + 1));
+				} else {
+					IBloodSpell IBS = BloodSpells.BLOOD_SPELLS.get(NBTHelper.getIntegerFromItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL));
+					InteractionResultHolder<ItemStack> interactionResultHolder = IBS.use(level, player, hand);
+					if(interactionResultHolder.getResult() == InteractionResult.SUCCESS)
+						((JobBloodSorcerer) rpg.getJob()).setBloodCurrent(player, ((JobBloodSorcerer) rpg.getJob()).getBloodCurrent() - IBS.getBloodCost());
+					return interactionResultHolder;
+				}
+			}
         }
     	return super.use(level, player, hand);
     }

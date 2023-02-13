@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -28,8 +29,6 @@ import palaster.gj.jobs.spells.IBotanySpell;
 
 public class HerbSackItem extends Item {
 
-    // TODO: Make sure correct rpg job is using it
-
     public static final String NBT_SELECTED_SPELL = "gj:herb_sack:selected_spell";
 
     public HerbSackItem(Properties properties) { super(properties); }
@@ -37,8 +36,11 @@ public class HerbSackItem extends Item {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-		if(NBTHelper.getIntegerFromItemStack(stack, NBT_SELECTED_SPELL) >= 0)
-			tooltip.add(Component.literal("Selected Spell: " + I18n.get("gj.job.botanist.spell." + NBTHelper.getIntegerFromItemStack(stack, NBT_SELECTED_SPELL))));
+        LazyOptional<IRPG> lazy_optional_rpg = Minecraft.getInstance().player.getCapability(RPGProvider.RPG_CAPABILITY, null);
+		IRPG rpg = lazy_optional_rpg.orElse(null);
+		if(rpg != null && rpg.getJob() instanceof JobBotanist)
+		    if(NBTHelper.getIntegerFromItemStack(stack, NBT_SELECTED_SPELL) >= 0)
+			    tooltip.add(Component.literal("Selected Spell: " + I18n.get("gj.job.botanist.spell." + NBTHelper.getIntegerFromItemStack(stack, NBT_SELECTED_SPELL))));
 	}
     
     @Override
@@ -62,16 +64,16 @@ public class HerbSackItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
     	if(!level.isClientSide) {
-            if(player.isShiftKeyDown()) {
-                int currentSelection = NBTHelper.getIntegerFromItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL);
-                if(currentSelection >= BotanySpells.BOTANY_SPELLS.size() - 1)
-                    return InteractionResultHolder.success(NBTHelper.setIntegerToItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL, 0));
-                else
-                    return InteractionResultHolder.success(NBTHelper.setIntegerToItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL, NBTHelper.getIntegerFromItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL) + 1));
-            } else {
-            	LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
-    			final IRPG rpg = lazy_optional_rpg.orElse(null);
-                if(rpg != null && rpg.getJob() instanceof JobBotanist) {
+            LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
+            final IRPG rpg = lazy_optional_rpg.orElse(null);
+            if(rpg != null && rpg.getJob() instanceof JobBotanist) {
+                if(player.isShiftKeyDown()) {
+                    int currentSelection = NBTHelper.getIntegerFromItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL);
+                    if(currentSelection >= BotanySpells.BOTANY_SPELLS.size() - 1)
+                        return InteractionResultHolder.success(NBTHelper.setIntegerToItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL, 0));
+                    else
+                        return InteractionResultHolder.success(NBTHelper.setIntegerToItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL, NBTHelper.getIntegerFromItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL) + 1));
+                } else {
                     IBotanySpell IBS = BotanySpells.BOTANY_SPELLS.get(NBTHelper.getIntegerFromItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL));
                     if(rpg.getMagick() < IBS.getCost())
                         return InteractionResultHolder.fail(player.getItemInHand(hand));
