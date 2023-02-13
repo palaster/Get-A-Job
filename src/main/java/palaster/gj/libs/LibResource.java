@@ -11,6 +11,4 @@ public class LibResource {
 	private static final String MODELS = "textures/models/";
 	
 	public static final ResourceLocation BLANK = new ResourceLocation(LibMod.MODID, GUI + "blank.png");
-
-	public static final ResourceLocation SPINE_SHOOTER = new ResourceLocation(LibMod.MODID, MODELS + "spine_shooter.png");
 }

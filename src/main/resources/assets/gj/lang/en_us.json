@@ -15,8 +15,6 @@
     "item.gj.herb_sack": "Herb Sack",
     "item.gj.test": "Test",
 
-    "entity.spine_shooter.name":"Spine Shooter",
-
     "gj.expCost": "XP Cost: %d",
 
     "gj.job.base": "Job: %s",

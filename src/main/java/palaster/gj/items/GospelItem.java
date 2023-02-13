@@ -28,6 +28,8 @@ import palaster.gj.jobs.spells.DomainSpells;
 
 public class GospelItem extends Item {
 
+	// TODO: Make sure correct rpg job is using it
+
 	public static final String NBT_SELECTED_SPELL = "gj:gospel:selected_spell";
 
 	public GospelItem(Properties properties) { super(properties); }

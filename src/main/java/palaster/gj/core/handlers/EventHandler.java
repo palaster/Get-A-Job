@@ -134,21 +134,6 @@ public class EventHandler {
 		}
 	}
 
-	/* TODO: Fix onHarvestDrops  https://github.com/MinecraftForge/MinecraftForge/pull/6401
-	@SubscribeEvent
-	public static void onHarvestDrops(HarvestDropsEvent e) {
-		if(e.getHarvester() != null && e.getWorld() != null && e.getPos() != null && e.getState() != null) {
-			IRPG rpg = RPGProvider.get(e.getHarvester());
-			if (rpg != null)
-				if (e.getState().getBlock() instanceof IPlantable)
-					for(int i = 0; i < e.getDrops().size(); i++)
-						if (Abilities.BOUNTIFUL_HARVEST.isAvailable(rpg))
-							if(e.getDrops().get(i).getMaxStackSize() > e.getDrops().get(i).getCount() * 2)
-								e.getDrops().get(i).setCount(e.getDrops().get(i).getCount() * 2);
-		}
-	}
-	*/
-
 	// End of events for features
 
 	@SubscribeEvent

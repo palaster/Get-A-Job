@@ -28,6 +28,8 @@ import palaster.gj.jobs.spells.IBotanySpell;
 
 public class HerbSackItem extends Item {
 
+    // TODO: Make sure correct rpg job is using it
+
     public static final String NBT_SELECTED_SPELL = "gj:herb_sack:selected_spell";
 
     public HerbSackItem(Properties properties) { super(properties); }

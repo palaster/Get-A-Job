@@ -28,6 +28,8 @@ import palaster.gj.jobs.spells.IBloodSpell;
 
 public class BloodBookItem extends Item {
 
+	// TODO: Make sure correct rpg job is using it
+
 	public static final String NBT_SELECTED_SPELL = "gj:blood_book:selected_spell";
 
 	public BloodBookItem(Properties properties) { super(properties); }

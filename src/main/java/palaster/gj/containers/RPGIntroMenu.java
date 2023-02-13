@@ -7,13 +7,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.IContainerFactory;
+import palaster.gj.GetAJob;
 
 public class RPGIntroMenu extends AbstractContainerMenu {
 
 	public final InteractionHand hand;
 	
 	public RPGIntroMenu(int containerId, InteractionHand hand) {
-		super(ModMenuTypes.RPG_INTRO_CONTAINER, containerId);
+		super(GetAJob.RPG_INTRO_MENU_TYPE.get(), containerId);
 		this.hand = hand;
 	}
 
