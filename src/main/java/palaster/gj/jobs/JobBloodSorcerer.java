@@ -2,6 +2,7 @@ package palaster.gj.jobs;
 
 import java.util.UUID;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -70,6 +71,8 @@ public class JobBloodSorcerer implements IRPGJob {
 	
 	@Override
 	public void leaveJob(@Nullable Player player) {
+		if(player == null)
+			return;
 		AttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.MAX_HEALTH);
 		if(attributeInstance != null && attributeInstance.getModifier(HEALTH_ID) != null)
 			attributeInstance.removeModifier(attributeInstance.getModifier(HEALTH_ID));
@@ -84,6 +87,8 @@ public class JobBloodSorcerer implements IRPGJob {
 
 	@Override
 	public void updatePlayerAttributes(@Nullable Player player) {
+		if(player == null)
+			return;
 		if(bloodRegen <= 0) {
 			AttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.MAX_HEALTH);
 			if(attributeInstance != null && attributeInstance.getModifier(HEALTH_ID) != null)
@@ -108,7 +113,7 @@ public class JobBloodSorcerer implements IRPGJob {
 	@Override
 	public void update(IRPG rpg, Player player) {
 		if(player.isShiftKeyDown() && !player.isInvisible())
-			if(Abilities.DARK_STALKER.isAvailable(rpg)) {
+			if(rpg != null && Abilities.DARK_STALKER.isAvailable(rpg)) {
 				player.setInvisible(true);
 				isInvisibleDueToDarkStalker = true;
 			}
@@ -124,6 +129,7 @@ public class JobBloodSorcerer implements IRPGJob {
 			timer++;
 	}
 
+	@Nonnull
 	@Override
 	public Tag serializeNBT() {
 		Tag nbt = IRPGJob.super.serializeNBT();

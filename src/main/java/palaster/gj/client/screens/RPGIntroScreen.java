@@ -1,5 +1,7 @@
 package palaster.gj.client.screens;
 
+import java.util.function.Consumer;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -90,11 +92,13 @@ public class RPGIntroScreen extends AbstractContainerScreen<RPGIntroMenu> {
 		
 		final Component arrow = Component.literal("->");
 		final boolean bHand = hand == InteractionHand.MAIN_HAND;
-		addRenderableWidget(new Button(leftPos + 124, topPos + 25, 16, 10, arrow, (button) -> PacketHandler.sendToServer(new ScreenButtonPacket(bHand, 0))));
-		addRenderableWidget(new Button(leftPos + 124, topPos + 37, 16, 10, arrow, (button) -> PacketHandler.sendToServer(new ScreenButtonPacket(bHand, 1))));
-		addRenderableWidget(new Button(leftPos + 124, topPos + 49, 16, 10, arrow, (button) -> PacketHandler.sendToServer(new ScreenButtonPacket(bHand, 2))));
-		addRenderableWidget(new Button(leftPos + 124, topPos + 61, 16, 10, arrow, (button) -> PacketHandler.sendToServer(new ScreenButtonPacket(bHand, 3))));
-		addRenderableWidget(new Button(leftPos + 124, topPos + 73, 16, 10, arrow, (button) -> PacketHandler.sendToServer(new ScreenButtonPacket(bHand, 4))));
-		addRenderableWidget(new Button(leftPos + 124, topPos + 85, 16, 10, arrow, (button) -> PacketHandler.sendToServer(new ScreenButtonPacket(bHand, 5))));
+		final Consumer<Integer> screenButton = (buttonId) -> PacketHandler.sendToServer(new ScreenButtonPacket(bHand, buttonId));
+
+		addRenderableWidget(new Button.Builder(arrow, (button) -> screenButton.accept(0)).pos(leftPos + 124, topPos + 25).size(16, 10).build());
+		addRenderableWidget(new Button.Builder(arrow, (button) -> screenButton.accept(1)).pos(leftPos + 124, topPos + 37).size(16, 10).build());
+		addRenderableWidget(new Button.Builder(arrow, (button) -> screenButton.accept(2)).pos(leftPos + 124, topPos + 49).size(16, 10).build());
+		addRenderableWidget(new Button.Builder(arrow, (button) -> screenButton.accept(3)).pos(leftPos + 124, topPos + 61).size(16, 10).build());
+		addRenderableWidget(new Button.Builder(arrow, (button) -> screenButton.accept(4)).pos(leftPos + 124, topPos + 73).size(16, 10).build());
+		addRenderableWidget(new Button.Builder(arrow, (button) -> screenButton.accept(5)).pos(leftPos + 124, topPos + 85).size(16, 10).build());
 	}
 }

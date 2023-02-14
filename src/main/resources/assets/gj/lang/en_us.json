@@ -1,7 +1,7 @@
 {
     "commands.kill.god":"Death does not recognize this creature anymore",
 
-    "itemGroup.getAJob": "Get-A-Job",
+    "itemGroup.gj": "Get-A-Job",
 
     "block.gj.altar": "Altar",
 

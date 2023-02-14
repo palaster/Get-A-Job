@@ -3,9 +3,10 @@ package palaster.gj;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -15,6 +16,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.data.event.GatherDataEvent;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -46,12 +48,15 @@ import palaster.gj.network.PacketHandler;
 @Mod(LibMod.MODID)
 public class GetAJob {
 	
+	/*
 	public static final CreativeModeTab GET_A_JOB = new CreativeModeTab("getAJob") {
 		@Override
 		public ItemStack makeIcon() { return new ItemStack(RPG_INTRO_ITEM.get()); }
 	};
+	*/
 
-	private static final Item.Properties DEFAULT_PROPERTIES = new Item.Properties().tab(GetAJob.GET_A_JOB);
+	//private static final Item.Properties DEFAULT_PROPERTIES = new Item.Properties().tab(GetAJob.GET_A_JOB);
+	private static final Item.Properties DEFAULT_PROPERTIES = new Item.Properties();
 	private static final Item.Properties SPECIAL_PROPERTIES = DEFAULT_PROPERTIES.defaultDurability(0);
 
 	// BLOCKS
@@ -118,11 +123,33 @@ public class GetAJob {
 	}
 
     @EventBusSubscriber(modid = LibMod.MODID, bus = EventBusSubscriber.Bus.MOD)
-    public static class GatherData {
+    public static class ModEventHandler {
+
+		@SubscribeEvent
+		public static void registerCreativeModeTab(CreativeModeTabEvent.Register event) {
+			event.registerCreativeModeTab(new ResourceLocation(LibMod.MODID, "creative_mode_tab"), (builder) -> 
+				builder.title(Component.translatable("itemGroup.gj"))
+				.icon(() -> new ItemStack(RPG_INTRO_ITEM.get()))
+				.displayItems((featureFlagSet, output, operator) -> {
+					output.accept(ALTAR_BLOCK.get());
+
+					output.accept(CONGEALED_BLOOD.get());
+
+					output.accept(RPG_INTRO_ITEM.get());
+					output.accept(JOB_PAMPHLET.get());
+					output.accept(PINK_SLIP.get());
+					output.accept(GOSPEL.get());
+					output.accept(BLOOD_BOOK.get());
+					output.accept(HAND.get());
+					output.accept(HERB_SACK.get());
+					output.accept(TEST.get());
+				})
+			);
+		}
 
 		@SubscribeEvent
 		public static void gatherData(GatherDataEvent event) {
-			event.getGenerator().addProvider(event.includeServer(), new ModGlobalLootModifierProvider(event.getGenerator(), LibMod.MODID));
+			event.getGenerator().addProvider(event.includeServer(), new ModGlobalLootModifierProvider(event.getGenerator().getPackOutput(), LibMod.MODID));
 		}
     }
 }

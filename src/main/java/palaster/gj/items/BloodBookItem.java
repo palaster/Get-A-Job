@@ -36,6 +36,8 @@ public class BloodBookItem extends Item {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+		if(Minecraft.getInstance() == null | Minecraft.getInstance().player == null)
+			return;
 		LazyOptional<IRPG> lazy_optional_rpg = Minecraft.getInstance().player.getCapability(RPGProvider.RPG_CAPABILITY, null);
 		IRPG rpg = lazy_optional_rpg.orElse(null);
 		if(rpg != null && rpg.getJob() instanceof JobBloodSorcerer)
@@ -85,7 +87,7 @@ public class BloodBookItem extends Item {
     
     @Override
     public InteractionResult useOn(UseOnContext useOnContext) {
-    	if(!useOnContext.getLevel().isClientSide) {
+    	if(!useOnContext.getLevel().isClientSide && useOnContext.getPlayer() != null) {
     		LazyOptional<IRPG> lazy_optional_rpg = useOnContext.getPlayer().getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
             if(rpg != null && rpg.getJob() instanceof JobBloodSorcerer) {
