@@ -13,6 +13,7 @@
     "item.gj.hand": "Hand",
     "item.gj.blood_book": "Blood Book",
     "item.gj.herb_sack": "Herb Sack",
+    "item.gj.kodoku": "Kodoku",
     "item.gj.test": "Test",
 
     "gj.expCost": "XP Cost: %d",
@@ -37,10 +38,11 @@
 
     "gj.job.abilities": "Abilities:",
 
-    "gj.job.bloodSorcerer": "Blood Sorcerer",
-    "gj.job.bloodSorcerer.blood": "Blood: %d / %d",
+    "gj.job.blood_sorcerer": "Blood Sorcerer",
+    "gj.job.blood_sorcerer.blood": "Blood: %d / %d",
+    "gj.job.blood_sorcerer.blood_regen": "Blood Regeneration: %d",
 
-    "gj.job.bloodSorcerer.abilities.dark_stalker": "Ability: Dark Stalker",
+    "gj.job.blood_sorcerer.abilities.dark_stalker": "Ability: Dark Stalker",
 
     "gj.job.bloodSorcerer.spell.0": "Drain",
 

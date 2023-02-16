@@ -24,7 +24,7 @@ import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
 import palaster.gj.core.helpers.NBTHelper;
 import palaster.gj.jobs.JobCleric;
-import palaster.gj.jobs.spells.DomainSpells;
+import palaster.gj.jobs.spells.domain.DomainSpells;
 
 public class GospelItem extends Item {
 

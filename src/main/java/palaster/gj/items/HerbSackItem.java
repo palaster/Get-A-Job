@@ -24,8 +24,8 @@ import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
 import palaster.gj.core.helpers.NBTHelper;
 import palaster.gj.jobs.JobBotanist;
-import palaster.gj.jobs.spells.BotanySpells;
 import palaster.gj.jobs.spells.IBotanySpell;
+import palaster.gj.jobs.spells.botany.BotanySpells;
 
 public class HerbSackItem extends Item {
 

@@ -24,8 +24,8 @@ import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
 import palaster.gj.core.helpers.NBTHelper;
 import palaster.gj.jobs.JobBloodSorcerer;
-import palaster.gj.jobs.spells.BloodSpells;
 import palaster.gj.jobs.spells.IBloodSpell;
+import palaster.gj.jobs.spells.blood.BloodSpells;
 
 public class BloodBookItem extends Item {
 

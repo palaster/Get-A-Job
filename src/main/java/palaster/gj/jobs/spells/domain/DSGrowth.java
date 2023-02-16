@@ -1,4 +1,4 @@
-package palaster.gj.jobs.spells;
+package palaster.gj.jobs.spells.domain;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -11,6 +11,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import palaster.gj.jobs.spells.IDomainSpell;
 
 public class DSGrowth implements IDomainSpell {
 

@@ -67,7 +67,7 @@ public class JobBloodSorcerer implements IRPGJob {
 	public int getBloodRegen() { return bloodRegen; }
 	
 	@Override
-	public String getJobName() { return "gj.job.bloodSorcerer"; }
+	public String getJobName() { return "gj.job.blood_sorcerer"; }
 	
 	@Override
 	public void leaveJob(@Nullable Player player) {
@@ -81,26 +81,25 @@ public class JobBloodSorcerer implements IRPGJob {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void drawExtraInformation(PoseStack ps, Font font, int mouseX, int mouseY, @Nullable Player player, int suggestedX, int suggestedY) {
-		//font.draw(ms, new StringTextComponent(I18n.get("gj.job.bloodSorcerer.blood", bloodCurrent, bloodMax)), suggestedX, suggestedY, 4210752);
-		font.draw(ps, Component.translatable("gj.job.bloodSorcerer.blood", bloodCurrent, bloodMax), suggestedX, suggestedY, 4210752);
-		font.draw(ps, Component.translatable("gj.job.abilities"), suggestedX, suggestedY + 12, 4210752);
-        font.draw(ps, Component.translatable("gj.job.bloodSorcerer.abilities.dark_stalker"), suggestedX, suggestedY + 24, 4210752);
+		font.draw(ps, Component.translatable("gj.job.blood_sorcerer.blood", bloodCurrent, bloodMax), suggestedX, suggestedY, 4210752);
+		font.draw(ps, Component.translatable("gj.job.blood_sorcerer.blood_regen", bloodRegen), suggestedX, suggestedY + 12, 4210752);
+		font.draw(ps, Component.translatable("gj.job.abilities"), suggestedX, suggestedY + 24, 4210752);
+        font.draw(ps, Component.translatable("gj.job.blood_sorcerer.abilities.dark_stalker"), suggestedX, suggestedY + 36, 4210752);
 	}
 
 	@Override
 	public void updatePlayerAttributes(@Nullable Player player) {
 		if(player == null)
 			return;
+		AttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.MAX_HEALTH);
 		if(bloodRegen <= 0) {
-			AttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.MAX_HEALTH);
 			if(attributeInstance != null && attributeInstance.getModifier(HEALTH_ID) != null)
 				attributeInstance.removeModifier(attributeInstance.getModifier(HEALTH_ID));
 		} else {
-			AttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.MAX_HEALTH);
 			if(attributeInstance != null) {
 				if(attributeInstance.getModifier(HEALTH_ID) != null)
 					attributeInstance.removeModifier(attributeInstance.getModifier(HEALTH_ID));
-				attributeInstance.addTransientModifier(new AttributeModifier(HEALTH_ID, "gj.job.bloodSorcerer.regen", bloodRegen * -1, AttributeModifier.Operation.ADDITION));
+				attributeInstance.addTransientModifier(new AttributeModifier(HEALTH_ID, "gj.job.blood_sorcerer.blood_regen", -1.0D * bloodRegen, AttributeModifier.Operation.ADDITION));
 			}
 			// attributeInstance.addPermanentModifier();
 		}

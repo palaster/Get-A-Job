@@ -39,6 +39,7 @@ import palaster.gj.items.GospelItem;
 import palaster.gj.items.HandItem;
 import palaster.gj.items.HerbSackItem;
 import palaster.gj.items.JobPamphletItem;
+import palaster.gj.items.KodokuItem;
 import palaster.gj.items.PinkSlipItem;
 import palaster.gj.items.RPGIntroItem;
 import palaster.gj.items.TestItem;
@@ -78,6 +79,7 @@ public class GetAJob {
 	public static final RegistryObject<Item> BLOOD_BOOK = ITEMS.register("blood_book", () -> new BloodBookItem(SPECIAL_PROPERTIES));
 	public static final RegistryObject<Item> HAND = ITEMS.register("hand", () -> new HandItem(SPECIAL_PROPERTIES));
 	public static final RegistryObject<Item> HERB_SACK = ITEMS.register("herb_sack", () -> new HerbSackItem(SPECIAL_PROPERTIES));
+	public static final RegistryObject<Item> KODOKU = ITEMS.register("kodoku", () -> new KodokuItem(SPECIAL_PROPERTIES));
 	public static final RegistryObject<Item> TEST = ITEMS.register("test", () -> new TestItem(SPECIAL_PROPERTIES));
 
 	// MENU TYPES
@@ -142,6 +144,7 @@ public class GetAJob {
 					output.accept(BLOOD_BOOK.get());
 					output.accept(HAND.get());
 					output.accept(HERB_SACK.get());
+					output.accept(KODOKU.get());
 					output.accept(TEST.get());
 				})
 			);

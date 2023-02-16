@@ -1,6 +1,8 @@
-package palaster.gj.jobs.spells;
+package palaster.gj.jobs.spells.domain;
 
 import java.util.ArrayList;
+
+import palaster.gj.jobs.spells.IDomainSpell;
 
 public class DomainSpells {
 
