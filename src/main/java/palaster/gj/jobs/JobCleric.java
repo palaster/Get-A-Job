@@ -32,8 +32,9 @@ public class JobCleric implements IRPGJob {
 
 	@Override
 	public void drawExtraInformation(PoseStack ps, Font font, int mouseX, int mouseY, @Nullable Player player, int suggestedX, int suggestedY) {
-		//font.draw(ms, new StringTextComponent(I18n.get("gj.job.spellSlots", spellSlots)), suggestedX, suggestedY, 4210752);
 		font.draw(ps, Component.translatable("gj.job.spellSlots", spellSlots), suggestedX, suggestedY, 4210752);
+		font.draw(ps, Component.translatable("gj.job.abilities"), suggestedX, suggestedY, 4210752);
+        font.draw(ps, Component.translatable("gj.job.cleric.abilities.divine_smackdown"), suggestedX, suggestedY + 12, 4210752);
 	}
 
 	@Override

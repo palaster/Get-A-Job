@@ -6,9 +6,9 @@ import javax.annotation.Nullable;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -28,7 +28,7 @@ public interface IRPGJob extends INBTSerializable<Tag> {
 	@OnlyIn(Dist.CLIENT)
 	default void drawExtraInformationBase(PoseStack ps, Font font, int mouseX, int mouseY, @Nullable Player player, int suggestedX, int suggestedY) {
 		if(shouldDrawExtraInformation()) {
-			font.draw(ps, I18n.get("gj.job.additionalInfo"), suggestedX, suggestedY, 4210752);
+			font.draw(ps, Component.translatable("gj.job.additionalInfo"), suggestedX, suggestedY, 4210752);
 			drawExtraInformation(ps, font, mouseX, mouseY, player, suggestedX, suggestedY + 12);
 		}
 	}

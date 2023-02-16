@@ -35,7 +35,13 @@ public class RPGIntroScreen extends AbstractContainerScreen<RPGIntroMenu> {
 	}
 
 	@Override
-	protected void renderBg(PoseStack ps, float mouseX, int mouseY, int partialTicks) {
+	public void render(PoseStack ps, int mouseX, int mouseY, float partialTicks) {
+		renderBackground(ps);
+		super.render(ps, mouseX, mouseY, partialTicks);
+	}
+
+	@Override
+	protected void renderBg(PoseStack ps, float partialTicks, int mouseX, int mouseY) {
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderSystem.setShaderTexture(0, LibResource.BLANK);

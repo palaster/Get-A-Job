@@ -7,7 +7,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-public class BSRoot implements IBotanySpell {
+public class BoSRoot implements IBotanySpell {
 
 	@Override
 	public int getCost() { return 250; }

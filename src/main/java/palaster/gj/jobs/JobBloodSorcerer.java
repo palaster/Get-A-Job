@@ -80,9 +80,11 @@ public class JobBloodSorcerer implements IRPGJob {
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void drawExtraInformation(PoseStack ms, Font font, int mouseX, int mouseY, @Nullable Player player, int suggestedX, int suggestedY) {
+	public void drawExtraInformation(PoseStack ps, Font font, int mouseX, int mouseY, @Nullable Player player, int suggestedX, int suggestedY) {
 		//font.draw(ms, new StringTextComponent(I18n.get("gj.job.bloodSorcerer.blood", bloodCurrent, bloodMax)), suggestedX, suggestedY, 4210752);
-		font.draw(ms, Component.translatable("gj.job.bloodSorcerer.blood", bloodCurrent, bloodMax), suggestedX, suggestedY, 4210752);
+		font.draw(ps, Component.translatable("gj.job.bloodSorcerer.blood", bloodCurrent, bloodMax), suggestedX, suggestedY, 4210752);
+		font.draw(ps, Component.translatable("gj.job.abilities"), suggestedX, suggestedY + 12, 4210752);
+        font.draw(ps, Component.translatable("gj.job.bloodSorcerer.abilities.dark_stalker"), suggestedX, suggestedY + 24, 4210752);
 	}
 
 	@Override

@@ -6,7 +6,11 @@
 		"0.0.8": "Fixed broken recipes and server crash",
 		"0.0.7": "1.16.5 Update"
 	},
+	"1.19.3": {
+		"0.0.11": "1.19.3 Update"
+	},
 	"promos": {
-		"1.16.5-latest": "0.0.10"
+		"1.16.5-latest": "0.0.10",
+		"1.19.3-latest": "0.0.11"
 	}
 }

@@ -10,7 +10,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
 
-public class BSDrain implements IBloodSpell {
+public class BlSDrain implements IBloodSpell {
 
     @Override
     public int getBloodCost() { return 50; }

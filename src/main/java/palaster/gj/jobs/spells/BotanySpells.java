@@ -6,6 +6,6 @@ public class BotanySpells {
     public static final ArrayList<IBotanySpell> BOTANY_SPELLS = new ArrayList<IBotanySpell>();
 
     static {
-        BOTANY_SPELLS.add(new BSRoot());
+        BOTANY_SPELLS.add(new BoSRoot());
     }
 }

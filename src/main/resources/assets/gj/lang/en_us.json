@@ -35,25 +35,31 @@
     "gj.job.level": "Level: %d",
     "gj.job.magic": "Magic: %d / %d",
 
+    "gj.job.abilities": "Abilities:",
+
     "gj.job.bloodSorcerer": "Blood Sorcerer",
     "gj.job.bloodSorcerer.blood": "Blood: %d / %d",
+
+    "gj.job.bloodSorcerer.abilities.dark_stalker": "Ability: Dark Stalker",
 
     "gj.job.bloodSorcerer.spell.0": "Drain",
 
     "gj.job.botanist": "Botanist",
 
-    "gj.job.botanist.spell.0": "Summon Spine Shooter",
-    "gj.job.botanist.spell.1": "Root",
+    "gj.job.botanist.abilities.flourish": "Ability: Flourish",
+    "gj.job.botanist.abilities.bountiful_harvest": "Ability: Bountiful Harvest",
+
+    "gj.job.botanist.spell.0": "Root",
 
     "gj.job.cleric": "Cleric",
     "gj.job.cleric.domain": "Domain",
 
-    "gj.job.cleric.spell.0": "Creation",
-    "gj.job.cleric.spell.1": "Burn",
-    "gj.job.cleric.spell.2": "Shield Other",
-    "gj.job.cleric.spell.3": "Heal",
-    "gj.job.cleric.spell.4": "Growth",
-    "gj.job.cleric.spell.5": "Heal",
+    "gj.job.cleric.abilities.divine_smackdown": "Ability: Divine Smackdown",
+
+    "gj.job.cleric.spell.0": "Burn",
+    "gj.job.cleric.spell.1": "Shield Other",
+    "gj.job.cleric.spell.2": "Heal",
+    "gj.job.cleric.spell.3": "Growth",
 
     "gj.job.god": "God"
 }
