@@ -1,0 +1,8 @@
+{
+    "name": "get_a_job.manual",
+    "landing_text": "get_a_job.manual.landing",
+    "model": "patchouli:book_cyan",
+    "show_progress": false,
+    "version": 1,
+    "creative_tab": "gj:creative_mode_tab"
+}

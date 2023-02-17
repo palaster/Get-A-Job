@@ -1,5 +1,7 @@
 package palaster.gj.api.jobs;
 
+import java.util.ArrayList;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -22,13 +24,24 @@ public interface IRPGJob extends INBTSerializable<Tag> {
 	default boolean canLeave() { return true; }
 
 	default void leaveJob(@Nullable Player player) {}
+
+	@OnlyIn(Dist.CLIENT)
+	default void addInfoComponentTooltipsBase(final ArrayList<InfoComponentTooltip> infoComponentTooltips, int suggestedX, int suggestedY) {
+		if(shouldDrawExtraInformation()) {
+			addInfoComponentTooltips(infoComponentTooltips, suggestedX, suggestedY + 12);
+		}
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	default void addInfoComponentTooltips(final ArrayList<InfoComponentTooltip> infoComponentTooltips, int suggestedX, int suggestedY) {}
 	
+	@OnlyIn(Dist.CLIENT)
 	default boolean shouldDrawExtraInformation() { return true; }
 
 	@OnlyIn(Dist.CLIENT)
 	default void drawExtraInformationBase(PoseStack ps, Font font, int mouseX, int mouseY, @Nullable Player player, int suggestedX, int suggestedY) {
 		if(shouldDrawExtraInformation()) {
-			font.draw(ps, Component.translatable("gj.job.additionalInfo"), suggestedX, suggestedY, 4210752);
+			font.draw(ps, Component.translatable("gj.job.additional_info"), suggestedX, suggestedY, 4210752);
 			drawExtraInformation(ps, font, mouseX, mouseY, player, suggestedX, suggestedY + 12);
 		}
 	}

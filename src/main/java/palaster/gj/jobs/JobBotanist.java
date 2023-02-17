@@ -1,5 +1,7 @@
 package palaster.gj.jobs;
 
+import java.util.ArrayList;
+
 import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -15,16 +17,24 @@ import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.IPlantable;
 import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.jobs.IRPGJob;
+import palaster.gj.api.jobs.InfoComponentTooltip;
 import palaster.gj.jobs.abilities.Abilities;
 
 public class JobBotanist implements IRPGJob {
     
     private static final int FLOURISH_RADIUS = 6;
+    private static final int FLOURISH_TIMER = 1200;
 
-    int flourishTimer = 1200;
+    int flourishTimer = FLOURISH_TIMER;
 
     @Override
     public String getJobName() { return "gj.job.botanist"; }
+
+    @Override
+    public void addInfoComponentTooltips(ArrayList<InfoComponentTooltip> infoComponentTooltips, int suggestedX, int suggestedY) {
+        infoComponentTooltips.add(new InfoComponentTooltip(Component.translatable("gj.job.botanist.abilities.flourish.tooltip"), suggestedX, 123, suggestedY + 12, suggestedY + 23));
+        infoComponentTooltips.add(new InfoComponentTooltip(Component.translatable("gj.job.botanist.abilities.bountiful_harvest.tooltip"), suggestedX, 123, suggestedY + 24, suggestedY + 35));
+    }
 
     @Override
     public void drawExtraInformation(PoseStack ps, Font font, int mouseX, int mouseY, @Nullable Player player, int suggestedX, int suggestedY) {
@@ -54,7 +64,7 @@ public class JobBotanist implements IRPGJob {
                                             bonemealableBlock.performBonemeal((ServerLevel) player.level, player.level.random, new BlockPos(x, y, z), state);
                                 }
                         }
-                flourishTimer = 1200;
+                flourishTimer = FLOURISH_TIMER;
             } else
                 flourishTimer--;
         }

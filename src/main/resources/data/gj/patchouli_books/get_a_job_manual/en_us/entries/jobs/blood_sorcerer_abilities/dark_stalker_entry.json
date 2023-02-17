@@ -1,0 +1,12 @@
+{
+    "name": "Ability: Dark Stalker",
+    "icon": "",
+    "category": "gj:jobs/blood_sorcerer_category",
+    "pages":
+    [
+        {
+            "type": "patchouli:text",
+            "text": "A Blood Sorcerer can turns invisible while sneaking."
+        }
+    ]
+}

@@ -14,6 +14,7 @@ import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
 import palaster.gj.network.client.PacketUpdateRPG;
 
 public class PinkSlipItem extends Item {
+
 	public PinkSlipItem(Properties properties) { super(properties); }
 	
 	@Override

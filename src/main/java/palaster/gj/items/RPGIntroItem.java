@@ -19,6 +19,7 @@ import palaster.gj.containers.RPGIntroMenu;
 import palaster.gj.network.client.PacketUpdateRPG;
 
 public class RPGIntroItem extends Item implements IReceiveButton {
+
 	public RPGIntroItem(Properties properties) { super(properties); }
 	
 	@Override

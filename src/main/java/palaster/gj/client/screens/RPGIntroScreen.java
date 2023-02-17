@@ -1,5 +1,7 @@
 package palaster.gj.client.screens;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -8,7 +10,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
@@ -18,6 +19,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGDefault;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
+import palaster.gj.api.jobs.InfoComponentTooltip;
 import palaster.gj.containers.RPGIntroMenu;
 import palaster.gj.libs.LibResource;
 import palaster.gj.network.PacketHandler;
@@ -25,6 +27,19 @@ import palaster.gj.network.server.ScreenButtonPacket;
 
 @OnlyIn(Dist.CLIENT)
 public class RPGIntroScreen extends AbstractContainerScreen<RPGIntroMenu> {
+
+	// TODO: Look into add scrollbox to allow more info... or just make bigger
+
+	private static final int SUGGESTED_X = 6;
+	private static final int SUGGESTED_Y = 99;
+
+	private final ArrayList<InfoComponentTooltip> infoComponentTooltips = new ArrayList<>(Arrays.asList(
+		new InfoComponentTooltip(Component.translatable("gj.job.constitution.tooltip"), 6, 123, 27, 38),
+		new InfoComponentTooltip(Component.translatable("gj.job.strength.tooltip"), 6, 123, 39, 50),
+		new InfoComponentTooltip(Component.translatable("gj.job.defense.tooltip"), 6, 123, 51, 62),
+		new InfoComponentTooltip(Component.translatable("gj.job.dexterity.tooltip"), 6, 123, 63, 74),
+		new InfoComponentTooltip(Component.translatable("gj.job.intelligence.tooltip"), 6, 123, 75, 86)
+	));
 
 	private InteractionHand hand;
 	
@@ -38,6 +53,23 @@ public class RPGIntroScreen extends AbstractContainerScreen<RPGIntroMenu> {
 	public void render(PoseStack ps, int mouseX, int mouseY, float partialTicks) {
 		renderBackground(ps);
 		super.render(ps, mouseX, mouseY, partialTicks);
+		renderTooltip(ps, mouseX, mouseY);
+	}
+
+	@Override
+	protected void renderTooltip(PoseStack ps, int mouseX, int mouseY) {
+		for(InfoComponentTooltip infoComponent: infoComponentTooltips) {
+			int leftMinX = infoComponent.minX + leftPos;
+			int leftMaxX = infoComponent.maxX + leftPos;
+			if(mouseX >= leftMinX && mouseX <= leftMaxX) {
+				int topMinY = infoComponent.minY + topPos;
+				int topMaxY = infoComponent.maxY + topPos;
+				if(mouseY >= topMinY && mouseY <= topMaxY) {
+					super.renderTooltip(ps, infoComponent.component, mouseX, mouseY);
+					return;
+				}
+			}
+		}
 	}
 
 	@Override
@@ -54,10 +86,10 @@ public class RPGIntroScreen extends AbstractContainerScreen<RPGIntroMenu> {
 		final IRPG rpg = lazy_optional_rpg.orElse(null);
 		if(rpg != null) {
 			if(rpg.getJob() != null)
-				font.draw(ps, I18n.get("gj.job.base", I18n.get(rpg.getJob().getJobName())), 6, 6, 4210752);
+				font.draw(ps, Component.translatable("gj.job.base", Component.translatable(rpg.getJob().getJobName())), 6, 6, 4210752);
 			else
-				font.draw(ps, I18n.get("gj.job.base", I18n.get("gj.job.noCareer")), 6, 6, 4210752);
-			font.draw(ps, I18n.get("gj.job.level", rpg.getLevel()), 6, 16, 4210752);
+				font.draw(ps, Component.translatable("gj.job.base", Component.translatable("gj.job.no_career")), 6, 6, 4210752);
+			font.draw(ps, Component.translatable("gj.job.level", rpg.getLevel()), 6, 16, 4210752);
 
 			font.draw(ps, getStatLocalization("gj.job.constitution", rpg.getConstitution(), rpg.getJob() != null && rpg.getJob().overrideConstitution(), rpg.getConstitution(true)), 6, 27, 4210752);
 			font.draw(ps, getStatLocalization("gj.job.strength", rpg.getStrength(), rpg.getJob() != null && rpg.getJob().overrideStrength(), rpg.getStrength(true)), 6, 39, 4210752);
@@ -66,16 +98,16 @@ public class RPGIntroScreen extends AbstractContainerScreen<RPGIntroMenu> {
 			font.draw(ps, getStatLocalization("gj.job.intelligence", rpg.getIntelligence(), rpg.getJob() != null && rpg.getJob().overrideIntelligence(), rpg.getIntelligence(true)), 6, 75, 4210752);
 			
 			if(rpg.getJob() == null || !rpg.getJob().replaceMagick())
-				font.draw(ps, I18n.get("gj.job.magic", rpg.getMagick(), rpg.getMaxMagick()), 78, 16, 4210752);
+				font.draw(ps, Component.translatable("gj.job.magic", rpg.getMagick(), rpg.getMaxMagick()), 78, 16, 4210752);
 			int expColor = RPGDefault.getExperienceCostForNextLevel(minecraft.player) >= minecraft.player.experienceLevel ? 0x8A0707 : 0x009900; 
-            font.draw(ps, I18n.get("gj.expCost", RPGDefault.getExperienceCostForNextLevel(minecraft.player)), 6, 87, expColor);
+            font.draw(ps, Component.translatable("gj.exp_cost", RPGDefault.getExperienceCostForNextLevel(minecraft.player)), 6, 87, expColor);
             if(rpg.getJob() != null)
-            	rpg.getJob().drawExtraInformationBase(ps, font, mouseX, mouseY, minecraft.player, 6, 99);
+            	rpg.getJob().drawExtraInformationBase(ps, font, mouseX, mouseY, minecraft.player, SUGGESTED_X, SUGGESTED_Y);
 		}
 	}
 	
 	private static String getStatLocalization(String statToLocalize, int statOverride, boolean willOverride, int statOriginal) {
-		String stat = I18n.get(statToLocalize, statOverride);
+		String stat = Component.translatable(statToLocalize, statOverride).getString();
 		if(willOverride) {
 			int difference = statOverride - statOriginal;
 			String temp = "(" + statOriginal;
@@ -85,7 +117,7 @@ public class RPGIntroScreen extends AbstractContainerScreen<RPGIntroMenu> {
 				temp += "+" + difference + ")";
 			else
 				temp += ")"; 
-			stat = I18n.get(statToLocalize + "_job", statOverride, temp);
+			stat = Component.translatable(statToLocalize + "_job", statOverride, temp).getString();
 		}
 		return stat;
 	}
@@ -95,7 +127,12 @@ public class RPGIntroScreen extends AbstractContainerScreen<RPGIntroMenu> {
 		super.init();
 		
 		renderables.clear();
-		
+
+		LazyOptional<IRPG> lazy_optional_rpg = minecraft.player.getCapability(RPGProvider.RPG_CAPABILITY, null);
+		final IRPG rpg = lazy_optional_rpg.orElse(null);
+		if(rpg != null && rpg.getJob() != null)
+			rpg.getJob().addInfoComponentTooltipsBase(infoComponentTooltips, SUGGESTED_X, SUGGESTED_Y);
+
 		final Component arrow = Component.literal("->");
 		final boolean bHand = hand == InteractionHand.MAIN_HAND;
 		final Consumer<Integer> screenButton = (buttonId) -> PacketHandler.sendToServer(new ScreenButtonPacket(bHand, buttonId));

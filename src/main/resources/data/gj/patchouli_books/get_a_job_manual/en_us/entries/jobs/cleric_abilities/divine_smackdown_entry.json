@@ -1,0 +1,12 @@
+{
+    "name": "Ability: Divine Smackdown",
+    "icon": "",
+    "category": "gj:jobs/cleric_category",
+    "pages":
+    [
+        {
+            "type": "patchouli:text",
+            "text": "A Cleric deals additional damage to Undead enemies and scales off of Intelligence."
+        }
+    ]
+}

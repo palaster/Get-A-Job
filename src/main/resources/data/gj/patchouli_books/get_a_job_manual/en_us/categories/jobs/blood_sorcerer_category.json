@@ -1,0 +1,6 @@
+{
+    "name": "Blood Sorcerer",
+    "description": "Use your blood, or others, to cast powerful spells.",
+    "icon": "gj:congealed_blood",
+    "parent": "gj:jobs_category"
+}

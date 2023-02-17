@@ -1,0 +1,12 @@
+{
+    "name": "Ability: Flourish",
+    "icon": "",
+    "category": "gj:jobs/botanist_category",
+    "pages":
+    [
+        {
+            "type": "patchouli:text",
+            "text": "Plants grow faster in the presence of a Botanist"
+        }
+    ]
+}

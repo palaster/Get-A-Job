@@ -1,0 +1,12 @@
+{
+    "type": "patchouli:shapeless_book_recipe",
+    "ingredients": [
+        {
+            "item": "minecraft:book"
+        },
+        {
+            "item": "gj:rpg_intro"
+        }
+    ],
+    "book": "gj:get_a_job_manual"
+}

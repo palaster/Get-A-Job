@@ -48,15 +48,7 @@ import palaster.gj.network.PacketHandler;
 
 @Mod(LibMod.MODID)
 public class GetAJob {
-	
-	/*
-	public static final CreativeModeTab GET_A_JOB = new CreativeModeTab("getAJob") {
-		@Override
-		public ItemStack makeIcon() { return new ItemStack(RPG_INTRO_ITEM.get()); }
-	};
-	*/
 
-	//private static final Item.Properties DEFAULT_PROPERTIES = new Item.Properties().tab(GetAJob.GET_A_JOB);
 	private static final Item.Properties DEFAULT_PROPERTIES = new Item.Properties();
 	private static final Item.Properties SPECIAL_PROPERTIES = DEFAULT_PROPERTIES.defaultDurability(0);
 
@@ -130,7 +122,7 @@ public class GetAJob {
 		@SubscribeEvent
 		public static void registerCreativeModeTab(CreativeModeTabEvent.Register event) {
 			event.registerCreativeModeTab(new ResourceLocation(LibMod.MODID, "creative_mode_tab"), (builder) -> 
-				builder.title(Component.translatable("itemGroup.gj"))
+				builder.title(Component.translatable("item_group.gj"))
 				.icon(() -> new ItemStack(RPG_INTRO_ITEM.get()))
 				.displayItems((featureFlagSet, output, operator) -> {
 					output.accept(ALTAR_BLOCK.get());

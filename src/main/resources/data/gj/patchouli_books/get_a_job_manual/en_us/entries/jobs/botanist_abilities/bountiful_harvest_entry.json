@@ -1,0 +1,12 @@
+{
+    "name": "Ability: Bountiful Harvest",
+    "icon": "",
+    "category": "gj:jobs/botanist_category",
+    "pages":
+    [
+        {
+            "type": "patchouli:text",
+            "text": "Botanist are able to harvest more efficiently."
+        }
+    ]
+}

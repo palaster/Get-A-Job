@@ -48,6 +48,7 @@ public class JobPamphletItem extends Item {
 					try {
 						rpg.setJob((IRPGJob) Class.forName(NBTHelper.getStringFromItemStack(player.getItemInHand(hand), NBT_JOB_CLASS)).getConstructor().newInstance());
 					} catch(Exception e) { }
+					player.sendSystemMessage(Component.translatable("gj.job.hired"));
 					return InteractionResultHolder.success(ItemStack.EMPTY);
 				}
 			}

@@ -1,5 +1,6 @@
 package palaster.gj.jobs;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
@@ -19,6 +20,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.jobs.IRPGJob;
+import palaster.gj.api.jobs.InfoComponentTooltip;
 import palaster.gj.jobs.abilities.Abilities;
 import palaster.gj.network.client.PacketUpdateRPG;
 
@@ -76,6 +78,13 @@ public class JobBloodSorcerer implements IRPGJob {
 		AttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.MAX_HEALTH);
 		if(attributeInstance != null && attributeInstance.getModifier(HEALTH_ID) != null)
 			attributeInstance.removeModifier(attributeInstance.getModifier(HEALTH_ID));
+	}
+
+	@Override
+	public void addInfoComponentTooltips(ArrayList<InfoComponentTooltip> infoComponentTooltips, int suggestedX, int suggestedY) {
+		infoComponentTooltips.add(new InfoComponentTooltip(Component.translatable("gj.job.blood_sorcerer.blood.tooltip"), suggestedX, 123, suggestedY, suggestedY + 11));
+        infoComponentTooltips.add(new InfoComponentTooltip(Component.translatable("gj.job.blood_sorcerer.blood_regen.tooltip"), suggestedX, 123, suggestedY + 12, suggestedY + 23));
+		infoComponentTooltips.add(new InfoComponentTooltip(Component.translatable("gj.job.blood_sorcerer.abilities.dark_stalker.tooltip"), suggestedX, 123, suggestedY + 36, suggestedY + 47));
 	}
 	
 	@Override

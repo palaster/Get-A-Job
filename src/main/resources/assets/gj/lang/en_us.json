@@ -1,7 +1,7 @@
 {
     "commands.kill.god":"Death does not recognize this creature anymore",
 
-    "itemGroup.gj": "Get-A-Job",
+    "item_group.gj": "Get-A-Job",
 
     "block.gj.altar": "Altar",
 
@@ -16,18 +16,25 @@
     "item.gj.kodoku": "Kodoku",
     "item.gj.test": "Test",
 
-    "gj.expCost": "XP Cost: %d",
+    "gj.exp_cost": "XP Cost: %d",
 
     "gj.job.base": "Job: %s",
-    "gj.job.spellSlots": "Spell Slots: %d",
-    "gj.job.noCareer": "Get A Job You Bum!",
+    "gj.job.spell_slots": "Spell Slots: %d",
+    "gj.job.spell_slots.tooltip": "Amount Of Spells You Can Cast Per Charge",
+    "gj.job.no_career": "Get A Job You Bum!",
+    "gj.job.hired": "You're hired!",
     "gj.job.fired": "You're fired!",
-    "gj.job.additionalInfo": "Additional Information:",
+    "gj.job.additional_info": "Additional Information:",
     "gj.job.constitution": "Constitution: %d",
+    "gj.job.constitution.tooltip": "Increases Max HP",
     "gj.job.strength": "Strength: %d",
+    "gj.job.strength.tooltip": "Increases Melee Attack Damage",
     "gj.job.defense": "Defense: %d",
+    "gj.job.defense.tooltip": "Increases Resistance to Melee Damage",
     "gj.job.dexterity": "Dexterity: %d",
+    "gj.job.dexterity.tooltip": "Increases Speed",
     "gj.job.intelligence": "Intelligence: %d",
+    "gj.job.intelligence.tooltip": "Increases Magic Attack Damage",
     "gj.job.constitution_job": "Constitution: %d (%s)",
     "gj.job.strength_job": "Strength: %d (%s)",
     "gj.job.defense_job": "Defense: %d (%s)",
@@ -40,16 +47,21 @@
 
     "gj.job.blood_sorcerer": "Blood Sorcerer",
     "gj.job.blood_sorcerer.blood": "Blood: %d / %d",
+    "gj.job.blood_sorcerer.blood.tooltip": "Blood Is Used In Casting Spells Using The Blood Book",
     "gj.job.blood_sorcerer.blood_regen": "Blood Regeneration: %d",
+    "gj.job.blood_sorcerer.blood_regen.tooltip": "Affects Amount Of Blood Restored",
 
     "gj.job.blood_sorcerer.abilities.dark_stalker": "Ability: Dark Stalker",
+    "gj.job.blood_sorcerer.abilities.dark_stalker.tooltip": "Allows The User To Go Invisible While Sneaking",
 
     "gj.job.bloodSorcerer.spell.0": "Drain",
 
     "gj.job.botanist": "Botanist",
 
     "gj.job.botanist.abilities.flourish": "Ability: Flourish",
+    "gj.job.botanist.abilities.flourish.tooltip": "Plants Grow Faster When You Are Near",
     "gj.job.botanist.abilities.bountiful_harvest": "Ability: Bountiful Harvest",
+    "gj.job.botanist.abilities.bountiful_harvest.tooltip": "Doubles Crops From Harvesting",
 
     "gj.job.botanist.spell.0": "Root",
 
@@ -57,11 +69,15 @@
     "gj.job.cleric.domain": "Domain",
 
     "gj.job.cleric.abilities.divine_smackdown": "Ability: Divine Smackdown",
+    "gj.job.cleric.abilities.divine_smackdown.tooltip": "Increases Damage To The Undead",
 
     "gj.job.cleric.spell.0": "Burn",
     "gj.job.cleric.spell.1": "Shield Other",
     "gj.job.cleric.spell.2": "Heal",
     "gj.job.cleric.spell.3": "Growth",
 
-    "gj.job.god": "God"
+    "gj.job.god": "God",
+
+    "get_a_job.manual": "Get-A-Job Manual",
+    "get_a_job.manual.landing": "Welcome to Get-A-Job."
 }

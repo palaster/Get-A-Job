@@ -1,0 +1,6 @@
+{
+    "name": "Botanist",
+    "description": "Botanist take their Green Thumb to the next level.",
+    "icon": "gj:herb_sack",
+    "parent": "gj:jobs_category"
+}
