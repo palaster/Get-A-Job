@@ -3,17 +3,18 @@ package palaster.gj.core.handlers;
 import com.mojang.brigadier.context.CommandContextBuilder;
 
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.PlayerChatMessage;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.commands.KillCommand;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.TieredItem;
+import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.block.BeaconBlock;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import net.minecraftforge.common.util.LazyOptional;
@@ -105,11 +106,14 @@ public class EventHandler {
 				if(rpg != null) {
 					if(!e.getSource().isBypassMagic() && !e.getSource().isBypassArmor())
 						e.setAmount(e.getAmount() * ((100f - rpg.getDefense()) / 100));
+					if(e.getSource() == DamageSource.MAGIC)
+						e.setAmount(e.getAmount() * ((100f - rpg.getIntelligence()) / 100));
 					if(rpg.getJob() instanceof JobGod) {
 						Player player = (Player) e.getEntity();
 						if(player.getFoodData().getFoodLevel() > 0)
 							player.getFoodData().setFoodLevel(player.getFoodData().getFoodLevel() - e.getAmount() > 0.0f ? (int) (player.getFoodData().getFoodLevel() - e.getAmount()) : 0);
 						e.setAmount(0.0f);
+						return;
 					}
 				}
 			}
@@ -127,8 +131,16 @@ public class EventHandler {
 				if(rpg != null) {
 					if(e.getSource().getDirectEntity() != e.getSource().getEntity())
 						e.setAmount(e.getAmount() + ((float) rpg.getDexterity() / 2));
-					else
+					else {
 						e.setAmount(e.getAmount() + ((float) rpg.getStrength() / 2));
+						if(Abilities.HOLY_GOLD.isAvailable(rpg)) {
+							ItemStack itemStack = e.getSource().getEntity().getHandSlots().iterator().next();
+							if(!itemStack.isEmpty())
+								if(itemStack.getItem() instanceof TieredItem)
+									if(((TieredItem) itemStack.getItem()).getTier() == Tiers.GOLD)
+										e.setAmount(e.getAmount() + ((float) rpg.getIntelligence() / 2));
+						}
+					}
 				}
 			}
 		}

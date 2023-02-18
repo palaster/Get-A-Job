@@ -1,0 +1,13 @@
+{
+    "name": "Cleric Spellcasting",
+    "icon": "",
+    "category": "gj:jobs/cleric_category",
+    "pages":
+    [
+        {
+            "type": "patchouli:spotlight",
+            "item": "gj:gospel",
+            "text": "Clerics use the Gospel as their spellcasting focus. Cycle your spells by right clicking while sneaking. Right clicking will cast the currently selected spell at the target mob, block, or the air with differing effects."
+        }
+    ]
+}

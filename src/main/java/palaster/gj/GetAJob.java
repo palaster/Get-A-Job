@@ -38,7 +38,7 @@ import palaster.gj.items.BloodBookItem;
 import palaster.gj.items.GospelItem;
 import palaster.gj.items.HandItem;
 import palaster.gj.items.HerbSackItem;
-import palaster.gj.items.JobPamphletItem;
+import palaster.gj.items.JobApplicationItem;
 import palaster.gj.items.KodokuItem;
 import palaster.gj.items.PinkSlipItem;
 import palaster.gj.items.RPGIntroItem;
@@ -65,7 +65,7 @@ public class GetAJob {
 	public static final RegistryObject<Item> CONGEALED_BLOOD = ITEMS.register("congealed_blood", () -> new Item(DEFAULT_PROPERTIES));
 
 	public static final RegistryObject<Item> RPG_INTRO_ITEM = ITEMS.register("rpg_intro", () -> new RPGIntroItem(SPECIAL_PROPERTIES));
-	public static final RegistryObject<Item> JOB_PAMPHLET = ITEMS.register("job_pamphlet", () -> new JobPamphletItem(SPECIAL_PROPERTIES));
+	public static final RegistryObject<Item> JOB_APPLICATION = ITEMS.register("job_application", () -> new JobApplicationItem(SPECIAL_PROPERTIES));
 	public static final RegistryObject<Item> PINK_SLIP = ITEMS.register("pink_slip", () -> new PinkSlipItem(SPECIAL_PROPERTIES));
 	public static final RegistryObject<Item> GOSPEL = ITEMS.register("gospel", () -> new GospelItem(SPECIAL_PROPERTIES));
 	public static final RegistryObject<Item> BLOOD_BOOK = ITEMS.register("blood_book", () -> new BloodBookItem(SPECIAL_PROPERTIES));
@@ -130,7 +130,7 @@ public class GetAJob {
 					output.accept(CONGEALED_BLOOD.get());
 
 					output.accept(RPG_INTRO_ITEM.get());
-					output.accept(JOB_PAMPHLET.get());
+					output.accept(JOB_APPLICATION.get());
 					output.accept(PINK_SLIP.get());
 					output.accept(GOSPEL.get());
 					output.accept(BLOOD_BOOK.get());

@@ -1,0 +1,12 @@
+{
+    "name": "Ability: Holy Gold",
+    "icon": "",
+    "category": "gj:jobs/cleric_category",
+    "pages":
+    [
+        {
+            "type": "patchouli:text",
+            "text": "A Cleric deals additional damage when using Golden weapons scales off of Intelligence."
+        }
+    ]
+}

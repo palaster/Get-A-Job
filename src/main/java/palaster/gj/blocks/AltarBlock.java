@@ -1,6 +1,7 @@
 package palaster.gj.blocks;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -23,9 +24,11 @@ public class AltarBlock extends Block {
 		if(!level.isClientSide) {
 			LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
 	    	IRPG rpg = lazy_optional_rpg.orElse(null);
-			if(rpg != null && rpg.getJob() instanceof JobCleric)
+			if(rpg != null && rpg.getJob() instanceof JobCleric) {
 				((JobCleric) rpg.getJob()).resetSpellSlots(rpg);
-			PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(player);
+				player.sendSystemMessage(Component.translatable("gj.job.cleric.spell_slots_reset"));
+				PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(player);
+			}
 		}
 		return InteractionResult.SUCCESS;
 	}

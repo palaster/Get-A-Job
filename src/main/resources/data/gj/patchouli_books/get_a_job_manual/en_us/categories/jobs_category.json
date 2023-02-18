@@ -1,5 +1,5 @@
 {
     "name": "Jobs",
-    "description": "These are all of the available Jobs.",
-    "icon": "gj:job_pamphlet"
+    "description": "These are all of the available Jobs. Use a Job Application with your selected career to apply.",
+    "icon": "gj:job_application"
 }

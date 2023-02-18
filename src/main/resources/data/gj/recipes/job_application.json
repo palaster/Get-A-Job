@@ -10,8 +10,8 @@
   ],
   "result": {
     "nbt": {
-	  "JobPamphletJobClass": ""
+	  "gj:job_application:job_class": ""
 	},
-    "item": "gj:job_pamphlet"
+    "item": "gj:job_application"
   }
 }

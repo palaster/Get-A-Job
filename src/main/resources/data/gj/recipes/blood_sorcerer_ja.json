@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-	  "item": "gj:job_pamphlet"
+	  "item": "gj:job_application"
 	},
     {
 	  "item": "gj:congealed_blood"
@@ -13,8 +13,8 @@
   ],
   "result": {
     "nbt": {
-	  "gj:job_pamphlet:job_class": "palaster.gj.jobs.JobBloodSorcerer"
+	  "gj:job_application:job_class": "palaster.gj.jobs.JobBloodSorcerer"
 	},
-    "item": "gj:job_pamphlet"
+    "item": "gj:job_application"
   }
 }

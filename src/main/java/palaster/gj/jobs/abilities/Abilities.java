@@ -10,5 +10,6 @@ public class Abilities {
     public static final IAbility FLOURISH = (rpg) -> rpg.getJob() instanceof JobBotanist,
             BOUNTIFUL_HARVEST = FLOURISH,
             DIVINE_SMACKDOWN = (rpg) -> rpg.getJob() instanceof JobCleric,
+            HOLY_GOLD = DIVINE_SMACKDOWN,
             DARK_STALKER = (rpg) -> rpg.getJob() instanceof JobBloodSorcerer;
 }

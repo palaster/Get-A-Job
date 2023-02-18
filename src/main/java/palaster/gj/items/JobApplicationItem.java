@@ -21,11 +21,11 @@ import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
 import palaster.gj.api.jobs.IRPGJob;
 import palaster.gj.core.helpers.NBTHelper;
 
-public class JobPamphletItem extends Item {
+public class JobApplicationItem extends Item {
 	
-	public static final String NBT_JOB_CLASS = "gj:job_pamphlet:job_class";
+	public static final String NBT_JOB_CLASS = "gj:job_application:job_class";
 
-	public JobPamphletItem(Properties properties) { super(properties); }
+	public JobApplicationItem(Properties properties) { super(properties); }
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)

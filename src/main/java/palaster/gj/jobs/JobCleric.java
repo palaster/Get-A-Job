@@ -37,6 +37,7 @@ public class JobCleric implements IRPGJob {
 	public void addInfoComponentTooltips(ArrayList<InfoComponentTooltip> infoComponentTooltips, int suggestedX, int suggestedY) {
 		infoComponentTooltips.add(new InfoComponentTooltip(Component.translatable("gj.job.spell_slots.tooltip"), suggestedX, 123, suggestedY, suggestedY + 11));
         infoComponentTooltips.add(new InfoComponentTooltip(Component.translatable("gj.job.cleric.abilities.divine_smackdown.tooltip"), suggestedX, 123, suggestedY + 24, suggestedY + 35));
+		infoComponentTooltips.add(new InfoComponentTooltip(Component.translatable("gj.job.cleric.abilities.holy_gold.tooltip"), suggestedX, 123, suggestedY + 36, suggestedY + 47));
 	}
 
 	@Override
@@ -44,6 +45,7 @@ public class JobCleric implements IRPGJob {
 		font.draw(ps, Component.translatable("gj.job.spell_slots", spellSlots), suggestedX, suggestedY, 4210752);
 		font.draw(ps, Component.translatable("gj.job.abilities"), suggestedX, suggestedY + 12, 4210752);
         font.draw(ps, Component.translatable("gj.job.cleric.abilities.divine_smackdown"), suggestedX, suggestedY + 24, 4210752);
+		font.draw(ps, Component.translatable("gj.job.cleric.abilities.holy_gold"), suggestedX, suggestedY + 36, 4210752);
 	}
 
 	@Override

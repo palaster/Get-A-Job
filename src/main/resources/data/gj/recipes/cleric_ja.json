@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "gj:job_pamphlet"
+      "item": "gj:job_application"
     },
     {
       "item": "gj:altar"
@@ -13,8 +13,8 @@
   ],
   "result": {
     "nbt": {
-      "gj:job_pamphlet:job_class": "palaster.gj.jobs.JobCleric"
+      "gj:job_application:job_class": "palaster.gj.jobs.JobCleric"
     },
-    "item": "gj:job_pamphlet"
+    "item": "gj:job_application"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-	"layer0": "gj:item/job_pamphlet"
+	"layer0": "gj:item/job_application"
   }
 }

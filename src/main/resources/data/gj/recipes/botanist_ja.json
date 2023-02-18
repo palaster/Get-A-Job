@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "gj:job_pamphlet"
+      "item": "gj:job_application"
     },
     {
       "tag": "forge:seeds/wheat"
@@ -19,8 +19,8 @@
   ],
   "result": {
     "nbt": {
-      "gj:job_pamphlet:job_class": "palaster.gj.jobs.JobBotanist"
+      "gj:job_application:job_class": "palaster.gj.jobs.JobBotanist"
     },
-    "item": "gj:job_pamphlet"
+    "item": "gj:job_application"
   }
 }
