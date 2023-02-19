@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import net.minecraft.client.gui.Font;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -24,41 +21,12 @@ public interface IRPGJob extends INBTSerializable<Tag> {
 	default boolean canLeave() { return true; }
 
 	default void leaveJob(@Nullable Player player) {}
-
-	@OnlyIn(Dist.CLIENT)
-	default void addInfoComponentTooltipsBase(final ArrayList<InfoComponentTooltip> infoComponentTooltips, int suggestedX, int suggestedY) {
-		if(shouldDrawExtraInformation()) {
-			addInfoComponentTooltips(infoComponentTooltips, suggestedX, suggestedY + 12);
-		}
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	default void addInfoComponentTooltips(final ArrayList<InfoComponentTooltip> infoComponentTooltips, int suggestedX, int suggestedY) {}
 	
 	@OnlyIn(Dist.CLIENT)
 	default boolean shouldDrawExtraInformation() { return true; }
 
 	@OnlyIn(Dist.CLIENT)
-	default void drawExtraInformationBase(PoseStack ps, Font font, int mouseX, int mouseY, @Nullable Player player, int suggestedX, int suggestedY) {
-		if(shouldDrawExtraInformation()) {
-			font.draw(ps, Component.translatable("gj.job.additional_info"), suggestedX, suggestedY, 4210752);
-			drawExtraInformation(ps, font, mouseX, mouseY, player, suggestedX, suggestedY + 12);
-		}
-	}
-
-	/**
-	 * Allows drawing in extra space in the RPG Intro.
-	 * 
-	 * @param ps PoseStack from the gui.
-	 * @param font Font from the gui.
-	 * @param mouseX X value of the location of the mouse.
-	 * @param mouseY Y value of the location of the mouse.
-	 * @param player The player whose status is being shown.
-	 * @param suggestedX Where you should start drawing, up to the end of the gui.
-	 * @param suggestedY Where you should start drawing, up to the end of the gui.
-	 */
-	@OnlyIn(Dist.CLIENT)
-	default void drawExtraInformation(PoseStack ps, Font font, int mouseX, int mouseY, @Nullable Player player, int suggestedX, int suggestedY) {}
+	default void addExtraInformation(final ArrayList<Component> components) {}
 
 	default void updatePlayerAttributes(Player player) {}
 

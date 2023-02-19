@@ -6,9 +6,6 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import net.minecraft.client.gui.Font;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -20,7 +17,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.jobs.IRPGJob;
-import palaster.gj.api.jobs.InfoComponentTooltip;
 import palaster.gj.jobs.abilities.Abilities;
 import palaster.gj.network.client.PacketUpdateRPG;
 
@@ -82,27 +78,9 @@ public class BloodSorcererJob implements IRPGJob {
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void addInfoComponentTooltips(ArrayList<InfoComponentTooltip> infoComponentTooltips, int suggestedX, int suggestedY) {
-		infoComponentTooltips.add(new InfoComponentTooltip(Component.translatable("gj.job.blood_sorcerer.blood.tooltip"), suggestedX, 123, suggestedY, suggestedY + 11));
-        infoComponentTooltips.add(new InfoComponentTooltip(Component.translatable("gj.job.blood_sorcerer.blood_regen.tooltip"), suggestedX, 123, suggestedY + 12, suggestedY + 23));
-		infoComponentTooltips.add(new InfoComponentTooltip(Component.translatable("gj.job.blood_sorcerer.abilities.dark_stalker.tooltip"), suggestedX, 123, suggestedY + 36, suggestedY + 47));
-	}
-	
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void drawExtraInformation(PoseStack ps, Font font, int mouseX, int mouseY, @Nullable Player player, int suggestedX, int suggestedY) {
-		font.draw(ps, Component.translatable("gj.job.blood_sorcerer.blood", bloodCurrent, bloodMax), suggestedX, suggestedY, 4210752);
-		font.draw(ps, Component.translatable("gj.job.blood_sorcerer.blood_regen", bloodRegen), suggestedX, suggestedY + 12, 4210752);
-		font.draw(ps, Component.translatable("gj.job.abilities"), suggestedX, suggestedY + 24, 4210752);
-        font.draw(ps, Component.translatable("gj.job.blood_sorcerer.abilities.dark_stalker"), suggestedX, suggestedY + 36, 4210752);
-	}
-
-	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void addExtraInformation(final ArrayList<Component> components) {
 		components.add(Component.translatable("gj.job.blood_sorcerer.blood", bloodCurrent, bloodMax));
 		components.add(Component.translatable("gj.job.blood_sorcerer.blood_regen", bloodRegen));
-		components.add(Component.translatable("gj.job.abilities"));
 		components.add(Component.translatable("gj.job.blood_sorcerer.abilities.dark_stalker"));
 	}
 

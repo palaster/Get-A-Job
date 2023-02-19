@@ -2,11 +2,6 @@ package palaster.gj.jobs;
 
 import java.util.ArrayList;
 
-import javax.annotation.Nullable;
-
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import net.minecraft.client.gui.Font;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -17,7 +12,6 @@ import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.IPlantable;
 import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.jobs.IRPGJob;
-import palaster.gj.api.jobs.InfoComponentTooltip;
 import palaster.gj.jobs.abilities.Abilities;
 
 public class BotanistJob implements IRPGJob {
@@ -31,16 +25,9 @@ public class BotanistJob implements IRPGJob {
     public String getJobName() { return "gj.job.botanist"; }
 
     @Override
-    public void addInfoComponentTooltips(ArrayList<InfoComponentTooltip> infoComponentTooltips, int suggestedX, int suggestedY) {
-        infoComponentTooltips.add(new InfoComponentTooltip(Component.translatable("gj.job.botanist.abilities.flourish.tooltip"), suggestedX, 123, suggestedY + 12, suggestedY + 23));
-        infoComponentTooltips.add(new InfoComponentTooltip(Component.translatable("gj.job.botanist.abilities.bountiful_harvest.tooltip"), suggestedX, 123, suggestedY + 24, suggestedY + 35));
-    }
-
-    @Override
-    public void drawExtraInformation(PoseStack ps, Font font, int mouseX, int mouseY, @Nullable Player player, int suggestedX, int suggestedY) {
-        font.draw(ps, Component.translatable("gj.job.abilities"), suggestedX, suggestedY, 4210752);
-        font.draw(ps, Component.translatable("gj.job.botanist.abilities.flourish"), suggestedX, suggestedY + 12, 4210752);
-        font.draw(ps, Component.translatable("gj.job.botanist.abilities.bountiful_harvest"), suggestedX, suggestedY + 24, 4210752);
+    public void addExtraInformation(final ArrayList<Component> components) {
+        components.add(Component.translatable("gj.job.botanist.abilities.flourish"));
+        components.add(Component.translatable("gj.job.botanist.abilities.bountiful_harvest"));
     }
     
     @Override

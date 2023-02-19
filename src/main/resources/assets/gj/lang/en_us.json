@@ -47,21 +47,16 @@
 
     "gj.job.blood_sorcerer": "Blood Sorcerer",
     "gj.job.blood_sorcerer.blood": "Blood: %d / %d",
-    "gj.job.blood_sorcerer.blood.tooltip": "Blood is used in casting spells using the blood book",
     "gj.job.blood_sorcerer.blood_regen": "Blood Regeneration: %d",
-    "gj.job.blood_sorcerer.blood_regen.tooltip": "Affects amount of blood restored",
 
     "gj.job.blood_sorcerer.abilities.dark_stalker": "Ability: Dark Stalker",
-    "gj.job.blood_sorcerer.abilities.dark_stalker.tooltip": "Allows the user to go invisible while sneaking",
 
     "gj.job.bloodSorcerer.spell.0": "Drain",
 
     "gj.job.botanist": "Botanist",
 
     "gj.job.botanist.abilities.flourish": "Ability: Flourish",
-    "gj.job.botanist.abilities.flourish.tooltip": "Plants grow faster when you are near",
     "gj.job.botanist.abilities.bountiful_harvest": "Ability: Bountiful Harvest",
-    "gj.job.botanist.abilities.bountiful_harvest.tooltip": "Doubles crop yield",
 
     "gj.job.botanist.spell.0": "Root",
 
@@ -69,9 +64,7 @@
     "gj.job.cleric.domain": "Domain",
 
     "gj.job.cleric.abilities.divine_smackdown": "Ability: Divine Smackdown",
-    "gj.job.cleric.abilities.divine_smackdown.tooltip": "Increases damage to the undead",
     "gj.job.cleric.abilities.holy_gold": "Ability: Holy Gold",
-    "gj.job.cleric.abilities.holy_gold.tooltip": "Increases damage dealt with golden weapons",
 
     "gj.job.cleric.spell_slots_reset": "Your spell slots have been refreshed",
 
