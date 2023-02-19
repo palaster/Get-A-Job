@@ -16,7 +16,7 @@ import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.jobs.IRPGJob;
 import palaster.gj.api.jobs.InfoComponentTooltip;
 
-public class JobCleric implements IRPGJob {
+public class ClericJob implements IRPGJob {
 
 	public static final String NBT_SPELL_SLOTS = "gj:cleric:spell_slots";
 	

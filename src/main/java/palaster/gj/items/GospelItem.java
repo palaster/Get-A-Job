@@ -23,7 +23,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
 import palaster.gj.core.helpers.NBTHelper;
-import palaster.gj.jobs.JobCleric;
+import palaster.gj.jobs.ClericJob;
 import palaster.gj.jobs.spells.domain.DomainSpells;
 
 public class GospelItem extends Item {
@@ -37,7 +37,7 @@ public class GospelItem extends Item {
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
 		LazyOptional<IRPG> lazy_optional_rpg = Minecraft.getInstance().player.getCapability(RPGProvider.RPG_CAPABILITY, null);
 		final IRPG rpg = lazy_optional_rpg.orElse(null);
-		if(rpg != null && rpg.getJob() instanceof JobCleric)
+		if(rpg != null && rpg.getJob() instanceof ClericJob)
 			if(NBTHelper.getIntegerFromItemStack(stack, NBT_SELECTED_SPELL) >= 0)
 				tooltip.add(Component.literal("Selected Spell: " + I18n.get("gj.job.cleric.spell." + NBTHelper.getIntegerFromItemStack(stack, NBT_SELECTED_SPELL))));
 	}
@@ -47,12 +47,12 @@ public class GospelItem extends Item {
     	if(!playerEntity.level.isClientSide) {
     		LazyOptional<IRPG> lazy_optional_rpg = playerEntity.getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
-	        if(rpg != null && rpg.getJob() instanceof JobCleric)
-	        	if(((JobCleric) rpg.getJob()).canCastSpell())
+	        if(rpg != null && rpg.getJob() instanceof ClericJob)
+	        	if(((ClericJob) rpg.getJob()).canCastSpell())
 	        		if(DomainSpells.DOMAIN_SPELLS.get(NBTHelper.getIntegerFromItemStack(itemStack, NBT_SELECTED_SPELL)) != null) {
 	        			InteractionResult interactionResult = DomainSpells.DOMAIN_SPELLS.get(NBTHelper.getIntegerFromItemStack(itemStack, NBT_SELECTED_SPELL)).interactLivingEntity(itemStack, playerEntity, livingEntity, hand);
 			            if(interactionResult == InteractionResult.SUCCESS)
-			            	((JobCleric) rpg.getJob()).castSpell();
+			            	((ClericJob) rpg.getJob()).castSpell();
 			            return interactionResult;
 	        		}
     	}
@@ -64,7 +64,7 @@ public class GospelItem extends Item {
     	if(!level.isClientSide) {
 			LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
-			if(rpg != null && rpg.getJob() instanceof JobCleric) {
+			if(rpg != null && rpg.getJob() instanceof ClericJob) {
 				if(player.isShiftKeyDown()) {
 					int currentSelection = NBTHelper.getIntegerFromItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL);
 					if(currentSelection >= DomainSpells.DOMAIN_SPELLS.size() - 1)
@@ -72,11 +72,11 @@ public class GospelItem extends Item {
 					else
 						return InteractionResultHolder.success(NBTHelper.setIntegerToItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL, NBTHelper.getIntegerFromItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL) + 1));
 				} else {
-					if(((JobCleric) rpg.getJob()).canCastSpell())
+					if(((ClericJob) rpg.getJob()).canCastSpell())
 						if(DomainSpells.DOMAIN_SPELLS.get(NBTHelper.getIntegerFromItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL)) != null) {
 							InteractionResultHolder<ItemStack> interactionResultHolder = DomainSpells.DOMAIN_SPELLS.get(NBTHelper.getIntegerFromItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL)).use(level, player, hand);
 							if(interactionResultHolder.getResult() == InteractionResult.SUCCESS)
-								((JobCleric) rpg.getJob()).castSpell();
+								((ClericJob) rpg.getJob()).castSpell();
 							return interactionResultHolder;
 						}
 				}
@@ -90,12 +90,12 @@ public class GospelItem extends Item {
     	if(!useOnContext.getLevel().isClientSide) {
     		LazyOptional<IRPG> lazy_optional_rpg = useOnContext.getPlayer().getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
-            if(rpg != null && rpg.getJob() instanceof JobCleric)
-            	if(((JobCleric) rpg.getJob()).canCastSpell())
+            if(rpg != null && rpg.getJob() instanceof ClericJob)
+            	if(((ClericJob) rpg.getJob()).canCastSpell())
             		if(DomainSpells.DOMAIN_SPELLS.get(NBTHelper.getIntegerFromItemStack(useOnContext.getItemInHand(), NBT_SELECTED_SPELL)) != null) {
             			InteractionResult interactionResult = DomainSpells.DOMAIN_SPELLS.get(NBTHelper.getIntegerFromItemStack(useOnContext.getItemInHand(), NBT_SELECTED_SPELL)).useOn(useOnContext);
 						if(interactionResult == InteractionResult.SUCCESS)
-							((JobCleric) rpg.getJob()).castSpell();
+							((ClericJob) rpg.getJob()).castSpell();
 						return interactionResult;
 		            }
         }

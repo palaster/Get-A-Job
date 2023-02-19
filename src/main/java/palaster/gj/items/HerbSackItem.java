@@ -23,7 +23,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
 import palaster.gj.core.helpers.NBTHelper;
-import palaster.gj.jobs.JobBotanist;
+import palaster.gj.jobs.BotanistJob;
 import palaster.gj.jobs.spells.IBotanySpell;
 import palaster.gj.jobs.spells.botany.BotanySpells;
 
@@ -38,7 +38,7 @@ public class HerbSackItem extends Item {
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         LazyOptional<IRPG> lazy_optional_rpg = Minecraft.getInstance().player.getCapability(RPGProvider.RPG_CAPABILITY, null);
 		IRPG rpg = lazy_optional_rpg.orElse(null);
-		if(rpg != null && rpg.getJob() instanceof JobBotanist)
+		if(rpg != null && rpg.getJob() instanceof BotanistJob)
 		    if(NBTHelper.getIntegerFromItemStack(stack, NBT_SELECTED_SPELL) >= 0)
 			    tooltip.add(Component.literal("Selected Spell: " + I18n.get("gj.job.botanist.spell." + NBTHelper.getIntegerFromItemStack(stack, NBT_SELECTED_SPELL))));
 	}
@@ -48,7 +48,7 @@ public class HerbSackItem extends Item {
     	if(!player.level.isClientSide) {
     		LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
-	        if(rpg != null && rpg.getJob() instanceof JobBotanist) {
+	        if(rpg != null && rpg.getJob() instanceof BotanistJob) {
 	            IBotanySpell IBS = BotanySpells.BOTANY_SPELLS.get(NBTHelper.getIntegerFromItemStack(itemStack, NBT_SELECTED_SPELL));
 	            if(rpg.getMagick() < IBS.getCost())
 	                return InteractionResult.FAIL;
@@ -66,7 +66,7 @@ public class HerbSackItem extends Item {
     	if(!level.isClientSide) {
             LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
             final IRPG rpg = lazy_optional_rpg.orElse(null);
-            if(rpg != null && rpg.getJob() instanceof JobBotanist) {
+            if(rpg != null && rpg.getJob() instanceof BotanistJob) {
                 if(player.isShiftKeyDown()) {
                     int currentSelection = NBTHelper.getIntegerFromItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL);
                     if(currentSelection >= BotanySpells.BOTANY_SPELLS.size() - 1)
@@ -92,7 +92,7 @@ public class HerbSackItem extends Item {
     	if(!useOnContext.getLevel().isClientSide) {
     		LazyOptional<IRPG> lazy_optional_rpg = useOnContext.getPlayer().getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
-            if(rpg != null && rpg.getJob() instanceof JobBotanist) {
+            if(rpg != null && rpg.getJob() instanceof BotanistJob) {
                 IBotanySpell IBS = BotanySpells.BOTANY_SPELLS.get(NBTHelper.getIntegerFromItemStack(useOnContext.getItemInHand(), NBT_SELECTED_SPELL));
                 if(rpg.getMagick() < IBS.getCost())
                     return InteractionResult.FAIL;

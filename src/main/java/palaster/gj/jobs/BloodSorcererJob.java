@@ -24,7 +24,7 @@ import palaster.gj.api.jobs.InfoComponentTooltip;
 import palaster.gj.jobs.abilities.Abilities;
 import palaster.gj.network.client.PacketUpdateRPG;
 
-public class JobBloodSorcerer implements IRPGJob {
+public class BloodSorcererJob implements IRPGJob {
 
 	public static final String NBT_BLOOD_CURRENT = "gj:blood_sorcerer:blood_current",
 			NBT_BLOOD_MAX = "gj:blood_sorcerer:blood_max",
@@ -39,9 +39,9 @@ public class JobBloodSorcerer implements IRPGJob {
 	
 	private boolean isInvisibleDueToDarkStalker = false;
 
-	public JobBloodSorcerer() { this(0, 2000); }
+	public BloodSorcererJob() { this(0, 2000); }
 
-	public JobBloodSorcerer(int bloodCurrent, int bloodMax) {
+	public BloodSorcererJob(int bloodCurrent, int bloodMax) {
 		this.bloodCurrent = bloodCurrent;
 		this.bloodMax = bloodMax;
 	}
@@ -81,6 +81,7 @@ public class JobBloodSorcerer implements IRPGJob {
 	}
 
 	@Override
+	@OnlyIn(Dist.CLIENT)
 	public void addInfoComponentTooltips(ArrayList<InfoComponentTooltip> infoComponentTooltips, int suggestedX, int suggestedY) {
 		infoComponentTooltips.add(new InfoComponentTooltip(Component.translatable("gj.job.blood_sorcerer.blood.tooltip"), suggestedX, 123, suggestedY, suggestedY + 11));
         infoComponentTooltips.add(new InfoComponentTooltip(Component.translatable("gj.job.blood_sorcerer.blood_regen.tooltip"), suggestedX, 123, suggestedY + 12, suggestedY + 23));
@@ -94,6 +95,15 @@ public class JobBloodSorcerer implements IRPGJob {
 		font.draw(ps, Component.translatable("gj.job.blood_sorcerer.blood_regen", bloodRegen), suggestedX, suggestedY + 12, 4210752);
 		font.draw(ps, Component.translatable("gj.job.abilities"), suggestedX, suggestedY + 24, 4210752);
         font.draw(ps, Component.translatable("gj.job.blood_sorcerer.abilities.dark_stalker"), suggestedX, suggestedY + 36, 4210752);
+	}
+
+	@Override
+	@OnlyIn(Dist.CLIENT)
+	public void addExtraInformation(final ArrayList<Component> components) {
+		components.add(Component.translatable("gj.job.blood_sorcerer.blood", bloodCurrent, bloodMax));
+		components.add(Component.translatable("gj.job.blood_sorcerer.blood_regen", bloodRegen));
+		components.add(Component.translatable("gj.job.abilities"));
+		components.add(Component.translatable("gj.job.blood_sorcerer.abilities.dark_stalker"));
 	}
 
 	@Override

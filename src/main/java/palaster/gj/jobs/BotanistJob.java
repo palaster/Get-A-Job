@@ -20,7 +20,7 @@ import palaster.gj.api.jobs.IRPGJob;
 import palaster.gj.api.jobs.InfoComponentTooltip;
 import palaster.gj.jobs.abilities.Abilities;
 
-public class JobBotanist implements IRPGJob {
+public class BotanistJob implements IRPGJob {
     
     private static final int FLOURISH_RADIUS = 6;
     private static final int FLOURISH_TIMER = 1200;

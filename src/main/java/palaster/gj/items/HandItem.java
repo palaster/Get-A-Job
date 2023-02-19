@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.LazyOptional;
 import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
-import palaster.gj.jobs.JobBloodSorcerer;
+import palaster.gj.jobs.BloodSorcererJob;
 
 public class HandItem extends Item {
 
@@ -25,9 +25,9 @@ public class HandItem extends Item {
 				if(!mainHandItemStack.isEmpty() && mainHandItemStack.getItem() instanceof SwordItem) {
 					LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
 					final IRPG rpg = lazy_optional_rpg.orElse(null);
-					if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof JobBloodSorcerer) {
+					if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof BloodSorcererJob) {
 						player.hurt(DamageSource.MAGIC, 1F);
-						((JobBloodSorcerer) rpg.getJob()).addBlood(player, 10);
+						((BloodSorcererJob) rpg.getJob()).addBlood(player, 10);
 						return InteractionResultHolder.success(player.getItemInHand(hand));
 					}
 				}

@@ -12,7 +12,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.util.LazyOptional;
 import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
-import palaster.gj.jobs.JobCleric;
+import palaster.gj.jobs.ClericJob;
 import palaster.gj.network.client.PacketUpdateRPG;
 
 public class AltarBlock extends Block {
@@ -24,8 +24,8 @@ public class AltarBlock extends Block {
 		if(!level.isClientSide) {
 			LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
 	    	IRPG rpg = lazy_optional_rpg.orElse(null);
-			if(rpg != null && rpg.getJob() instanceof JobCleric) {
-				((JobCleric) rpg.getJob()).resetSpellSlots(rpg);
+			if(rpg != null && rpg.getJob() instanceof ClericJob) {
+				((ClericJob) rpg.getJob()).resetSpellSlots(rpg);
 				player.sendSystemMessage(Component.translatable("gj.job.cleric.spell_slots_reset"));
 				PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(player);
 			}

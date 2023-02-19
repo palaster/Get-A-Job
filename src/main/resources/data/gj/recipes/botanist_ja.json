@@ -19,7 +19,7 @@
   ],
   "result": {
     "nbt": {
-      "gj:job_application:job_class": "palaster.gj.jobs.JobBotanist"
+      "gj:job_application:job_class": "palaster.gj.jobs.BotanistJob"
     },
     "item": "gj:job_application"
   }

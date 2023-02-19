@@ -29,7 +29,7 @@ import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGDefault;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
 import palaster.gj.containers.RPGIntroMenu;
-import palaster.gj.jobs.JobGod;
+import palaster.gj.jobs.GodJob;
 import palaster.gj.jobs.abilities.Abilities;
 import palaster.gj.libs.LibMod;
 import palaster.gj.network.client.PacketUpdateRPG;
@@ -68,9 +68,9 @@ public class EventHandler {
 					if(e.getEntity().getUUID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
 						LazyOptional<IRPG> lazy_optional_rpg = e.getEntity().getCapability(RPGProvider.RPG_CAPABILITY, null);
 						IRPG rpg = lazy_optional_rpg.orElse(null);
-						if(rpg != null && !(rpg.getJob() instanceof JobGod)) {
+						if(rpg != null && !(rpg.getJob() instanceof GodJob)) {
 							stack.shrink(1);
-							RPGDefault.jobChange(e.getEntity(), rpg, new JobGod());
+							RPGDefault.jobChange(e.getEntity(), rpg, new GodJob());
 							PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(e.getEntity());
 							if(e.getEntity().level.getServer() != null)
 								e.getEntity().level.getServer().getPlayerList().broadcastSystemMessage(Component.literal("§2§l§nA God has Awakened Among You."), false);
@@ -89,7 +89,7 @@ public class EventHandler {
 			if(entity instanceof ServerPlayer && entity.getUUID().toString().equals("f1c1d19e-5f38-42d5-842b-bfc8851082a9")) {
 				LazyOptional<IRPG> lazy_optional_rgp =  entity.getCapability(RPGProvider.RPG_CAPABILITY, null);
 				final IRPG rpg = lazy_optional_rgp.orElse(null);
-				if(rpg != null && rpg.getJob() instanceof JobGod) {
+				if(rpg != null && rpg.getJob() instanceof GodJob) {
 					e.setCanceled(true);
 					e.getParseResults().getContext().getSource().sendFailure(Component.translatable("commands.kill.god"));
 				}
@@ -108,7 +108,7 @@ public class EventHandler {
 						e.setAmount(e.getAmount() * ((100f - rpg.getDefense()) / 100));
 					if(e.getSource() == DamageSource.MAGIC)
 						e.setAmount(e.getAmount() * ((100f - rpg.getIntelligence()) / 100));
-					if(rpg.getJob() instanceof JobGod) {
+					if(rpg.getJob() instanceof GodJob) {
 						Player player = (Player) e.getEntity();
 						if(player.getFoodData().getFoodLevel() > 0)
 							player.getFoodData().setFoodLevel(player.getFoodData().getFoodLevel() - e.getAmount() > 0.0f ? (int) (player.getFoodData().getFoodLevel() - e.getAmount()) : 0);

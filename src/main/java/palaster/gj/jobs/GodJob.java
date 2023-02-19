@@ -6,7 +6,7 @@ import net.minecraft.world.entity.player.Player;
 import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.jobs.IRPGJob;
 
-public class JobGod implements IRPGJob {
+public class GodJob implements IRPGJob {
 	@Override
 	public String getJobName() { return "gj.job.god"; }
 

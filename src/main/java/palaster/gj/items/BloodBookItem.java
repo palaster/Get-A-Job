@@ -23,7 +23,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
 import palaster.gj.core.helpers.NBTHelper;
-import palaster.gj.jobs.JobBloodSorcerer;
+import palaster.gj.jobs.BloodSorcererJob;
 import palaster.gj.jobs.spells.IBloodSpell;
 import palaster.gj.jobs.spells.blood.BloodSpells;
 
@@ -38,7 +38,7 @@ public class BloodBookItem extends Item {
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
 		LazyOptional<IRPG> lazy_optional_rpg = Minecraft.getInstance().player.getCapability(RPGProvider.RPG_CAPABILITY, null);
 		IRPG rpg = lazy_optional_rpg.orElse(null);
-		if(rpg != null && rpg.getJob() instanceof JobBloodSorcerer)
+		if(rpg != null && rpg.getJob() instanceof BloodSorcererJob)
 			if(NBTHelper.getIntegerFromItemStack(stack, NBT_SELECTED_SPELL) >= 0)
 				tooltip.add(Component.literal("Selected Spell: " + I18n.get("gj.job.bloodSorcerer.spell." + NBTHelper.getIntegerFromItemStack(stack, NBT_SELECTED_SPELL))));
 	}
@@ -48,11 +48,11 @@ public class BloodBookItem extends Item {
     	if(!player.level.isClientSide) {
     		LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
-	        if(rpg != null && rpg.getJob() instanceof JobBloodSorcerer) {
+	        if(rpg != null && rpg.getJob() instanceof BloodSorcererJob) {
 	            IBloodSpell IBS = BloodSpells.BLOOD_SPELLS.get(NBTHelper.getIntegerFromItemStack(itemStack, NBT_SELECTED_SPELL));
 	            InteractionResult interactionResult = IBS.interactLivingEntity(itemStack, player, livingEntity, hand);
 	            if(interactionResult == InteractionResult.SUCCESS)
-	            	((JobBloodSorcerer) rpg.getJob()).setBloodCurrent(player, ((JobBloodSorcerer) rpg.getJob()).getBloodCurrent() - IBS.getBloodCost());
+	            	((BloodSorcererJob) rpg.getJob()).setBloodCurrent(player, ((BloodSorcererJob) rpg.getJob()).getBloodCurrent() - IBS.getBloodCost());
 	            return interactionResult;
 	        }
     	}
@@ -64,7 +64,7 @@ public class BloodBookItem extends Item {
     	if(!level.isClientSide) {
 			LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
-			if(rpg != null && rpg.getJob() instanceof JobBloodSorcerer) {
+			if(rpg != null && rpg.getJob() instanceof BloodSorcererJob) {
 				if(player.isShiftKeyDown()) {
 					int currentSelection = NBTHelper.getIntegerFromItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL);
 					if(currentSelection >= BloodSpells.BLOOD_SPELLS.size() - 1)
@@ -75,7 +75,7 @@ public class BloodBookItem extends Item {
 					IBloodSpell IBS = BloodSpells.BLOOD_SPELLS.get(NBTHelper.getIntegerFromItemStack(player.getItemInHand(hand), NBT_SELECTED_SPELL));
 					InteractionResultHolder<ItemStack> interactionResultHolder = IBS.use(level, player, hand);
 					if(interactionResultHolder.getResult() == InteractionResult.SUCCESS)
-						((JobBloodSorcerer) rpg.getJob()).setBloodCurrent(player, ((JobBloodSorcerer) rpg.getJob()).getBloodCurrent() - IBS.getBloodCost());
+						((BloodSorcererJob) rpg.getJob()).setBloodCurrent(player, ((BloodSorcererJob) rpg.getJob()).getBloodCurrent() - IBS.getBloodCost());
 					return interactionResultHolder;
 				}
 			}
@@ -88,11 +88,11 @@ public class BloodBookItem extends Item {
     	if(!useOnContext.getLevel().isClientSide && useOnContext.getPlayer() != null) {
     		LazyOptional<IRPG> lazy_optional_rpg = useOnContext.getPlayer().getCapability(RPGProvider.RPG_CAPABILITY, null);
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
-            if(rpg != null && rpg.getJob() instanceof JobBloodSorcerer) {
+            if(rpg != null && rpg.getJob() instanceof BloodSorcererJob) {
                 IBloodSpell IBS = BloodSpells.BLOOD_SPELLS.get(NBTHelper.getIntegerFromItemStack(useOnContext.getItemInHand(), NBT_SELECTED_SPELL));
                 InteractionResult interactionResult = IBS.useOn(useOnContext);
                 if(interactionResult == InteractionResult.SUCCESS)
-                	((JobBloodSorcerer) rpg.getJob()).setBloodCurrent(useOnContext.getPlayer(), ((JobBloodSorcerer) rpg.getJob()).getBloodCurrent() - IBS.getBloodCost());
+                	((BloodSorcererJob) rpg.getJob()).setBloodCurrent(useOnContext.getPlayer(), ((BloodSorcererJob) rpg.getJob()).getBloodCurrent() - IBS.getBloodCost());
                 return interactionResult;
             }
         }

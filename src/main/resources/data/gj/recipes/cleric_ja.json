@@ -13,7 +13,7 @@
   ],
   "result": {
     "nbt": {
-      "gj:job_application:job_class": "palaster.gj.jobs.JobCleric"
+      "gj:job_application:job_class": "palaster.gj.jobs.ClericJob"
     },
     "item": "gj:job_application"
   }

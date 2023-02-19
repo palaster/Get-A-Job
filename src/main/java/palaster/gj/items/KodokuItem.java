@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.LazyOptional;
 import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
-import palaster.gj.jobs.JobBloodSorcerer;
+import palaster.gj.jobs.BloodSorcererJob;
 
 public class KodokuItem extends Item {
     
@@ -28,10 +28,10 @@ public class KodokuItem extends Item {
         if(!level.isClientSide && livingEntity instanceof Player) {
             LazyOptional<IRPG> lazy_optional_rpg = livingEntity.getCapability(RPGProvider.RPG_CAPABILITY, null);
 		    IRPG rpg = lazy_optional_rpg.orElse(null);
-		    if(rpg != null && rpg.getJob() instanceof JobBloodSorcerer) {
-                int newBloodRegen = ((JobBloodSorcerer) rpg.getJob()).getBloodRegen() + 1;
-                ((JobBloodSorcerer) rpg.getJob()).setBloodMax((Player) livingEntity, 2000 * (newBloodRegen + 1));
-                ((JobBloodSorcerer) rpg.getJob()).setBloodRegen((Player) livingEntity, newBloodRegen);
+		    if(rpg != null && rpg.getJob() instanceof BloodSorcererJob) {
+                int newBloodRegen = ((BloodSorcererJob) rpg.getJob()).getBloodRegen() + 1;
+                ((BloodSorcererJob) rpg.getJob()).setBloodMax((Player) livingEntity, 2000 * (newBloodRegen + 1));
+                ((BloodSorcererJob) rpg.getJob()).setBloodRegen((Player) livingEntity, newBloodRegen);
                 return ItemStack.EMPTY;
             }
         }
