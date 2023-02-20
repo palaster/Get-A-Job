@@ -14,6 +14,7 @@
     "item.gj.blood_book": "Blood Book",
     "item.gj.herb_sack": "Herb Sack",
     "item.gj.kodoku": "Kodoku",
+    "item.gj.leech_dagger": "Leech Dagger",
     "item.gj.test": "Test",
 
     "gj.exp_cost": "XP Cost: %d",
@@ -51,7 +52,7 @@
 
     "gj.job.blood_sorcerer.abilities.dark_stalker": "Ability: Dark Stalker",
 
-    "gj.job.bloodSorcerer.spell.0": "Drain",
+    "gj.job.blood_sorcerer.spell.0": "Drain",
 
     "gj.job.botanist": "Botanist",
 

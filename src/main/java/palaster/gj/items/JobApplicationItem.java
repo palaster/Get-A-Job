@@ -20,6 +20,7 @@ import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
 import palaster.gj.api.jobs.IRPGJob;
 import palaster.gj.core.helpers.NBTHelper;
+import palaster.gj.network.client.PacketUpdateRPG;
 
 public class JobApplicationItem extends Item {
 	
@@ -49,6 +50,7 @@ public class JobApplicationItem extends Item {
 						rpg.setJob((IRPGJob) Class.forName(NBTHelper.getStringFromItemStack(player.getItemInHand(hand), NBT_JOB_CLASS)).getConstructor().newInstance());
 					} catch(Exception e) { }
 					player.sendSystemMessage(Component.translatable("gj.job.hired"));
+					PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(player);
 					return InteractionResultHolder.success(ItemStack.EMPTY);
 				}
 			}

@@ -10,9 +10,24 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
 public interface ISpell {
+
+	default boolean canCast(Player player) { return true; }
+
+	default void applyCost(Player player) {}
+
 	default InteractionResult interactLivingEntity(ItemStack itemStack, Player player, LivingEntity livingEntity, InteractionHand hand) { return InteractionResult.PASS; }
 
 	default InteractionResult useOn(UseOnContext useOnContext) { return InteractionResult.PASS; }
 
-	default InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) { return InteractionResultHolder.pass(player.getItemInHand(hand)); }
+    default int getUseDuration(ItemStack itemStack) { return 0; }
+
+	default ItemStack finishUsingItem(ItemStack itemStack, Level level, LivingEntity livingEntity) { return itemStack; }
+
+	default InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+		if(getUseDuration(player.getItemInHand(hand)) > 0) {
+			player.startUsingItem(hand);
+			return InteractionResultHolder.consume(player.getItemInHand(hand));
+		}
+		return InteractionResultHolder.pass(player.getItemInHand(hand));
+	}
 }

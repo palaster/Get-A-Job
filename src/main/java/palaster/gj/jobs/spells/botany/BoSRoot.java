@@ -6,7 +6,6 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import palaster.gj.jobs.spells.IBotanySpell;
 
 public class BoSRoot implements IBotanySpell {
 

@@ -25,10 +25,12 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import palaster.gj.GetAJob;
 import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGDefault;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
 import palaster.gj.containers.RPGIntroMenu;
+import palaster.gj.jobs.BloodSorcererJob;
 import palaster.gj.jobs.GodJob;
 import palaster.gj.jobs.abilities.Abilities;
 import palaster.gj.libs.LibMod;
@@ -140,6 +142,11 @@ public class EventHandler {
 									if(((TieredItem) itemStack.getItem()).getTier() == Tiers.GOLD)
 										e.setAmount(e.getAmount() + ((float) rpg.getIntelligence() / 2));
 						}
+						if(rpg.getJob() instanceof BloodSorcererJob) {
+							ItemStack mainHandItemStack = e.getSource().getEntity().getHandSlots().iterator().next();
+							if(!mainHandItemStack.isEmpty() && mainHandItemStack.getItem() == GetAJob.LEECH_DAGGER.get())
+								((BloodSorcererJob) rpg.getJob()).addBlood((Player) e.getSource().getEntity(), (int) (10.0f * e.getAmount()));
+						}
 					}
 				}
 			}
@@ -178,6 +185,7 @@ public class EventHandler {
 			final IRPG rpg = lazy_optional_rpg.orElse(null);
 			if(rpg != null)
 				RPGDefault.updatePlayerAttributes(e.getEntity(), rpg);
+			PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(e.getEntity());
 		}
 	}
 }

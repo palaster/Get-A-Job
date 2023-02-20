@@ -9,6 +9,8 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
@@ -34,15 +36,16 @@ import palaster.gj.containers.RPGIntroMenu;
 import palaster.gj.core.handlers.EventHandler;
 import palaster.gj.global_loot.HarvesterLootModifier;
 import palaster.gj.global_loot.ModGlobalLootModifierProvider;
-import palaster.gj.items.BloodBookItem;
-import palaster.gj.items.GospelItem;
 import palaster.gj.items.HandItem;
-import palaster.gj.items.HerbSackItem;
 import palaster.gj.items.JobApplicationItem;
 import palaster.gj.items.KodokuItem;
 import palaster.gj.items.PinkSlipItem;
 import palaster.gj.items.RPGIntroItem;
+import palaster.gj.items.SpellFocusItem;
 import palaster.gj.items.TestItem;
+import palaster.gj.jobs.spells.blood.BloodSpells;
+import palaster.gj.jobs.spells.botany.BotanySpells;
+import palaster.gj.jobs.spells.domain.DomainSpells;
 import palaster.gj.libs.LibMod;
 import palaster.gj.network.PacketHandler;
 
@@ -67,11 +70,12 @@ public class GetAJob {
 	public static final RegistryObject<Item> RPG_INTRO_ITEM = ITEMS.register("rpg_intro", () -> new RPGIntroItem(SPECIAL_PROPERTIES));
 	public static final RegistryObject<Item> JOB_APPLICATION = ITEMS.register("job_application", () -> new JobApplicationItem(SPECIAL_PROPERTIES));
 	public static final RegistryObject<Item> PINK_SLIP = ITEMS.register("pink_slip", () -> new PinkSlipItem(SPECIAL_PROPERTIES));
-	public static final RegistryObject<Item> GOSPEL = ITEMS.register("gospel", () -> new GospelItem(SPECIAL_PROPERTIES));
-	public static final RegistryObject<Item> BLOOD_BOOK = ITEMS.register("blood_book", () -> new BloodBookItem(SPECIAL_PROPERTIES));
+	public static final RegistryObject<Item> GOSPEL = ITEMS.register("gospel", () -> new SpellFocusItem(new DomainSpells(), SPECIAL_PROPERTIES));
+	public static final RegistryObject<Item> BLOOD_BOOK = ITEMS.register("blood_book", () -> new SpellFocusItem(new BloodSpells(), SPECIAL_PROPERTIES));
 	public static final RegistryObject<Item> HAND = ITEMS.register("hand", () -> new HandItem(SPECIAL_PROPERTIES));
-	public static final RegistryObject<Item> HERB_SACK = ITEMS.register("herb_sack", () -> new HerbSackItem(SPECIAL_PROPERTIES));
+	public static final RegistryObject<Item> HERB_SACK = ITEMS.register("herb_sack", () -> new SpellFocusItem(new BotanySpells(), SPECIAL_PROPERTIES));
 	public static final RegistryObject<Item> KODOKU = ITEMS.register("kodoku", () -> new KodokuItem(SPECIAL_PROPERTIES));
+	public static final RegistryObject<Item> LEECH_DAGGER = ITEMS.register("leech_dagger", () -> new SwordItem(Tiers.IRON, 3, -2.4F, SPECIAL_PROPERTIES));
 	public static final RegistryObject<Item> TEST = ITEMS.register("test", () -> new TestItem(SPECIAL_PROPERTIES));
 
 	// MENU TYPES
@@ -137,6 +141,7 @@ public class GetAJob {
 					output.accept(HAND.get());
 					output.accept(HERB_SACK.get());
 					output.accept(KODOKU.get());
+					output.accept(LEECH_DAGGER.get());
 					output.accept(TEST.get());
 				})
 			);

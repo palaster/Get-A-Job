@@ -11,7 +11,6 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import palaster.gj.jobs.spells.IDomainSpell;
 
 public class DSGrowth implements IDomainSpell {
 

@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+      {
+        "item": "minecraft:iron_sword"
+      },
+      {
+        "item": "gj:congealed_blood"
+      },
+      {
+        "item": "gj:congealed_blood"
+      },
+      {
+        "item": "minecraft:fermented_spider_eye"
+      }
+    ],
+    "result": {
+      "item": "gj:leech_dagger"
+    }
+  }
+  
