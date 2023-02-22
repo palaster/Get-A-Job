@@ -8,6 +8,7 @@ import palaster.gj.jobs.BotanistJob;
 import palaster.gj.jobs.spells.ISpell;
 
 public interface IBotanySpell extends ISpell {
+
     int getCost();
 
     @Override

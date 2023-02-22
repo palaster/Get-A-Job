@@ -31,7 +31,6 @@ import palaster.gj.network.server.ScreenButtonPacket;
 @OnlyIn(Dist.CLIENT)
 public class RPGIntroScreen extends AbstractContainerScreen<RPGIntroMenu> {
 
-	private static final int SUGGESTED_X = 6;
 	private static final int SUGGESTED_Y = 99;
 
 	private final ArrayList<InfoComponentTooltip> infoComponentTooltips = new ArrayList<>(Arrays.asList(

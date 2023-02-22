@@ -1,9 +1,11 @@
 package palaster.gj.api.capabilities.rpg;
 
 import net.minecraft.nbt.Tag;
+import net.minecraftforge.common.capabilities.AutoRegisterCapability;
 import net.minecraftforge.common.util.INBTSerializable;
 import palaster.gj.api.jobs.IRPGJob;
 
+@AutoRegisterCapability
 public interface IRPG extends INBTSerializable<Tag> {
 	
 	void setConstitution(int amount);

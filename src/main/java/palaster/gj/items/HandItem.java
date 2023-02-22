@@ -26,8 +26,8 @@ public class HandItem extends Item {
 					LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
 					final IRPG rpg = lazy_optional_rpg.orElse(null);
 					if(rpg != null && rpg.getJob() != null && rpg.getJob() instanceof BloodSorcererJob) {
-						player.hurt(DamageSource.MAGIC, 1F);
-						((BloodSorcererJob) rpg.getJob()).addBlood(player, 10);
+						player.hurt(DamageSource.MAGIC, 1.0f);
+						((BloodSorcererJob) rpg.getJob()).addBlood(player, 100);
 						return InteractionResultHolder.success(player.getItemInHand(hand));
 					}
 				}

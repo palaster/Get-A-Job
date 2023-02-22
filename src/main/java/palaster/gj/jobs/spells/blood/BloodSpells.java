@@ -10,6 +10,7 @@ public class BloodSpells extends Spells<IBloodSpell> {
 
     static {
         BLOOD_SPELLS.add(new BlSDrain());
+        BLOOD_SPELLS.add(new BlsMassDecay());
     }
 
     @Override

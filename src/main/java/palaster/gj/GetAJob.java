@@ -5,6 +5,8 @@ import com.mojang.serialization.Codec;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -15,7 +17,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.CreativeModeTabEvent;
@@ -29,11 +30,11 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.blocks.AltarBlock;
 import palaster.gj.client.screens.RPGIntroScreen;
 import palaster.gj.containers.RPGIntroMenu;
 import palaster.gj.core.handlers.EventHandler;
+import palaster.gj.effects.ModMobEffect;
 import palaster.gj.global_loot.HarvesterLootModifier;
 import palaster.gj.global_loot.ModGlobalLootModifierProvider;
 import palaster.gj.items.HandItem;
@@ -87,6 +88,11 @@ public class GetAJob {
 	private static final DeferredRegister<Codec<? extends IGlobalLootModifier>> GLOBAL_LOOT_MODIFIER = DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, LibMod.MODID);
 
 	public static final RegistryObject<Codec<HarvesterLootModifier>> HARVESTER = GLOBAL_LOOT_MODIFIER.register("harvester", HarvesterLootModifier.CODEC);
+
+	// MOB Effects
+	private static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(ForgeRegistries.Keys.MOB_EFFECTS, LibMod.MODID);
+
+	public static final RegistryObject<MobEffect> DECAY = MOB_EFFECTS.register("decay", () -> new ModMobEffect(MobEffectCategory.HARMFUL, 0x000000));
 	
 	public GetAJob() {
 		final IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -95,12 +101,12 @@ public class GetAJob {
 		ITEMS.register(eventBus);
 		MENU_TYPES.register(eventBus);
 		GLOBAL_LOOT_MODIFIER.register(eventBus);
+		MOB_EFFECTS.register(eventBus);
 		
 		// Register the onCommonSetup method for modloading
         eventBus.addListener(this::onCommonSetup);
         // Register the onClientSetup method for modloading
         eventBus.addListener(this::onClientSetup);
-        eventBus.addListener(this::onRegisterCapabilities);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
@@ -114,10 +120,6 @@ public class GetAJob {
 		event.enqueueWork(() -> {
 			MenuScreens.register(RPG_INTRO_MENU_TYPE.get(), RPGIntroScreen::new);
 		});
-	}
-
-    private void onRegisterCapabilities(final RegisterCapabilitiesEvent event) {
-		event.register(IRPG.class);
 	}
 
     @EventBusSubscriber(modid = LibMod.MODID, bus = EventBusSubscriber.Bus.MOD)

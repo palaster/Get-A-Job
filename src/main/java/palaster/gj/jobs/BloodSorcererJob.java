@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -43,9 +44,15 @@ public class BloodSorcererJob implements IRPGJob {
 	}
 
 	public void addBlood(Player player, int amount) { setBloodCurrent(player, getBloodCurrent() + amount); }
+
+	public void removeBlood(Player player, int amount) { setBloodCurrent(player, getBloodCurrent() - amount); }
 	
 	public void setBloodCurrent(Player player, int amount) {
-		bloodCurrent = amount >= bloodMax ? bloodCurrent : amount <= 0 ? 0 : amount;
+		if(amount < 0) {
+			player.hurt(DamageSource.STARVE, (float) -amount / 100.0f);
+			amount = 0;
+		}
+		bloodCurrent = amount >= bloodMax ? bloodMax : amount <= 0 ? 0 : amount;
 		PacketUpdateRPG.syncPlayerRPGCapabilitiesToClient(player);
 	}
 
@@ -121,7 +128,7 @@ public class BloodSorcererJob implements IRPGJob {
 		}
 		if(timer >= 100) {
 			if(bloodRegen > 0)
-				addBlood(player, bloodRegen);
+				addBlood(player, bloodRegen * 5);
 			timer = 0;
 		} else
 			timer++;

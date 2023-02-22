@@ -26,6 +26,6 @@ public interface IBloodSpell extends ISpell {
         LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
 		final IRPG rpg = lazy_optional_rpg.orElse(null);
         if(rpg != null && rpg.getJob() instanceof BloodSorcererJob)
-            ((BloodSorcererJob) rpg.getJob()).setBloodCurrent(player, ((BloodSorcererJob) rpg.getJob()).getBloodCurrent() - getBloodCost());
+            ((BloodSorcererJob) rpg.getJob()).removeBlood(player, getBloodCost());
     }
 }

@@ -6,9 +6,12 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.commands.KillCommand;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -21,6 +24,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
@@ -107,9 +111,9 @@ public class EventHandler {
 				final IRPG rpg = lazy_optional_rpg.orElse(null);
 				if(rpg != null) {
 					if(!e.getSource().isBypassMagic() && !e.getSource().isBypassArmor())
-						e.setAmount(e.getAmount() * ((100f - rpg.getDefense()) / 100));
+						e.setAmount(e.getAmount() * ((100.0f - rpg.getDefense()) / 100.0f));
 					if(e.getSource() == DamageSource.MAGIC)
-						e.setAmount(e.getAmount() * ((100f - rpg.getIntelligence()) / 100));
+						e.setAmount(e.getAmount() * ((100.0f - rpg.getIntelligence()) / 100.0f));
 					if(rpg.getJob() instanceof GodJob) {
 						Player player = (Player) e.getEntity();
 						if(player.getFoodData().getFoodLevel() > 0)
@@ -153,12 +157,19 @@ public class EventHandler {
 		}
 	}
 
+	@SubscribeEvent
+	public static void onLivingDeath(LivingDeathEvent event) {
+		if(!event.getEntity().level.isClientSide)
+			if(event.getEntity().getEffect(GetAJob.DECAY.get()) != null)
+				EntityType.ZOMBIE.spawn((ServerLevel) event.getEntity().level, event.getEntity().getOnPos(), MobSpawnType.EVENT);
+	}
+
 	// End of events for features
 
 	@SubscribeEvent
 	public static void attachEntityCapability(AttachCapabilitiesEvent<Entity> e) {
 		if(e.getObject() instanceof Player) {
-			LazyOptional<IRPG> lazy_optional_rpg =  e.getObject().getCapability(RPGProvider.RPG_CAPABILITY, null);
+			LazyOptional<IRPG> lazy_optional_rpg = e.getObject().getCapability(RPGProvider.RPG_CAPABILITY, null);
 			if(lazy_optional_rpg == null || !lazy_optional_rpg.isPresent())
 				e.addCapability(new ResourceLocation(LibMod.MODID, "rpg"), new RPGProvider());
 		}
@@ -166,16 +177,18 @@ public class EventHandler {
 
 	@SubscribeEvent
 	public static void onClonePlayer(PlayerEvent.Clone e) {
-		if(!e.getEntity().level.isClientSide()) {
-			LazyOptional<IRPG> lazy_optional_rpg_og =  e.getOriginal().getCapability(RPGProvider.RPG_CAPABILITY, null);
-			LazyOptional<IRPG> lazy_optional_rpg_new =  e.getEntity().getCapability(RPGProvider.RPG_CAPABILITY, null);
-			final IRPG rpg_og = lazy_optional_rpg_og.orElse(null);
-			final IRPG rpg_new = lazy_optional_rpg_new.orElse(null);
-			if(rpg_og != null && rpg_new != null) {
-				rpg_new.deserializeNBT(rpg_og.serializeNBT());
-				RPGDefault.updatePlayerAttributes(e.getEntity(), rpg_new);
-			}
+		if(!e.isWasDeath())
+			return;
+		e.getOriginal().reviveCaps();
+		LazyOptional<IRPG> lazy_optional_rpg_og = e.getOriginal().getCapability(RPGProvider.RPG_CAPABILITY, null);
+		LazyOptional<IRPG> lazy_optional_rpg_new = e.getEntity().getCapability(RPGProvider.RPG_CAPABILITY, null);
+		final IRPG rpg_og = lazy_optional_rpg_og.orElse(null);
+		final IRPG rpg_new = lazy_optional_rpg_new.orElse(null);
+		if(rpg_og != null && rpg_new != null) {
+			rpg_new.deserializeNBT(rpg_og.serializeNBT());
+			RPGDefault.updatePlayerAttributes(e.getEntity(), rpg_new);
 		}
+		e.getOriginal().invalidateCaps();
 	}
 	
 	@SubscribeEvent

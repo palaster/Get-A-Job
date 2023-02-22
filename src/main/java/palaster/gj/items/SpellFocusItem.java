@@ -14,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
@@ -45,17 +46,40 @@ public class SpellFocusItem extends Item {
 	}
     
     @Override
-    public InteractionResult interactLivingEntity(ItemStack itemStack, Player player, LivingEntity livingEntity, InteractionHand hand) {
+    public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity livingEntity, InteractionHand hand) {
     	if(!player.level.isClientSide) {
-            ISpell spell = spells.getSpells().get(NBTHelper.getIntegerFromItemStack(itemStack, spells.getSelectedSpellNBTString()));
-            if(spell.canCast(player))
+            if(NBTHelper.getIntegerFromItemStack(stack, spells.getSelectedSpellNBTString()) < 0)
+                return super.interactLivingEntity(stack, player, livingEntity, hand);
+            ISpell spell = spells.getSpells().get(NBTHelper.getIntegerFromItemStack(stack, spells.getSelectedSpellNBTString()));
+            if(!spell.canCast(player))
                 return InteractionResult.FAIL;
-            InteractionResult interactionResult = spell.interactLivingEntity(itemStack, player, livingEntity, hand);
+            InteractionResult interactionResult = spell.interactLivingEntity(stack, player, livingEntity, hand);
             if(interactionResult == InteractionResult.SUCCESS)
                 spell.applyCost(player);
             return interactionResult;
     	}
-    	return super.interactLivingEntity(itemStack, player, livingEntity, hand);
+    	return super.interactLivingEntity(stack, player, livingEntity, hand);
+    }
+
+    @Override
+    public UseAnim getUseAnimation(ItemStack itemStack) { return UseAnim.BOW; }
+
+    @Override
+    public int getUseDuration(ItemStack stack) {
+        if(NBTHelper.getIntegerFromItemStack(stack, spells.getSelectedSpellNBTString()) >= 0) {
+            ISpell spell = spells.getSpells().get(NBTHelper.getIntegerFromItemStack(stack, spells.getSelectedSpellNBTString()));
+            return spell.getUseDuration(stack);
+        }
+        return 0;
+    }
+
+    @Override
+    public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity livingEntity) {
+        if(NBTHelper.getIntegerFromItemStack(stack, spells.getSelectedSpellNBTString()) >= 0) {
+            ISpell spell = spells.getSpells().get(NBTHelper.getIntegerFromItemStack(stack, spells.getSelectedSpellNBTString()));
+            return spell.finishUsingItem(stack, level, livingEntity);
+        }
+        return super.finishUsingItem(stack, level, livingEntity);
     }
     
     @Override
@@ -72,8 +96,10 @@ public class SpellFocusItem extends Item {
                         return InteractionResultHolder.success(NBTHelper.setIntegerToItemStack(player.getItemInHand(hand), spells.getSelectedSpellNBTString(), NBTHelper.getIntegerFromItemStack(player.getItemInHand(hand), spells.getSelectedSpellNBTString()) + 1));
                 }
             } else {
+                if(NBTHelper.getIntegerFromItemStack(player.getItemInHand(hand), spells.getSelectedSpellNBTString()) < 0)
+                    return super.use(level, player, hand);
                 ISpell spell = spells.getSpells().get(NBTHelper.getIntegerFromItemStack(player.getItemInHand(hand), spells.getSelectedSpellNBTString()));
-                if(spell.canCast(player))
+                if(!spell.canCast(player))
                     return InteractionResultHolder.fail(player.getItemInHand(hand));
                 InteractionResultHolder<ItemStack> actionResult = spell.use(level, player, hand);
                 if(actionResult.getResult() == InteractionResult.SUCCESS)
@@ -86,8 +112,10 @@ public class SpellFocusItem extends Item {
     @Override
     public InteractionResult useOn(UseOnContext useOnContext) {
     	if(!useOnContext.getLevel().isClientSide) {
+            if(NBTHelper.getIntegerFromItemStack(useOnContext.getItemInHand(), spells.getSelectedSpellNBTString()) < 0)
+                return super.useOn(useOnContext);
             ISpell spell = spells.getSpells().get(NBTHelper.getIntegerFromItemStack(useOnContext.getItemInHand(), spells.getSelectedSpellNBTString()));
-            if(spell.canCast(useOnContext.getPlayer()))
+            if(!spell.canCast(useOnContext.getPlayer()))
                 return InteractionResult.FAIL;
             InteractionResult interationResult = spell.useOn(useOnContext);
             if(interationResult == InteractionResult.SUCCESS)
