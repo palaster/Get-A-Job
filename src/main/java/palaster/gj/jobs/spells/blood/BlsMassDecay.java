@@ -3,6 +3,7 @@ package palaster.gj.jobs.spells.blood;
 import java.util.List;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,7 +20,10 @@ public class BlsMassDecay implements IBloodSpell {
     private static final float DAMAGE = 12.0f;
 
     @Override
-    public int getBloodCost() { return 500; }
+    public int getCost() { return 500; }
+
+    @Override
+    public Component getSpellName() { return Component.translatable("gj.job.blood_sorcerer.spell.mass_decay"); }
 
     @Override
     public int getUseDuration(ItemStack itemStack) { return 32; }

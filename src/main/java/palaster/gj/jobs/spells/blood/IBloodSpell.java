@@ -9,8 +9,6 @@ import palaster.gj.jobs.spells.ISpell;
 
 public interface IBloodSpell extends ISpell {
 
-    int getBloodCost();
-
     @Override
     default boolean canCast(Player player) {
         LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
@@ -26,6 +24,6 @@ public interface IBloodSpell extends ISpell {
         LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);
 		final IRPG rpg = lazy_optional_rpg.orElse(null);
         if(rpg != null && rpg.getJob() instanceof BloodSorcererJob)
-            ((BloodSorcererJob) rpg.getJob()).removeBlood(player, getBloodCost());
+            ((BloodSorcererJob) rpg.getJob()).removeBlood(player, getCost());
     }
 }

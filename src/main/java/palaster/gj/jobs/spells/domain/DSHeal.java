@@ -1,5 +1,6 @@
 package palaster.gj.jobs.spells.domain;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -9,6 +10,10 @@ import palaster.gj.api.capabilities.rpg.IRPG;
 import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
 
 public class DSHeal implements IDomainSpell {
+
+    @Override
+    public Component getSpellName() { return Component.translatable("gj.job.cleric.spell.heal"); }
+
     @Override
     public InteractionResult interactLivingEntity(net.minecraft.world.item.ItemStack itemStack, Player player, LivingEntity livingEntity, InteractionHand hand) {
         LazyOptional<IRPG> lazy_optional_rpg = player.getCapability(RPGProvider.RPG_CAPABILITY, null);

@@ -1,5 +1,6 @@
 package palaster.gj.jobs.spells;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -10,6 +11,10 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
 public interface ISpell {
+
+	Component getSpellName();
+
+	default int getCost() { return 0; }
 
 	default boolean canCast(Player player) { return true; }
 

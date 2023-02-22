@@ -1,5 +1,6 @@
 package palaster.gj.jobs.spells.blood;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -13,7 +14,10 @@ import palaster.gj.api.capabilities.rpg.RPGCapability.RPGProvider;
 public class BlSDrain implements IBloodSpell {
 
     @Override
-    public int getBloodCost() { return 50; }
+    public int getCost() { return 50; }
+
+    @Override
+    public Component getSpellName() { return Component.translatable("gj.job.blood_sorcerer.spell.drain"); }
 
     @Override
     public InteractionResult interactLivingEntity(ItemStack itemStack, Player player, LivingEntity livingEntity, InteractionHand hand) {

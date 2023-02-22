@@ -41,8 +41,13 @@ public class SpellFocusItem extends Item {
         LazyOptional<IRPG> lazy_optional_rpg = Minecraft.getInstance().player.getCapability(RPGProvider.RPG_CAPABILITY, null);
 		IRPG rpg = lazy_optional_rpg.orElse(null);
 		if(rpg != null && spells.getJobClass().isInstance(rpg.getJob()))
-		    if(NBTHelper.getIntegerFromItemStack(stack, spells.getSelectedSpellNBTString()) >= 0)
-			    tooltip.add(Component.literal("Selected Spell: " + Component.translatable(spells.getSpellNameLocalization() + NBTHelper.getIntegerFromItemStack(stack, spells.getSelectedSpellNBTString())).getString()));
+		    if(NBTHelper.getIntegerFromItemStack(stack, spells.getSelectedSpellNBTString()) >= 0) {
+                int selectedSpell = NBTHelper.getIntegerFromItemStack(stack, spells.getSelectedSpellNBTString());
+                tooltip.add(Component.translatable("item.gj.spell_focus_item.selected_spell", spells.getSpells().get(selectedSpell).getSpellName().getString()));
+                int cost = spells.getSpells().get(selectedSpell).getCost();
+                if(cost > 0)
+                    tooltip.add(Component.translatable("item.gj.spell_focus_item.cost", cost));
+            }
 	}
     
     @Override

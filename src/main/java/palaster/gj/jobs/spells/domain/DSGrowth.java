@@ -1,5 +1,6 @@
 package palaster.gj.jobs.spells.domain;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -13,6 +14,9 @@ import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class DSGrowth implements IDomainSpell {
+
+	@Override
+	public Component getSpellName() { return Component.translatable("gj.job.cleric.spell.growth"); }
 
 	@Override
 	public InteractionResult interactLivingEntity(ItemStack itemStack, Player player, LivingEntity livingEntity, InteractionHand hand) {

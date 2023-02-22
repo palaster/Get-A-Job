@@ -21,7 +21,4 @@ public class BloodSpells extends Spells<IBloodSpell> {
 
     @Override
     public String getSelectedSpellNBTString() { return "gj:blood_book:selected_spell"; }
-
-    @Override
-    public String getSpellNameLocalization() { return "gj.job.blood_sorcerer.spell."; }
 }

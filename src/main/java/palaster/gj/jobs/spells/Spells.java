@@ -11,6 +11,4 @@ public abstract class Spells<T extends ISpell> {
     public abstract Class<? extends IRPGJob> getJobClass();
 
     public abstract String getSelectedSpellNBTString();
-
-    public abstract String getSpellNameLocalization();
 }

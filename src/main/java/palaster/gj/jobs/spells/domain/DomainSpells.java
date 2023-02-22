@@ -24,7 +24,4 @@ public class DomainSpells extends Spells<IDomainSpell> {
 
 	@Override
 	public String getSelectedSpellNBTString() { return "gj:gospel:selected_spell"; }
-
-	@Override
-	public String getSpellNameLocalization() { return "gj.job.cleric.spell."; }
 }

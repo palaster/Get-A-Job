@@ -20,7 +20,4 @@ public class BotanySpells extends Spells<IBotanySpell> {
 
     @Override
     public String getSelectedSpellNBTString() { return "gj:herb_sack:selected_spell"; }
-
-    @Override
-    public String getSpellNameLocalization() { return "gj.job.botanist.spell."; }
 }

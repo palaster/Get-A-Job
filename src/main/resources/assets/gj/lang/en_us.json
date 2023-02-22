@@ -17,6 +17,9 @@
     "item.gj.leech_dagger": "Leech Dagger",
     "item.gj.test": "Test",
 
+    "item.gj.spell_focus_item.selected_spell": "Selected Spell: %s",
+    "item.gj.spell_focus_item.cost": "Cost: %d",
+
     "gj.exp_cost": "XP Cost: %d",
 
     "gj.job.base": "Job: %s",
@@ -52,15 +55,15 @@
 
     "gj.job.blood_sorcerer.abilities.dark_stalker": "Ability: Dark Stalker",
 
-    "gj.job.blood_sorcerer.spell.0": "Drain",
-    "gj.job.blood_sorcerer.spell.1": "Mass Decay",
+    "gj.job.blood_sorcerer.spell.drain": "Drain",
+    "gj.job.blood_sorcerer.spell.mass_decay": "Mass Decay",
 
     "gj.job.botanist": "Botanist",
 
     "gj.job.botanist.abilities.flourish": "Ability: Flourish",
     "gj.job.botanist.abilities.bountiful_harvest": "Ability: Bountiful Harvest",
 
-    "gj.job.botanist.spell.0": "Root",
+    "gj.job.botanist.spell.root": "Root",
 
     "gj.job.cleric": "Cleric",
     "gj.job.cleric.domain": "Domain",
@@ -70,10 +73,10 @@
 
     "gj.job.cleric.spell_slots_reset": "Your spell slots have been refreshed",
 
-    "gj.job.cleric.spell.0": "Burn",
-    "gj.job.cleric.spell.1": "Shield Other",
-    "gj.job.cleric.spell.2": "Heal",
-    "gj.job.cleric.spell.3": "Growth",
+    "gj.job.cleric.spell.burn": "Burn",
+    "gj.job.cleric.spell.shield_other": "Shield Other",
+    "gj.job.cleric.spell.heal": "Heal",
+    "gj.job.cleric.spell.growth": "Growth",
 
     "gj.job.god": "God",
 
