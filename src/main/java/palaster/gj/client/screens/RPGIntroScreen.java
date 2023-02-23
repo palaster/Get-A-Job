@@ -141,7 +141,7 @@ public class RPGIntroScreen extends AbstractContainerScreen<RPGIntroMenu> {
 
 		final Component arrow = Component.literal("->");
 		final boolean bHand = hand == InteractionHand.MAIN_HAND;
-		final Consumer<Integer> screenButton = (buttonId) -> PacketHandler.sendToServer(new ScreenButtonPacket(bHand, buttonId));
+		final Consumer<Integer> screenButton = buttonId -> PacketHandler.sendToServer(new ScreenButtonPacket(bHand, buttonId));
 
 		addRenderableWidget(new Button.Builder(arrow, (button) -> screenButton.accept(0)).pos(leftPos + 124, topPos + 25).size(16, 10).build());
 		addRenderableWidget(new Button.Builder(arrow, (button) -> screenButton.accept(1)).pos(leftPos + 124, topPos + 37).size(16, 10).build());

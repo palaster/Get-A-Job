@@ -8,6 +8,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -18,6 +19,7 @@ import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import palaster.gj.api.jobs.IRPGJob;
+import palaster.gj.core.GJConfig;
 
 public class RPGCapability {
 
@@ -35,7 +37,8 @@ public class RPGCapability {
 		public static final int MAX_LEVEL = 99;
 
 		public static final UUID HEALTH_ID = UUID.fromString("c6531f9f-b737-4cb6-aea1-fd01c25606be"),
-			DEXTERITY_ID = UUID.fromString("d0ff0df9-9f9c-491d-9d9c-5997b5d5ba22");
+			DAMAGE_ID = UUID.fromString("bb87054d-43e1-49ff-9563-41568faba534"),
+			SPEED_ID = UUID.fromString("d0ff0df9-9f9c-491d-9d9c-5997b5d5ba22");
 
 		private IRPGJob job = null;
 
@@ -212,32 +215,54 @@ public class RPGCapability {
 			}
 		}
 
+		private static void removeAttribute(@Nullable Player player, Attribute attribute, UUID modifier) {
+			if(player == null)
+				return;
+			AttributeInstance attributeInstance = player.getAttribute(attribute);
+			if(attributeInstance == null)
+				return;
+			AttributeModifier attributeModifier = attributeInstance.getModifier(modifier);
+			if(attributeModifier == null)
+				return;
+			attributeInstance.removeModifier(attributeModifier);
+		}
+
 		public static void updatePlayerAttributes(@Nullable Player player, @Nullable IRPG rpg) {
 			if(player == null || rpg == null)
 				return;
-			if(rpg.getConstitution() <= 0) {
-				AttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.MAX_HEALTH);
-    			if(attributeInstance != null && attributeInstance.getModifier(HEALTH_ID) != null)
-    				attributeInstance.removeModifier(attributeInstance.getModifier(HEALTH_ID));
-    		} else {
+			// Constitution Health
+			if(rpg.getConstitution() <= 0)
+				removeAttribute(player, Attributes.MAX_HEALTH, HEALTH_ID);
+    		else {
     			AttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.MAX_HEALTH);
 				if(attributeInstance != null) {
 					if(attributeInstance.getModifier(HEALTH_ID) != null)
     					attributeInstance.removeModifier(attributeInstance.getModifier(HEALTH_ID));
-					attributeInstance.addTransientModifier(new AttributeModifier(HEALTH_ID, "gj.rpg.constitution", rpg.getConstitution() * .4, AttributeModifier.Operation.ADDITION));
+					attributeInstance.addTransientModifier(new AttributeModifier(HEALTH_ID, "gj.rpg.constitution", rpg.getConstitution() * GJConfig.COMMON.constitutionHealthRate.get(), AttributeModifier.Operation.ADDITION));
 					// attributeInstance.addPermanentModifier();
 				}
     		}
-			if(rpg.getDexterity() <= 0) {
-				AttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.MOVEMENT_SPEED);
-    			if(attributeInstance != null && attributeInstance.getModifier(DEXTERITY_ID) != null)
-    				attributeInstance.removeModifier(attributeInstance.getModifier(DEXTERITY_ID));
-    		} else {
+			// Strength Damage
+			if(rpg.getStrength() <= 0)
+				removeAttribute(player, Attributes.ATTACK_DAMAGE, DAMAGE_ID);
+			else {
+				AttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.ATTACK_DAMAGE);
+				if(attributeInstance != null) {
+					if(attributeInstance.getModifier(DAMAGE_ID) != null)
+						attributeInstance.removeModifier(attributeInstance.getModifier(DAMAGE_ID));
+					attributeInstance.addTransientModifier(new AttributeModifier(DAMAGE_ID, "gj.rpg.strength", rpg.getStrength() * GJConfig.COMMON.strengthDamageRate.get(), AttributeModifier.Operation.ADDITION));
+					// attributeInstance.addPermanentModifier();
+				}
+			}
+			// Dexterity Speed
+			if(rpg.getDexterity() <= 0)
+				removeAttribute(player, Attributes.MOVEMENT_SPEED, SPEED_ID);
+			else {
     			AttributeInstance attributeInstance = player.getAttributes().getInstance(Attributes.MOVEMENT_SPEED);
 				if(attributeInstance != null) {
-					if(attributeInstance.getModifier(DEXTERITY_ID) != null)
-    					attributeInstance.removeModifier(attributeInstance.getModifier(DEXTERITY_ID));
-    				attributeInstance.addTransientModifier(new AttributeModifier(DEXTERITY_ID, "gj.rpg.dexterity", rpg.getDexterity() * .008, AttributeModifier.Operation.ADDITION));
+					if(attributeInstance.getModifier(SPEED_ID) != null)
+    					attributeInstance.removeModifier(attributeInstance.getModifier(SPEED_ID));
+    				attributeInstance.addTransientModifier(new AttributeModifier(SPEED_ID, "gj.rpg.dexterity", rpg.getDexterity() * GJConfig.COMMON.dexteritySpeedRate.get(), AttributeModifier.Operation.ADDITION));
 					// attributeInstance.addPermanentModifier();
 				}
     		}

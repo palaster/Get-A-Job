@@ -22,8 +22,10 @@ import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -33,6 +35,7 @@ import net.minecraftforge.registries.RegistryObject;
 import palaster.gj.blocks.AltarBlock;
 import palaster.gj.client.screens.RPGIntroScreen;
 import palaster.gj.containers.RPGIntroMenu;
+import palaster.gj.core.GJConfig;
 import palaster.gj.core.handlers.EventHandler;
 import palaster.gj.effects.ModMobEffect;
 import palaster.gj.global_loot.HarvesterLootModifier;
@@ -107,6 +110,8 @@ public class GetAJob {
         eventBus.addListener(this::onCommonSetup);
         // Register the onClientSetup method for modloading
         eventBus.addListener(this::onClientSetup);
+
+		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, GJConfig.COMMON_SPEC);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(EventHandler.class);

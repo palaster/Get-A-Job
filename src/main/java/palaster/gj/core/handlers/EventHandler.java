@@ -1,5 +1,7 @@
 package palaster.gj.core.handlers;
 
+import java.util.function.IntFunction;
+
 import com.mojang.brigadier.context.CommandContextBuilder;
 
 import net.minecraft.commands.CommandSourceStack;
@@ -110,10 +112,11 @@ public class EventHandler {
 				LazyOptional<IRPG> lazy_optional_rpg = e.getEntity().getCapability(RPGProvider.RPG_CAPABILITY, null);
 				final IRPG rpg = lazy_optional_rpg.orElse(null);
 				if(rpg != null) {
+					final IntFunction<Float> skillDamageReduction = skill -> (100.0f - skill) / 100.0f;
 					if(!e.getSource().isBypassMagic() && !e.getSource().isBypassArmor())
-						e.setAmount(e.getAmount() * ((100.0f - rpg.getDefense()) / 100.0f));
+						e.setAmount(e.getAmount() * skillDamageReduction.apply(rpg.getDefense()));
 					if(e.getSource() == DamageSource.MAGIC)
-						e.setAmount(e.getAmount() * ((100.0f - rpg.getIntelligence()) / 100.0f));
+						e.setAmount(e.getAmount() * skillDamageReduction.apply(rpg.getIntelligence()));
 					if(rpg.getJob() instanceof GodJob) {
 						Player player = (Player) e.getEntity();
 						if(player.getFoodData().getFoodLevel() > 0)
@@ -123,34 +126,24 @@ public class EventHandler {
 					}
 				}
 			}
-			if(e.getEntity().getMobType() == MobType.UNDEAD)
-				if(e.getSource() != null && e.getSource().getDirectEntity() instanceof Player) {
-					LazyOptional<IRPG> lazy_optional_rpg = e.getSource().getDirectEntity().getCapability(RPGProvider.RPG_CAPABILITY, null);
-					final IRPG rpg = lazy_optional_rpg.orElse(null);
-					if(rpg != null)
-						if(Abilities.DIVINE_SMACKDOWN.isAvailable(rpg))
-							e.setAmount(e.getAmount() + ((float) rpg.getIntelligence() / 2));
-				}
-			if(e.getSource() != null && e.getSource().getEntity() instanceof Player) {
-				LazyOptional<IRPG> lazy_optional_rpg = e.getSource().getEntity().getCapability(RPGProvider.RPG_CAPABILITY, null);
+			if(e.getSource() != null && e.getSource().getDirectEntity() instanceof Player) {
+				LazyOptional<IRPG> lazy_optional_rpg = e.getSource().getDirectEntity().getCapability(RPGProvider.RPG_CAPABILITY, null);
 				final IRPG rpg = lazy_optional_rpg.orElse(null);
 				if(rpg != null) {
 					if(e.getSource().getDirectEntity() != e.getSource().getEntity())
 						e.setAmount(e.getAmount() + ((float) rpg.getDexterity() / 2));
 					else {
-						e.setAmount(e.getAmount() + ((float) rpg.getStrength() / 2));
-						if(Abilities.HOLY_GOLD.isAvailable(rpg)) {
-							ItemStack itemStack = e.getSource().getEntity().getHandSlots().iterator().next();
-							if(!itemStack.isEmpty())
-								if(itemStack.getItem() instanceof TieredItem)
-									if(((TieredItem) itemStack.getItem()).getTier() == Tiers.GOLD)
-										e.setAmount(e.getAmount() + ((float) rpg.getIntelligence() / 2));
-						}
-						if(rpg.getJob() instanceof BloodSorcererJob) {
-							ItemStack mainHandItemStack = e.getSource().getEntity().getHandSlots().iterator().next();
+						if(e.getEntity().getMobType() == MobType.UNDEAD)
+							if(Abilities.DIVINE_SMACKDOWN.isAvailable(rpg))
+								e.setAmount(e.getAmount() + ((float) rpg.getIntelligence() / 2));
+						ItemStack mainHandItemStack = e.getSource().getDirectEntity().getHandSlots().iterator().next();
+						if(Abilities.HOLY_GOLD.isAvailable(rpg))
+							if(!mainHandItemStack.isEmpty() && mainHandItemStack.getItem() instanceof TieredItem)
+								if(((TieredItem) mainHandItemStack.getItem()).getTier() == Tiers.GOLD)
+									e.setAmount(e.getAmount() + ((float) rpg.getIntelligence() / 2));
+						if(rpg.getJob() instanceof BloodSorcererJob)
 							if(!mainHandItemStack.isEmpty() && mainHandItemStack.getItem() == GetAJob.LEECH_DAGGER.get())
 								((BloodSorcererJob) rpg.getJob()).addBlood((Player) e.getSource().getEntity(), (int) (10.0f * e.getAmount()));
-						}
 					}
 				}
 			}
